@@ -1,0 +1,2 @@
+PrivateTemplate_HotelReservations
+Тестовая реализация по проекту резервации отелей.
