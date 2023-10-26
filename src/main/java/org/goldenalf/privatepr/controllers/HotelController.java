@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.HotelDto;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.services.HotelService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class HotelController {
     private final HotelService hotelService;
+    private final ModelMapper modelMapper;
 
     @GetMapping("/{id}")
     public HotelDto getHotel(@PathVariable("id") int id) {
@@ -56,10 +58,10 @@ public class HotelController {
     }
 
     private HotelDto convertToHotelDto(Hotel hotel) {
-        return new HotelDto(hotel.getName(), hotel.getAddress(), hotel.getRating(), hotel.getDescription());
+        return modelMapper.map(hotel, HotelDto.class);
     }
 
     private Hotel convertToHotel(HotelDto hotel) {
-        return new Hotel(hotel.name(), hotel.address(), hotel.rating(), hotel.description());
+        return modelMapper.map(hotel, Hotel.class);
     }
 }
