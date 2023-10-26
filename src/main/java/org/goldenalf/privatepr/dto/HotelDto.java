@@ -1,13 +1,25 @@
 package org.goldenalf.privatepr.dto;
 
-
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public class HotelDto {
+    @Column(name = "name")
+    @NotEmpty(message = "имя отеля не может быть пустым")
+    @NotNull(message = "введите имя отеля")
     private String name;
 
+    @Column(name = "address")
+    @NotEmpty(message = "адрес отеля не может быть пустым")
+    @NotNull(message = "введите адрес отеля")
     private String address;
 
+    @Column(name = "rating")
+    @Min(value = 0, message = "оценка не может быть ниже 0")
+    @Max(value = 5, message = "Отель ценит вашу оценку, но максимальный бал не может превышать 5")
     private int rating;
 
     private String description;

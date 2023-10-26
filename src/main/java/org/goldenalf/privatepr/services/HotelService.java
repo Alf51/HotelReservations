@@ -39,4 +39,9 @@ public class HotelService {
     public List<Hotel> getAllHotels() {
         return hotelRepositories.findAll();
     }
+
+    @Transactional(readOnly = true)
+    public List<Hotel> findByName(String name) {
+        return hotelRepositories.findByName(name);
+    }
 }
