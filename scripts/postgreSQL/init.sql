@@ -5,4 +5,8 @@ create table hotels
     address     varchar      not null,
     rating      int check ( rating >= 0 and hotels.rating <= 6 ),
     description varchar
-)
+);
+
+insert into hotels(name, address, rating, description) VALUES ('Zemlanka', 'St.Petersburg', 5, 'Best hotel in the world');
+insert into hotels(name, address, rating, description) VALUES ('Yma', 'Lilte Petranka 19', 2, 'it is scary to me');
+insert into hotels(name, address, rating, description) VALUES ('MoscowCity', 'Moscow', 5, 'it is vary large');
