@@ -17,6 +17,7 @@ public class HotelService {
 
     @Transactional
     public void save(Hotel hotel) {
+        hotel.getRoomList().forEach(room -> room.setHotel(hotel));
         hotelRepositories.save(hotel);
     }
 
