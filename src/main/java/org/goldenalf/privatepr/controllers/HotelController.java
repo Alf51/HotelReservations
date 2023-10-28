@@ -3,17 +3,23 @@ package org.goldenalf.privatepr.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.HotelDto;
+import org.goldenalf.privatepr.dto.RoomDto;
 import org.goldenalf.privatepr.models.Hotel;
+import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.services.HotelService;
 import org.goldenalf.privatepr.utils.HotelValidator;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
-import org.goldenalf.privatepr.utils.erorsHandler.HotelErrorException;
+import org.goldenalf.privatepr.utils.erorsHandler.hotelError.HotelErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.HotelErrorResponse;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 
 @RestController
@@ -27,6 +33,11 @@ public class HotelController {
     @GetMapping("/{id}")
     public HotelDto getHotel(@PathVariable("id") int id) {
         return convertToHotelDto(hotelService.getHotel(id).orElseThrow(() -> new HotelErrorException("Отель не найден")));
+    }
+
+    @GetMapping("/all")
+    public List<HotelDto> getAllHotel() {
+        return convertToHotelDtoList(hotelService.getAllHotels());
     }
 
     @PostMapping("/new")
@@ -77,5 +88,11 @@ public class HotelController {
 
     private Hotel convertToHotel(HotelDto hotel) {
         return modelMapper.map(hotel, Hotel.class);
+    }
+
+    private List<HotelDto> convertToHotelDtoList(List<Hotel> hotels) {
+        Type listType = new TypeToken<List<HotelDto>>() {
+        }.getType();
+        return modelMapper.map(hotels, listType);
     }
 }
