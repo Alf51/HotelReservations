@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -41,6 +43,9 @@ public class Hotel {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY)
+    private List<Room> roomList = new ArrayList<>();
 
     public Hotel(String name, String address, int rating, String description) {
         this.name = name;
