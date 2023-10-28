@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class clientDto {
+public class ClientDto {
     private String name;
 
     private String login;
@@ -20,5 +22,5 @@ public class clientDto {
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd-MM-YYYY")
-    private String birthdate;
+    private Date birthdate;
 }
