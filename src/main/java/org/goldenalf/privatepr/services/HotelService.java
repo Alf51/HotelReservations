@@ -2,7 +2,6 @@ package org.goldenalf.privatepr.services;
 
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.models.Hotel;
-import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.repositories.HotelRepositories;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

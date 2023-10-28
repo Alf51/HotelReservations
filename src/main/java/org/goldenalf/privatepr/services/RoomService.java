@@ -1,7 +1,6 @@
 package org.goldenalf.privatepr.services;
 
 import lombok.RequiredArgsConstructor;
-import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.repositories.RoomRepositories;
 import org.springframework.stereotype.Service;
@@ -21,15 +20,6 @@ public class RoomService {
         roomRepositories.save(room);
     }
 
-    @Transactional
-    //Добавить валидацию и в случае чего выкинуть сообщение, что не удалось создать комнату
-    public void save(Room room, int hotelId) {
-        Optional<Hotel> hotel = hotelService.getHotel(hotelId);
-        if (hotel.isPresent()) {
-            room.setHotel(hotel.get());
-            roomRepositories.save(room);
-        }
-    }
 
     @Transactional
     public void delete(int id) {
@@ -54,7 +44,7 @@ public class RoomService {
     }
 
     @Transactional(readOnly = true)
-    public List<Room> findAllByHotelId(int hotelId) {
+    public List<Room> findAllRoomsByHotelId(int hotelId) {
         return roomRepositories.findAllByHotelId(hotelId);
     }
 

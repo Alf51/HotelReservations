@@ -3,14 +3,12 @@ package org.goldenalf.privatepr.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.HotelDto;
-import org.goldenalf.privatepr.dto.RoomDto;
 import org.goldenalf.privatepr.models.Hotel;
-import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.services.HotelService;
-import org.goldenalf.privatepr.utils.HotelValidator;
+import org.goldenalf.privatepr.utils.erorsHandler.validator.HotelValidator;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.hotelError.HotelErrorException;
-import org.goldenalf.privatepr.utils.erorsHandler.HotelErrorResponse;
+import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
@@ -49,7 +47,6 @@ public class HotelController {
         if (bindingResult.hasErrors()) {
             throw new HotelErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }
-
         hotelService.save(hotel);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -77,9 +74,9 @@ public class HotelController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<HotelErrorResponse> handleException(HotelErrorException e) {
-        HotelErrorResponse personErrorResponse = new HotelErrorResponse(e.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(personErrorResponse, HttpStatus.BAD_REQUEST);
+    private ResponseEntity<ErrorResponse> handleException(HotelErrorException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     private HotelDto convertToHotelDto(Hotel hotel) {

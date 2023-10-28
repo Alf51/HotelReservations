@@ -1,4 +1,4 @@
-package org.goldenalf.privatepr.utils;
+package org.goldenalf.privatepr.utils.erorsHandler.validator;
 
 import lombok.AllArgsConstructor;
 import org.goldenalf.privatepr.models.Hotel;
@@ -28,7 +28,7 @@ public class HotelValidator implements Validator {
             for (Hotel hotelWithSameName : listHotelWithSameName) {
                 if (hotelWithSameName.equals(hotel)) {
                     //Значит объект уже существует и мы производим обновление
-                    continue;
+                    break;
                 } else if (hotelWithSameName.getAddress().equals(hotel.getAddress())) {
                     errors.rejectValue("address", "409", "отель с данным именем и по данному адресу уже зарегистрирован");
                     break;
