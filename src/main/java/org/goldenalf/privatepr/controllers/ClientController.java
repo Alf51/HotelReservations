@@ -1,13 +1,19 @@
 package org.goldenalf.privatepr.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.ClientDto;
 import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.services.ClientService;
+import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
+import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
+import org.goldenalf.privatepr.utils.erorsHandler.clientError.ClientErrorException;
+import org.goldenalf.privatepr.utils.erorsHandler.validator.ClientValidator;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
@@ -20,11 +26,11 @@ import java.util.List;
 public class ClientController {
     private final ClientService clientService;
     private final ModelMapper modelMapper;
+    private final ClientValidator clientValidator;
 
     @GetMapping("/{id}")
     public ClientDto getClient(@PathVariable("id") int id) {
-        //TODO обработать ошибку
-        return convertToClientDto(clientService.getClient(id).get());
+        return convertToClientDto(clientService.getClient(id).orElseThrow(() -> new ClientErrorException("Клиент не найден")));
     }
 
     @GetMapping("/all")
@@ -33,20 +39,31 @@ public class ClientController {
     }
 
     @PostMapping("/new")
-    //TODO обработать ошибку
-    public ResponseEntity<HttpStatus> saveClient(@RequestBody ClientDto clientDto) {
+    public ResponseEntity<HttpStatus> saveClient(@RequestBody @Valid ClientDto clientDto,
+                                                 BindingResult bindingResult) {
         Client client = convertToClient(clientDto);
+        clientValidator.validate(client, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            throw new ClientErrorException(ErrorHandler.getErrorMessage(bindingResult));
+        }
 
         clientService.save(client);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    //TODO обработать ошибку
     public ResponseEntity<HttpStatus> updateClient(@PathVariable("id") int id,
-                                                  @RequestBody ClientDto clientDto) {
+                                                   @RequestBody @Valid ClientDto clientDto,
+                                                   BindingResult bindingResult) {
         Client client = convertToClient(clientDto);
         client.setId(id);
+
+        clientValidator.validate(client, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            throw new ClientErrorException(ErrorHandler.getErrorMessage(bindingResult));
+        }
 
         clientService.update(id, client);
         return ResponseEntity.ok(HttpStatus.OK);
@@ -58,6 +75,11 @@ public class ClientController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(ClientErrorException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 
     private ClientDto convertToClientDto(Client client) {
         return modelMapper.map(client, ClientDto.class);
