@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "clients")
 @Getter
@@ -31,9 +33,9 @@ public class Client {
     @Column(name = "birthdate")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd-MM-YYYY")
-    private String birthdate;
+    private Date birthdate;
 
-    public Client(String name, String login, String password, String birthdate) {
+    public Client(String name, String login, String password, Date birthdate) {
         this.name = name;
         this.login = login;
         this.password = password;
