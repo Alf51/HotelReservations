@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Objects;
 
 
-@Entity(name = "hotels")
+@Entity
+@Table(name = "hotels")
 @Getter
 @Setter
 @NoArgsConstructor

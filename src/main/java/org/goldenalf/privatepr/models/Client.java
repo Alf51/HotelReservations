@@ -7,7 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity(name = "clients")
+@Entity
+@Table(name = "clients")
 @Getter
 @Setter
 @NoArgsConstructor
