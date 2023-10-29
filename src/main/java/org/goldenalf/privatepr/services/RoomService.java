@@ -13,7 +13,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RoomService {
     private final RoomRepository roomRepository;
-    private final HotelService hotelService;
 
     @Transactional
     public void save(Room room) {

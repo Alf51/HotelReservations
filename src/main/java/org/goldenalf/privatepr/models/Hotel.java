@@ -41,7 +41,7 @@ public class Hotel {
     @Column(name = "rating")
     @Min(value = 0, message = "оценка не может быть ниже 0")
     @Max(value = 5, message = "Отель ценит вашу оценку, но максимальный бал не может превышать 5")
-    private int rating;
+    private int rating; //TODO рассчитать на основе отзывов
 
     @Column(name = "description")
     private String description;
