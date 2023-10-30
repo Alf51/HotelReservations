@@ -84,7 +84,7 @@ public class RoomController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteRoom(@PathVariable("id") int id) {
         roomService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
