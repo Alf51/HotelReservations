@@ -6,6 +6,7 @@ import org.goldenalf.privatepr.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ public class ReviewService {
 
     @Transactional
     public void save(Review review) {
+        review.setDate(LocalDate.now());
         reviewRepository.save(review);
     }
 
@@ -27,6 +29,7 @@ public class ReviewService {
     @Transactional
     public void update(int id, Review reviewByUpdate) {
         reviewByUpdate.setId(id);
+        reviewByUpdate.setDate(LocalDate.now());
         reviewRepository.save(reviewByUpdate);
     }
 
