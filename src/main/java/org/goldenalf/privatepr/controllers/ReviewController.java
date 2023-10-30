@@ -2,20 +2,25 @@ package org.goldenalf.privatepr.controllers;
 
 
 import jakarta.validation.Valid;
+import jakarta.validation.executable.ValidateOnExecution;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.ReviewDto;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.models.Review;
 import org.goldenalf.privatepr.services.HotelService;
 import org.goldenalf.privatepr.services.ReviewService;
+import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
 import org.goldenalf.privatepr.utils.erorsHandler.hotelError.HotelErrorException;
-import org.goldenalf.privatepr.utils.erorsHandler.roomError.RoomErrorException;
+import org.goldenalf.privatepr.utils.erorsHandler.reviewError.ReviewErrorException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
@@ -31,9 +36,8 @@ public class ReviewController {
     private final ModelMapper modelMapper;
 
     @GetMapping("/{id}")
-    //TODO обработать
     public ReviewDto getReview(@PathVariable("id") int id) {
-        return convertToReviewDto(reviewService.getReview(id).get());
+        return convertToReviewDto(reviewService.getReview(id).orElseThrow(() -> new ReviewErrorException("Ревью не найдено")));
     }
 
     @GetMapping("/{hotelId}/allReview")
@@ -49,9 +53,8 @@ public class ReviewController {
                                                  BindingResult bindingResult) {
         Hotel hotel = hotelService.getHotel(hotelId).orElseThrow(() -> new HotelErrorException("Отель не найден"));
         Review review = convertToReview(reviewDto);
-
         if (bindingResult.hasErrors()) {
-            System.exit(1408);
+            throw new ReviewErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }
         reviewService.save(review);
         return ResponseEntity.ok(HttpStatus.OK);
@@ -63,6 +66,10 @@ public class ReviewController {
                                                    @RequestBody @Valid ReviewDto reviewDto,
                                                    BindingResult bindingResult) {
         Review updatedReview = convertToReview(reviewDto);
+
+        if (bindingResult.hasErrors()) {
+            throw new ReviewErrorException(ErrorHandler.getErrorMessage(bindingResult));
+        }
 
         reviewService.update(id, updatedReview);
         return ResponseEntity.ok(HttpStatus.OK);
@@ -76,8 +83,21 @@ public class ReviewController {
     }
 
     @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(ReviewErrorException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(HotelErrorException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException e) {
+        String errorMessage = ErrorHandler.getErrorMessage(e.getBindingResult());
+        ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 

@@ -17,11 +17,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class ReviewDto {
-    @NotNull(message = "нужно поставить рейтинг от 0 до 5 включительно")
     @Min(value = 0, message = "минимальная оценка 0")
     @Max(value = 5, message = "максимальная оценка 5")
-    private int rating;
-
-    @Temporal(TemporalType.DATE)
-    private LocalDate date;
+    @NotNull(message = "нужно поставить рейтинг от 0 до 5 включительно")
+    private Integer rating;
 }

@@ -3,6 +3,7 @@ package org.goldenalf.privatepr.services;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.models.Review;
 import org.goldenalf.privatepr.repositories.ReviewRepository;
+import org.goldenalf.privatepr.utils.erorsHandler.reviewError.ReviewErrorException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,11 @@ public class ReviewService {
 
     @Transactional
     public void delete(int id) {
-        reviewRepository.deleteById(id);
+        if (getReview(id).isPresent()) {
+            reviewRepository.deleteById(id);
+        } else {
+            throw new ReviewErrorException("Ревью не найдено");
+        }
     }
 
     @Transactional

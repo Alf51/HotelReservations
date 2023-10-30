@@ -24,7 +24,7 @@ public class Review {
     @Min(value = 0, message = "минимальная оценка 0")
     @Max(value = 5, message = "максимальная оценка 5")
     @NotNull(message = "нужно поставить рейтинг от 0 до 5 включительно")
-    private int rating;
+    private Integer rating;
 
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
