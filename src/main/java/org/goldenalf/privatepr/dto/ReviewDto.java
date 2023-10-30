@@ -1,14 +1,21 @@
 package org.goldenalf.privatepr.dto;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class ReviewDto {
     @NotNull(message = "нужно поставить рейтинг от 0 до 5 включительно")
     @Min(value = 0, message = "минимальная оценка 0")
@@ -16,5 +23,5 @@ public class ReviewDto {
     private int rating;
 
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
 }

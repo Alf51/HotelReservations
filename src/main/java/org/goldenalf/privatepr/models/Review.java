@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -27,9 +28,9 @@ public class Review {
 
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
 
-    public Review(int rating, Date date) {
+    public Review(int rating, LocalDate date) {
         this.rating = rating;
         this.date = date;
     }
