@@ -19,6 +19,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
@@ -90,6 +91,13 @@ public class RoomController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(HotelErrorException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(RoomErrorException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
@@ -97,8 +105,9 @@ public class RoomController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(HotelErrorException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+    private ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException e) {
+        String errorMessage = ErrorHandler.getErrorMessage(e.getBindingResult());
+        ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 

@@ -14,13 +14,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoomDto {
-    @NotNull
+    @NotNull(message = "Укажите номер комнаты")
     @Min(value = 0, message = "номер комнаты должен быть положительным целым числом")
-    private int roomNumber;
+    private Integer roomNumber;
 
-    @NotNull
+    @NotNull(message = "Укажите размер комнаты")
     @Min(value = 0, message = "размер комнаты должен быть больше 0")
-    private double roomSize;
+    private Double roomSize;
 
     private boolean isAvailable;
 }

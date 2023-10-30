@@ -23,12 +23,12 @@ public class Room {
     @Column(name = "room_number")
     @NotNull(message = "нужно указать номер комнаты в виде целого положительно числа")
     @Min(value = 0, message = "номер комнаты должен быть положительным целым числом")
-    private int roomNumber;
+    private Integer roomNumber;
 
     @Column(name = "room_size")
     @NotNull(message = "нужно указать размер комнаты")
     @Min(value = 0, message = "размер комнаты должен быть больше 0")
-    private double roomSize;
+    private Double roomSize;
 
     @Column(name = "is_available")
     private boolean isAvailable;
@@ -37,7 +37,7 @@ public class Room {
     @JoinColumn(name = "id_hotel", referencedColumnName = "id")
     private Hotel hotel;
 
-    public Room(int roomNumber, double roomSize, boolean isAvailable) {
+    public Room(Integer roomNumber, Double roomSize, boolean isAvailable) {
         this.roomNumber = roomNumber;
         this.roomSize = roomSize;
         this.isAvailable = isAvailable;
