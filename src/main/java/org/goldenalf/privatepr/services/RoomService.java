@@ -3,6 +3,7 @@ package org.goldenalf.privatepr.services;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.repositories.RoomRepository;
+import org.goldenalf.privatepr.utils.erorsHandler.roomError.RoomErrorException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,11 @@ public class RoomService {
 
     @Transactional
     public void delete(int id) {
-        roomRepository.deleteById(id);
+        if (getRoom(id).isPresent()) {
+            roomRepository.deleteById(id);
+        } else {
+            throw new RoomErrorException("Комната не найдена");
+        }
     }
 
     @Transactional

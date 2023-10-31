@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.repositories.ClientRepository;
+import org.goldenalf.privatepr.utils.erorsHandler.clientError.ClientErrorException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,11 @@ public class ClientService {
 
     @Transactional
     public void delete(int id) {
-        clientRepository.deleteById(id);
+        if (getClient(id).isPresent()) {
+            clientRepository.deleteById(id);
+        } else {
+            throw new ClientErrorException("Клиент не найден");
+        }
     }
 
     @Transactional

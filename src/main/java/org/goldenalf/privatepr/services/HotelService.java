@@ -3,6 +3,7 @@ package org.goldenalf.privatepr.services;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.repositories.HotelRepository;
+import org.goldenalf.privatepr.utils.erorsHandler.hotelError.HotelErrorException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,11 @@ public class HotelService {
 
     @Transactional
     public void delete(int id) {
-        hotelRepository.deleteById(id);
+        if (getHotel(id).isPresent()) {
+            hotelRepository.deleteById(id);
+        } else {
+            throw new HotelErrorException("Отель не найден");
+        }
     }
 
     @Transactional

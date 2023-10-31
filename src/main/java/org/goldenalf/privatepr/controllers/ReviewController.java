@@ -21,6 +21,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 
@@ -98,8 +99,8 @@ public class ReviewController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException e) {
-        String errorMessage = ErrorHandler.getErrorMessage(e.getBindingResult());
+    private ResponseEntity<ErrorResponse> handleException(DateTimeParseException e) {
+        String errorMessage = "Некорректный формат даты. Введена " + e.getParsedString() + ". Введите дату в формате dd-MM-yyyy";
         ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
