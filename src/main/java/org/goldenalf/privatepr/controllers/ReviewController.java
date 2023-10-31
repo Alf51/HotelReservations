@@ -52,8 +52,8 @@ public class ReviewController {
     public ResponseEntity<HttpStatus> saveReview(@RequestBody @Valid ReviewDto reviewDto,
                                                  @PathVariable("hotelId") int hotelId,
                                                  BindingResult bindingResult) {
-        Hotel hotel = hotelService.getHotel(hotelId).orElseThrow(() -> new HotelErrorException("Отель не найден"));
         Review review = convertToReview(reviewDto);
+        Hotel hotel = hotelService.getHotel(hotelId).orElseThrow(() -> new HotelErrorException("Отель не найден"));
         review.setHotel(hotel);
 
         if (bindingResult.hasErrors()) {
