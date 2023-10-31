@@ -33,7 +33,7 @@ public class Room {
     @Column(name = "is_available")
     private boolean isAvailable;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "id_hotel", referencedColumnName = "id")
     private Hotel hotel;
 

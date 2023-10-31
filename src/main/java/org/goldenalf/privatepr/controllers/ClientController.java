@@ -41,9 +41,8 @@ public class ClientController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<HttpStatus> saveClient(@RequestBody @Valid ClientDto clientDto,
+    public ResponseEntity<HttpStatus> saveClient(@RequestBody @Valid Client client,
                                                  BindingResult bindingResult) {
-        Client client = convertToClient(clientDto);
         clientValidator.validate(client, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -91,9 +90,8 @@ public class ClientController {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    private ResponseEntity<ErrorResponse> handleException() {
-        String errorMessage = "Некорректно введённая дата. Введите дату в формате dd-MM-yyyy";
-        ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
+    private ResponseEntity<ErrorResponse> handleException(HttpMessageNotReadableException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 

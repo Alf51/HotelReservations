@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.goldenalf.privatepr.models.Room;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +32,6 @@ public class HotelDto {
     private String description;
 
     private List<RoomDto> roomList = new ArrayList<>();
+    private List<ReviewDto> reviewList = new ArrayList<>();
 }
 

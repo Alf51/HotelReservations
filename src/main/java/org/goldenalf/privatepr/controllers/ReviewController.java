@@ -2,7 +2,6 @@ package org.goldenalf.privatepr.controllers;
 
 
 import jakarta.validation.Valid;
-import jakarta.validation.executable.ValidateOnExecution;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.ReviewDto;
 import org.goldenalf.privatepr.models.Hotel;
@@ -17,9 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,10 +37,14 @@ public class ReviewController {
         return convertToReviewDto(reviewService.getReview(id).orElseThrow(() -> new ReviewErrorException("Ревью не найдено")));
     }
 
-    @GetMapping("/{hotelId}/allReview")
-    //TODO реализовать
-    public List<ReviewDto> getAllReviewInHotel(@PathVariable("hotelId") int hotelId) {
-        return null;
+    @GetMapping("/{hotelId}/allHotelReviews")
+    public List<ReviewDto> getAllHotelReviews(@PathVariable("hotelId") int hotelId) {
+        return convertToReviewDtoList(reviewService.findAllByHotelId(hotelId));
+    }
+
+    @GetMapping("/{clientId}/allClientReviews")
+    public List<ReviewDto> getAllReviewByClient(@PathVariable("clientId") int clientId) {
+        return convertToReviewDtoList(reviewService.findAllByClientId(clientId));
     }
 
     @PostMapping("/{hotelId}/new")
@@ -53,6 +54,8 @@ public class ReviewController {
                                                  BindingResult bindingResult) {
         Hotel hotel = hotelService.getHotel(hotelId).orElseThrow(() -> new HotelErrorException("Отель не найден"));
         Review review = convertToReview(reviewDto);
+        review.setHotel(hotel);
+
         if (bindingResult.hasErrors()) {
             throw new ReviewErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }
@@ -114,4 +117,5 @@ public class ReviewController {
     private Review convertToReview(ReviewDto reviewDto) {
         return modelMapper.map(reviewDto, Review.class);
     }
+
 }

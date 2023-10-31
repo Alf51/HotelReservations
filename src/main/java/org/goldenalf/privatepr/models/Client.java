@@ -10,6 +10,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -44,6 +46,9 @@ public class Client {
     @NotNull(message = "введите дату рождения")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthdate;
+
+    @OneToMany(mappedBy = "client", cascade = jakarta.persistence.CascadeType.PERSIST)
+    private List<Review> reviewList = new ArrayList<>();
 
     public Client(String name, String login, String password, LocalDate  birthdate) {
         this.name = name;

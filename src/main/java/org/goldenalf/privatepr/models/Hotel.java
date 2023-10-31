@@ -46,8 +46,11 @@ public class Hotel {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = jakarta.persistence.CascadeType.PERSIST)
+    @OneToMany(mappedBy = "hotel", cascade = jakarta.persistence.CascadeType.PERSIST)
     private List<Room> roomList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "hotel", cascade = jakarta.persistence.CascadeType.PERSIST)
+    private List<Review> reviewList = new ArrayList<>();
 
     public Hotel(String name, String address, int rating, String description) {
         this.name = name;

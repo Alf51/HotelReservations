@@ -47,4 +47,14 @@ public class ReviewService {
     public List<Review> getAllReview() {
         return reviewRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    public List<Review> findAllByHotelId(int hotelId) {
+        return reviewRepository.findAllByHotelId(hotelId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Review> findAllByClientId(int clientId) {
+        return reviewRepository.findAllByClientId(clientId);
+    }
 }
