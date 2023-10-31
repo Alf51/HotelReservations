@@ -3,7 +3,7 @@ package org.goldenalf.privatepr.services;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.models.Book;
 import org.goldenalf.privatepr.repositories.BookRepository;
-import org.goldenalf.privatepr.utils.erorsHandler.reviewError.ReviewErrorException;
+import org.goldenalf.privatepr.utils.erorsHandler.bookError.BookErrorException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +25,7 @@ public class BookService {
         if (getBook(id).isPresent()) {
             bookRepository.deleteById(id);
         } else {
-            throw new ReviewErrorException("Бронь не найдена");
+            throw new BookErrorException("Бронь не найдена");
         }
     }
 

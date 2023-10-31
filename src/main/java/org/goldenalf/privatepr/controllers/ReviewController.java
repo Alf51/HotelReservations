@@ -100,7 +100,7 @@ public class ReviewController {
 
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(DateTimeParseException e) {
-        String errorMessage = "Некорректный формат даты. Введена " + e.getParsedString() + ". Введите дату в формате dd-MM-yyyy";
+        String errorMessage = "Некорректный формат даты. Введена '" + e.getParsedString() + "'. Введите дату в формате dd-MM-yyyy";
         ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }

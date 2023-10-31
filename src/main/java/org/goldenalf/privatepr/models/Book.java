@@ -1,5 +1,6 @@
 package org.goldenalf.privatepr.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,10 +20,12 @@ public class Book {
     private int id;
 
     @Column(name = "check_in")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private LocalDate check_in;
 
     @Column(name = "check_out")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private LocalDate check_out;
 }

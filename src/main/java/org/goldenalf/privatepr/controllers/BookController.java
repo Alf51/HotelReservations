@@ -20,6 +20,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -66,7 +67,6 @@ public class BookController {
                                                    @RequestBody @Valid BookDto bookDto,
                                                    BindingResult bindingResult) {
         Book updatedBook = convertToBook(bookDto);
-
         if (bindingResult.hasErrors()) {
             throw new BookErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }
@@ -82,7 +82,20 @@ public class BookController {
     }
 
     @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(DateTimeParseException e) {
+        String errorMessage = "Некорректный формат даты. Введена '" + e.getParsedString() + "'. Введите дату в формате dd-MM-yyyy";
+        ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(HotelErrorException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(BookErrorException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
