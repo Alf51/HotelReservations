@@ -103,9 +103,9 @@ CREATE table Books
 insert into Books (check_in, check_out)
 VALUES (current_date, current_date + 2);
 insert into Books (check_in, check_out)
-VALUES (current_date, current_date + 1);
+VALUES (current_date, current_date + 10);
 
 
 insert into Books (check_in, check_out)
-VALUES (current_date, current_date + 10);
+VALUES (current_date, current_date + 30);
 
