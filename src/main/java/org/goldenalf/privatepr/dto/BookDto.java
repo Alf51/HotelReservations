@@ -23,13 +23,13 @@ public class BookDto {
     @NotNull(message = "введите дату въезда (check_in)")
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
-    private LocalDate check_in;
+    private LocalDate checkIn;
 
     @Column(name = "check_out")
     @NotNull(message = "введите дату въезда (check_out)")
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
-    private LocalDate check_out;
+    private LocalDate checkOut;
 
     @NotNull(message = "Введите логин клиента")
     @NotEmpty(message = "Логин клиента не может быть пустым")
@@ -40,16 +40,16 @@ public class BookDto {
 
     @AssertTrue(message = "Дата въезда(check_in) должна быть раньше даты выезда(check_out)")
     boolean isValidCheckIn() {
-        if (check_in != null && check_out != null) {
-            return check_in.isBefore(check_out);
+        if (checkIn != null && checkOut != null) {
+            return checkIn.isBefore(checkOut);
         }
         return false;
     }
 
     @AssertTrue(message = "Новая дата въезда(check_in) должна быть сегодня или позже")
     boolean isValidDate() {
-        if (check_in != null) {
-            return check_in.isAfter(LocalDate.now()) || check_in.isEqual(LocalDate.now());
+        if (checkIn != null) {
+            return checkIn.isAfter(LocalDate.now()) || checkIn.isEqual(LocalDate.now());
         }
         return false;
     }

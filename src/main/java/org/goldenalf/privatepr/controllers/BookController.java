@@ -46,11 +46,9 @@ public class BookController {
     }
 
     @PostMapping("/new")
-    //TODO Валидация - чтобы бронь была свободна на заданные даты
     public ResponseEntity<HttpStatus> saveBook(@RequestBody @Valid BookDto bookDto,
                                                BindingResult bindingResult) {
         Book book = convertToBook(bookDto);
-
         if (bindingResult.hasErrors()) {
             throw new BookErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }
@@ -59,13 +57,11 @@ public class BookController {
     }
 
     @PatchMapping("/{id_book}")
-    //TODO Валидация - чтобы бронь была свободна на заданные даты
     public ResponseEntity<HttpStatus> updateBook(@PathVariable("id_book") int id,
                                                  @RequestBody @Valid BookDto bookDto,
                                                  BindingResult bindingResult) {
 
         Book updatedBook = convertToBook(bookDto);
-
         if (bindingResult.hasErrors()) {
             throw new BookErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }

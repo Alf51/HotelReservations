@@ -5,11 +5,15 @@ import org.goldenalf.privatepr.models.Book;
 import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.repositories.BookRepository;
+import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.bookError.BookErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.clientError.ClientErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.roomError.RoomErrorException;
+import org.goldenalf.privatepr.utils.erorsHandler.validator.BookValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +24,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final RoomService roomService;
     private final ClientService clientService;
+    private final BookValidator bookValidator;
 
     @Transactional
     public void save(Book book) {
@@ -73,6 +78,12 @@ public class BookService {
         Client client = clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException("Клиент с логином '" + login + "' не найден"));
         book.setClient(client);
         book.setRoom(room);
+
+        BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(book, Book.class.getName());
+        bookValidator.validate(book, bindingResult);
+        if (bindingResult.hasErrors()) {
+            throw new BookErrorException(ErrorHandler.getErrorMessage(bindingResult));
+        }
         return book;
     }
 }
