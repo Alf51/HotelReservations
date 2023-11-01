@@ -43,7 +43,7 @@ public class RoomService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Room> getRoom(int id) {
+    public Optional<Room> getRoom(long id) {
         return roomRepository.findById(id);
     }
 

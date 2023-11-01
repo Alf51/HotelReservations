@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,12 @@ public class BookDto {
     @Temporal(TemporalType.DATE)
     private LocalDate check_out;
 
+    @NotNull(message = "Введите логин клиента")
+    @NotEmpty(message = "Логин клиента не может быть пустым")
+    private String clientLogin;
+
+    @NotNull(message = "введите id комнаты")
+    private long roomId;
 
     @AssertTrue(message = "Дата въезда(check_in) должна быть раньше даты выезда(check_out)")
     boolean isValidCheckIn() {

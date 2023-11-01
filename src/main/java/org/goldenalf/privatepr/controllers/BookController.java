@@ -4,13 +4,17 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.BookDto;
 import org.goldenalf.privatepr.models.Book;
+import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.services.BookService;
+import org.goldenalf.privatepr.services.ClientService;
 import org.goldenalf.privatepr.services.RoomService;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
 import org.goldenalf.privatepr.utils.erorsHandler.bookError.BookErrorException;
+import org.goldenalf.privatepr.utils.erorsHandler.clientError.ClientErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.hotelError.HotelErrorException;
+import org.goldenalf.privatepr.utils.erorsHandler.roomError.RoomErrorException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
@@ -29,7 +33,6 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
     private final ModelMapper modelMapper;
-    private final RoomService roomService;
 
     @GetMapping("/{id}")
     public BookDto getBook(@PathVariable("id") int id) {
@@ -46,14 +49,11 @@ public class BookController {
         return convertToBookDtoList(bookService.findAllByClientId(clientId));
     }
 
-    @PostMapping("/{roomId}/new")
-    //TODO обработать и установить сеторы, для имени отеля и т.п. (id отеля)
+    @PostMapping("/new")
+    //TODO Валидация - чтобы бронь была свободна на заданные даты
     public ResponseEntity<HttpStatus> saveBook(@RequestBody @Valid BookDto bookDto,
-                                                 @PathVariable("roomId") int roomId,
-                                                 BindingResult bindingResult) {
-        Room room = roomService.getRoom(roomId).orElseThrow(() -> new HotelErrorException("Комната не найдена"));
+                                               BindingResult bindingResult) {
         Book book = convertToBook(bookDto);
-        book.setRoom(room);
 
         if (bindingResult.hasErrors()) {
             throw new BookErrorException(ErrorHandler.getErrorMessage(bindingResult));
@@ -63,15 +63,16 @@ public class BookController {
     }
 
     @PatchMapping("/{id}")
-    //TODO обработать
+    //TODO Валидация - чтобы бронь была свободна на заданные даты
     public ResponseEntity<HttpStatus> updateBook(@PathVariable("id") int id,
-                                                   @RequestBody @Valid BookDto bookDto,
-                                                   BindingResult bindingResult) {
+                                                 @RequestBody @Valid BookDto bookDto,
+                                                 BindingResult bindingResult) {
+
         Book updatedBook = convertToBook(bookDto);
+
         if (bindingResult.hasErrors()) {
             throw new BookErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }
-
         bookService.update(id, updatedBook);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -91,6 +92,18 @@ public class BookController {
 
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(HotelErrorException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(ClientErrorException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(RoomErrorException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }

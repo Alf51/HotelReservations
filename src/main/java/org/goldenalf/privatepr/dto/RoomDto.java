@@ -17,6 +17,8 @@ import java.util.List;
 @Getter
 @Setter
 public class RoomDto {
+    private Long id;
+
     @NotNull(message = "Укажите номер комнаты")
     @Min(value = 0, message = "номер комнаты должен быть положительным целым числом")
     private Integer roomNumber;
@@ -24,8 +26,6 @@ public class RoomDto {
     @NotNull(message = "Укажите размер комнаты")
     @Min(value = 0, message = "размер комнаты должен быть больше 0")
     private Double roomSize;
-
-    private List<BookDto> bookList = new ArrayList<>();
 
     private boolean isAvailable;
 }

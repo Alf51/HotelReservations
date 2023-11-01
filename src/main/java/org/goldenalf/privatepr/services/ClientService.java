@@ -42,13 +42,14 @@ public class ClientService {
         return clientRepository.findById(id);
     }
 
+
     @Transactional(readOnly = true)
     public List<Client> getAllClient() {
         return clientRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public List<Hotel> findByName(String name) {
-        return clientRepository.findByName(name);
+    public Optional<Client> findByLogin(String login) {
+        return clientRepository.findByLogin(login);
     }
 }
