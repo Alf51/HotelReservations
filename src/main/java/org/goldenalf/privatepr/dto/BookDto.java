@@ -30,6 +30,7 @@ public class BookDto {
     @Temporal(TemporalType.DATE)
     private LocalDate check_out;
 
+
     @AssertTrue(message = "Дата въезда(check_in) должна быть раньше даты выезда(check_out)")
     boolean isValidCheckIn() {
         if (check_in != null && check_out != null) {

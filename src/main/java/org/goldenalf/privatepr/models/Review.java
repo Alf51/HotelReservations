@@ -43,6 +43,7 @@ public class Review {
     @JoinColumn(name = "id_client", referencedColumnName = "id")
     private Client client;
 
+
     public Review(int rating, LocalDate date) {
         this.rating = rating;
         this.date = date;

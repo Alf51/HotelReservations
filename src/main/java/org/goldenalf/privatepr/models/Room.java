@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -36,6 +38,9 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "id_hotel", referencedColumnName = "id")
     private Hotel hotel;
+
+    @OneToMany(mappedBy = "room", cascade = jakarta.persistence.CascadeType.PERSIST)
+    private List<Book> bookList = new ArrayList<>();
 
     public Room(Integer roomNumber, Double roomSize, boolean isAvailable) {
         this.roomNumber = roomNumber;

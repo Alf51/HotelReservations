@@ -4,9 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.BookDto;
 import org.goldenalf.privatepr.models.Book;
-import org.goldenalf.privatepr.models.Hotel;
+import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.services.BookService;
-import org.goldenalf.privatepr.services.HotelService;
+import org.goldenalf.privatepr.services.RoomService;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
 import org.goldenalf.privatepr.utils.erorsHandler.bookError.BookErrorException;
@@ -29,7 +29,7 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
     private final ModelMapper modelMapper;
-    private final HotelService hotelService;
+    private final RoomService roomService;
 
     @GetMapping("/{id}")
     public BookDto getBook(@PathVariable("id") int id) {
@@ -46,13 +46,14 @@ public class BookController {
         return convertToBookDtoList(bookService.findAllByClientId(clientId));
     }
 
-    @PostMapping("/{hotelId}/new")
+    @PostMapping("/{roomId}/new")
     //TODO обработать и установить сеторы, для имени отеля и т.п. (id отеля)
     public ResponseEntity<HttpStatus> saveBook(@RequestBody @Valid BookDto bookDto,
-                                                 @PathVariable("hotelId") int hotelId,
+                                                 @PathVariable("roomId") int roomId,
                                                  BindingResult bindingResult) {
-        Hotel hotel = hotelService.getHotel(hotelId).orElseThrow(() -> new HotelErrorException("Отель не найден"));
+        Room room = roomService.getRoom(roomId).orElseThrow(() -> new HotelErrorException("Комната не найдена"));
         Book book = convertToBook(bookDto);
+        book.setRoom(room);
 
         if (bindingResult.hasErrors()) {
             throw new BookErrorException(ErrorHandler.getErrorMessage(bindingResult));

@@ -17,7 +17,6 @@ import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
@@ -49,7 +48,6 @@ public class ReviewController {
     }
 
     @PostMapping("/{hotelId}/new")
-    //TODO обработать
     public ResponseEntity<HttpStatus> saveReview(@RequestBody @Valid ReviewDto reviewDto,
                                                  @PathVariable("hotelId") int hotelId,
                                                  BindingResult bindingResult) {
@@ -65,7 +63,6 @@ public class ReviewController {
     }
 
     @PatchMapping("/{id}")
-    //TODO обработать
     public ResponseEntity<HttpStatus> updateReview(@PathVariable("id") int id,
                                                    @RequestBody @Valid ReviewDto reviewDto,
                                                    BindingResult bindingResult) {
@@ -80,7 +77,6 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{id}")
-    //TODO можно добавить, что если ревью(комната, отель) не найдены, то статус BAD
     public ResponseEntity<HttpStatus> deleteRoom(@PathVariable("id") int id) {
         reviewService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);

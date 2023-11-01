@@ -31,7 +31,6 @@ public class HotelDto {
 
     private String description;
 
-    private List<RoomDto> roomList = new ArrayList<>();
     private List<ReviewDto> reviewList = new ArrayList<>();
 }
 

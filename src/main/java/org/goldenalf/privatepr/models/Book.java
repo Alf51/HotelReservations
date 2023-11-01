@@ -28,4 +28,12 @@ public class Book {
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private LocalDate check_out;
+
+    @ManyToOne
+    @JoinColumn(name = "id_client", referencedColumnName = "id")
+    private Client client;
+
+    @ManyToOne
+    @JoinColumn(name = "id_room", referencedColumnName = "id")
+    private Room room;
 }

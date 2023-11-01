@@ -51,6 +51,9 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade = jakarta.persistence.CascadeType.PERSIST)
     private List<Review> reviewList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "client", cascade = jakarta.persistence.CascadeType.PERSIST)
+    private List<Book> bookList = new ArrayList<>();
+
     public Client(String name, String login, String password, LocalDate  birthdate) {
         this.name = name;
         this.login = login;
