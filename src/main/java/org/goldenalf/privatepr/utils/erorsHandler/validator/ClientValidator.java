@@ -27,12 +27,10 @@ public class ClientValidator implements Validator {
         Client client = (Client) target;
 
         Optional<Client> existClient = clientService.getClient(client.getId());
-        System.out.println();
         if (existClient.isPresent() && existClient.get().getLogin().equals(client.getLogin())) {
             //Значит клиент уже существует и мы производим обновление
             return;
         }
-        System.out.println();
         boolean isLoginExisted = clientService.getAllClient().stream()
                 .anyMatch(holtelClient -> holtelClient.getLogin().equals(client.getLogin()));
 

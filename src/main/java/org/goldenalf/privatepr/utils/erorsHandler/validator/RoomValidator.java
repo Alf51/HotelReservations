@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @AllArgsConstructor
@@ -31,7 +32,7 @@ public class RoomValidator implements Validator {
             if (curentRoom.equals(room)) {
                 //Значит комната уже существует и мы производим обновление
                 break;
-            } else if (curentRoom.getRoomNumber() == room.getRoomNumber()) {
+            } else if (Objects.equals(curentRoom.getRoomNumber(), room.getRoomNumber())) {
                 errors.rejectValue("roomNumber", "410", "комната с данным номером уже существует");
             }
         }
