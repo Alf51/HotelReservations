@@ -28,10 +28,10 @@ public class HotelValidator implements Validator {
             for (Hotel hotelWithSameName : listHotelWithSameName) {
                 if (hotelWithSameName.equals(hotel)) {
                     //Значит объект уже существует и мы производим обновление
-                    break;
+                    return;
                 } else if (hotelWithSameName.getAddress().equals(hotel.getAddress())) {
                     errors.rejectValue("address", "409", "отель с данным именем и по данному адресу уже зарегистрирован");
-                    break;
+                    return;
                 }
             }
         }

@@ -31,7 +31,7 @@ public class RoomValidator implements Validator {
         for (Room curentRoom : allRooms) {
             if (curentRoom.equals(room)) {
                 //Значит комната уже существует и мы производим обновление
-                break;
+                return;
             } else if (Objects.equals(curentRoom.getRoomNumber(), room.getRoomNumber())) {
                 errors.rejectValue("roomNumber", "410", "комната с данным номером уже существует");
             }
