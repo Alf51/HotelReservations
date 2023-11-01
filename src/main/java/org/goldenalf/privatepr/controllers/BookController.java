@@ -30,18 +30,18 @@ public class BookController {
     private final BookService bookService;
     private final ModelMapper modelMapper;
 
-    @GetMapping("/{id}")
-    public BookDto getBook(@PathVariable("id") int id) {
+    @GetMapping("/{id_book}")
+    public BookDto getBook(@PathVariable("id_book") int id) {
         return convertToBookDto(bookService.getBook(id).orElseThrow(() -> new BookErrorException("Бронь не найдена")));
     }
 
-    @GetMapping("/{hotelId}/allHotelBooks")
-    public List<BookDto> getAllHotelBooks(@PathVariable("hotelId") int hotelId) {
+    @GetMapping("/{id_hotel}/allHotelBooks")
+    public List<BookDto> getAllHotelBooks(@PathVariable("id_hotel") int hotelId) {
         return convertToBookDtoList(bookService.findAllByHotelId(hotelId));
     }
 
-    @GetMapping("/{clientId}/allClientBooks")
-    public List<BookDto> getAllBookByClient(@PathVariable("clientId") int clientId) {
+    @GetMapping("/{id_client}/allClientBooks")
+    public List<BookDto> getAllBookByClient(@PathVariable("id_client") int clientId) {
         return convertToBookDtoList(bookService.findAllByClientId(clientId));
     }
 
@@ -58,9 +58,9 @@ public class BookController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id_book}")
     //TODO Валидация - чтобы бронь была свободна на заданные даты
-    public ResponseEntity<HttpStatus> updateBook(@PathVariable("id") int id,
+    public ResponseEntity<HttpStatus> updateBook(@PathVariable("id_book") int id,
                                                  @RequestBody @Valid BookDto bookDto,
                                                  BindingResult bindingResult) {
 
@@ -73,7 +73,7 @@ public class BookController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id_book}")
     public ResponseEntity<HttpStatus> deleteBook(@PathVariable("id") int id) {
         bookService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);

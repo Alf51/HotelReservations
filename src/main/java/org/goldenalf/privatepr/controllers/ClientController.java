@@ -29,8 +29,8 @@ public class ClientController {
     private final ModelMapper modelMapper;
     private final ClientValidator clientValidator;
 
-    @GetMapping("/{id}")
-    public ClientDto getClient(@PathVariable("id") int id) {
+    @GetMapping("/{id_client}")
+    public ClientDto getClient(@PathVariable("id_client") int id) {
         return convertToClientDto(clientService.getClient(id).orElseThrow(() -> new ClientErrorException("Клиент не найден")));
     }
 
@@ -52,8 +52,8 @@ public class ClientController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<HttpStatus> updateClient(@PathVariable("id") int id,
+    @PatchMapping("/{id_client}")
+    public ResponseEntity<HttpStatus> updateClient(@PathVariable("id_client") int id,
                                                    @RequestBody @Valid ClientDto clientDto,
                                                    BindingResult bindingResult) {
         Client client = convertToClient(clientDto);
@@ -69,8 +69,8 @@ public class ClientController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteClient(@PathVariable("id") int id) {
+    @DeleteMapping("/{id_client}")
+    public ResponseEntity<HttpStatus> deleteClient(@PathVariable("id_client") int id) {
         clientService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }

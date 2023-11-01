@@ -29,8 +29,8 @@ public class HotelController {
     private final ModelMapper modelMapper;
     private final HotelValidator hotelValidator;
 
-    @GetMapping("/{id}")
-    public HotelDto getHotel(@PathVariable("id") int id) {
+    @GetMapping("/{id_hotel}")
+    public HotelDto getHotel(@PathVariable("id_hotel") int id) {
         return convertToHotelDto(hotelService.getHotel(id).orElseThrow(() -> new HotelErrorException("Отель не найден")));
     }
 
@@ -52,8 +52,8 @@ public class HotelController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<HttpStatus> updateHotel(@PathVariable("id") int id,
+    @PatchMapping("/{id_hotel}")
+    public ResponseEntity<HttpStatus> updateHotel(@PathVariable("id_hotel") int id,
                                                   @RequestBody @Valid HotelDto hotelDto,
                                                   BindingResult bindingResult) {
         Hotel hotel = convertToHotel(hotelDto);
@@ -68,7 +68,7 @@ public class HotelController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id_hotel}")
     public ResponseEntity<HttpStatus> deleteHotel(@PathVariable("id") int id) {
         hotelService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);

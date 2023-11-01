@@ -32,24 +32,24 @@ public class ReviewController {
     private final HotelService hotelService;
     private final ModelMapper modelMapper;
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id_review}")
     public ReviewDto getReview(@PathVariable("id") int id) {
         return convertToReviewDto(reviewService.getReview(id).orElseThrow(() -> new ReviewErrorException("Ревью не найдено")));
     }
 
-    @GetMapping("/{hotelId}/allHotelReviews")
-    public List<ReviewDto> getAllHotelReviews(@PathVariable("hotelId") int hotelId) {
+    @GetMapping("/{id_hotel}/allHotelReviews")
+    public List<ReviewDto> getAllHotelReviews(@PathVariable("id_hotel") int hotelId) {
         return convertToReviewDtoList(reviewService.findAllByHotelId(hotelId));
     }
 
-    @GetMapping("/{clientId}/allClientReviews")
-    public List<ReviewDto> getAllReviewByClient(@PathVariable("clientId") int clientId) {
+    @GetMapping("/{id_client}/allClientReviews")
+    public List<ReviewDto> getAllReviewByClient(@PathVariable("id_client") int clientId) {
         return convertToReviewDtoList(reviewService.findAllByClientId(clientId));
     }
 
-    @PostMapping("/{hotelId}/new")
+    @PostMapping("/{id_hotel}/new")
     public ResponseEntity<HttpStatus> saveReview(@RequestBody @Valid ReviewDto reviewDto,
-                                                 @PathVariable("hotelId") int hotelId,
+                                                 @PathVariable("id_hotel") int hotelId,
                                                  BindingResult bindingResult) {
         Review review = convertToReview(reviewDto);
         Hotel hotel = hotelService.getHotel(hotelId).orElseThrow(() -> new HotelErrorException("Отель не найден"));
@@ -62,8 +62,8 @@ public class ReviewController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<HttpStatus> updateReview(@PathVariable("id") int id,
+    @PatchMapping("/{id_review}")
+    public ResponseEntity<HttpStatus> updateReview(@PathVariable("id_review") int id,
                                                    @RequestBody @Valid ReviewDto reviewDto,
                                                    BindingResult bindingResult) {
         Review updatedReview = convertToReview(reviewDto);
@@ -76,7 +76,7 @@ public class ReviewController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id_review}")
     public ResponseEntity<HttpStatus> deleteRoom(@PathVariable("id") int id) {
         reviewService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);

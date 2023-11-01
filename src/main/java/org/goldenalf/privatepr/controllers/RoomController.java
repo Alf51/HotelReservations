@@ -36,20 +36,20 @@ public class RoomController {
     private final RoomValidator roomValidator;
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id_room}")
     public RoomDto getRoom(@PathVariable("id") int id) {
         Room room = roomService.getRoom(id).orElseThrow(() -> new RoomErrorException("Комната не найдена"));
         return convertToRoomDto(room);
     }
 
-    @GetMapping("/{hotelId}/allRooms")
-    public List<RoomDto> getAllRoomsInHotel(@PathVariable("hotelId") int hotelId) {
+    @GetMapping("/{id_hotel}/allRooms")
+    public List<RoomDto> getAllRoomsInHotel(@PathVariable("id_hotel") int hotelId) {
         return convertToRoomDtoList(roomService.findAllRoomsByHotelId(hotelId));
     }
 
-    @PostMapping("/{hotelId}/new")
+    @PostMapping("/{id_hotel}/new")
     public ResponseEntity<HttpStatus> saveRoom(@RequestBody @Valid RoomDto roomDto,
-                                               @PathVariable("hotelId") int hotelId,
+                                               @PathVariable("id_hotel") int hotelId,
                                                BindingResult bindingResult) {
 
         Hotel hotel = hotelService.getHotel(hotelId).orElseThrow(() -> new HotelErrorException("Отель не найден"));
@@ -66,8 +66,8 @@ public class RoomController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<HttpStatus> updateRoom(@PathVariable("id") int id,
+    @PatchMapping("/{id_room}")
+    public ResponseEntity<HttpStatus> updateRoom(@PathVariable("id_room") int id,
                                                  @RequestBody @Valid RoomDto roomDto,
                                                  BindingResult bindingResult) {
         Room updatedRoom = convertToRoom(roomDto);
@@ -85,8 +85,8 @@ public class RoomController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteRoom(@PathVariable("id") int id) {
+    @DeleteMapping("/{id_room}")
+    public ResponseEntity<HttpStatus> deleteRoom(@PathVariable("id_room") int id) {
         roomService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
