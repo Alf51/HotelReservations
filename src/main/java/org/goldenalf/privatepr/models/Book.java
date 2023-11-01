@@ -22,12 +22,12 @@ public class Book {
     @Column(name = "check_in")
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
-    private LocalDate check_in;
+    private LocalDate checkIn;
 
     @Column(name = "check_out")
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
-    private LocalDate check_out;
+    private LocalDate checkOut;
 
     @ManyToOne
     @JoinColumn(name = "id_client", referencedColumnName = "id")
