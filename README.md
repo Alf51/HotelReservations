@@ -193,7 +193,7 @@ application.properties.origin раположен по пути
 }
 ```
 
-##### <a id="reviewupdate"> Обновить ревью по id отеля -> /review/3 </a>
+##### <a id="reviewupdate"> Обновить ревью по id -> /review/3 </a>
 ```json
 {
     "rating": 4,
