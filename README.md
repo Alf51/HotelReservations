@@ -212,7 +212,7 @@ application.properties.origin раположен по пути
 }
 ```
 
-##### <a id="bookupdate"> Обновить бронь по id отеля -> /books/6 </a>
+##### <a id="bookupdate"> Обновить бронь по id -> /books/6 </a>
 ```json
 {
     "checkIn": "03-12-2023",
