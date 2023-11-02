@@ -53,7 +53,10 @@ application.properties.origin раположен по пути
 
 Приложение запуститься по умолчанию на хосте ```<http://localhost:8080>```
 
+
+
 ## Изучите REST API
+Коллекция запросов для postma расположена по пути ``` .\postman\```
 
 ### Hotel
 | Method | Url | Description | Sample Valid Request Body |
