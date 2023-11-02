@@ -1,0 +1,62 @@
+{
+	"info": {
+		"_postman_id": "d29c2bf2-893f-4a2a-bf93-6cd3c94c5d1c",
+		"name": "Room",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28499092"
+	},
+	"item": [
+		{
+			"name": "getRoom",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/digitalLibrary/book/2b8b8e82-d5f7-4c31-815e-3c579cb3d9b9",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"digitalLibrary",
+						"book",
+						"2b8b8e82-d5f7-4c31-815e-3c579cb3d9b9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new room",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Обновить комнату",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Rooms in Hotel",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Удалить комнату",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
