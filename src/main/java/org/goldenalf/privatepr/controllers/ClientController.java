@@ -9,11 +9,13 @@ import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
 import org.goldenalf.privatepr.utils.erorsHandler.clientError.ClientErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.ClientValidator;
+import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
@@ -54,17 +56,14 @@ public class ClientController {
 
     @PatchMapping("/{id_client}")
     public ResponseEntity<HttpStatus> updateClient(@PathVariable("id_client") int id,
-                                                   @RequestBody @Valid ClientDto clientDto,
+                                                   @RequestBody @Valid Client client,
                                                    BindingResult bindingResult) {
-        Client client = convertToClient(clientDto);
+
         client.setId(id);
-
         clientValidator.validate(client, bindingResult);
-
         if (bindingResult.hasErrors()) {
             throw new ClientErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }
-
         clientService.update(id, client);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -87,7 +86,6 @@ public class ClientController {
         ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-
 
     private ClientDto convertToClientDto(Client client) {
         return modelMapper.map(client, ClientDto.class);

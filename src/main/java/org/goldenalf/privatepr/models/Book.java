@@ -36,4 +36,11 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "id_room", referencedColumnName = "id")
     private Room room;
+
+    public Book(LocalDate checkIn, LocalDate checkOut, Client client, Room room) {
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.client = client;
+        this.room = room;
+    }
 }

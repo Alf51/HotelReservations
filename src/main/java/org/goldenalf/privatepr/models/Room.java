@@ -39,7 +39,7 @@ public class Room {
     @JoinColumn(name = "id_hotel", referencedColumnName = "id")
     private Hotel hotel;
 
-    @OneToMany(mappedBy = "room", cascade = jakarta.persistence.CascadeType.PERSIST)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.PERSIST)
     private List<Book> bookList = new ArrayList<>();
 
     public Room(Integer roomNumber, Double roomSize, boolean isAvailable) {

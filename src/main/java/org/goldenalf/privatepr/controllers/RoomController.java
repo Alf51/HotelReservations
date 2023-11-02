@@ -37,7 +37,7 @@ public class RoomController {
 
 
     @GetMapping("/{id_room}")
-    public RoomDto getRoom(@PathVariable("id") int id) {
+    public RoomDto getRoom(@PathVariable("id_room") int id) {
         Room room = roomService.getRoom(id).orElseThrow(() -> new RoomErrorException("Комната не найдена"));
         return convertToRoomDto(room);
     }

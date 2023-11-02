@@ -35,20 +35,26 @@ public class BookController {
         return convertToBookDto(bookService.getBook(id).orElseThrow(() -> new BookErrorException("Бронь не найдена")));
     }
 
-    @GetMapping("/{id_hotel}/allHotelBooks")
-    public List<BookDto> getAllHotelBooks(@PathVariable("id_hotel") int hotelId) {
-        return convertToBookDtoList(bookService.findAllByHotelId(hotelId));
+    @GetMapping("/{id_room}/allRoomBooks")
+    public List<BookDto> getAllRoomBooks(@PathVariable("id_room") long roomId) {
+        return convertToBookDtoList(bookService.findAllByRoomId(roomId));
     }
 
-    @GetMapping("/{id_client}/allClientBooks")
-    public List<BookDto> getAllBookByClient(@PathVariable("id_client") int clientId) {
-        return convertToBookDtoList(bookService.findAllByClientId(clientId));
+    @GetMapping("/all")
+    public List<BookDto> getAllBooks() {
+        return convertToBookDtoList(bookService.getAllBook());
+    }
+
+    @GetMapping("/{client_login}/allClientBooks")
+    public List<BookDto> getAllBookByClient(@PathVariable("client_login") String login) {
+        return convertToBookDtoList(bookService.findAllByClientId(login));
     }
 
     @PostMapping("/new")
     public ResponseEntity<HttpStatus> saveBook(@RequestBody @Valid BookDto bookDto,
                                                BindingResult bindingResult) {
         Book book = convertToBook(bookDto);
+
         if (bindingResult.hasErrors()) {
             throw new BookErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }
@@ -70,7 +76,7 @@ public class BookController {
     }
 
     @DeleteMapping("/{id_book}")
-    public ResponseEntity<HttpStatus> deleteBook(@PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> deleteBook(@PathVariable("id_book") int id) {
         bookService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }

@@ -19,8 +19,8 @@ public class ReviewDto {
     @NotNull(message = "нужно поставить рейтинг от 0 до 5 включительно")
     private Integer rating;
 
-    @NotNull(message = "Укажите имя постояльца")
-    @NotEmpty(message = "имя постояльца не может быть пустым")
-    private String clientName;
+    @NotNull(message = "Укажите Логин постояльца")
+    @NotEmpty(message = "Логин постояльца не может быть пустым")
+    private String clientLogin;
     private String review;
 }

@@ -17,6 +17,8 @@ import java.util.List;
 @Getter
 @Setter
 public class HotelDto {
+    private int id;
+
     @NotEmpty(message = "имя отеля не может быть пустым")
     @NotNull(message = "введите имя отеля")
     private String name;

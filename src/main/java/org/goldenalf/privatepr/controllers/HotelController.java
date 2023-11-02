@@ -69,7 +69,7 @@ public class HotelController {
     }
 
     @DeleteMapping("/{id_hotel}")
-    public ResponseEntity<HttpStatus> deleteHotel(@PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> deleteHotel(@PathVariable("id_hotel") int id) {
         hotelService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }

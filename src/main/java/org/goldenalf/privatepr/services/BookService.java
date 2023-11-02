@@ -13,7 +13,6 @@ import org.goldenalf.privatepr.utils.erorsHandler.validator.BookValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +27,15 @@ public class BookService {
 
     @Transactional
     public void save(Book book) {
-        bookRepository.save(getValidBook(book));
+        getValidBook(book);
+
+        //Временное решение - создаю новую бронь, чтобы Hibernate выполнил insert вместо Update
+        Book newBook = new Book();
+        newBook.setCheckOut(book.getCheckOut());
+        newBook.setCheckIn(book.getCheckIn());
+        newBook.setRoom(book.getRoom());
+        newBook.setClient(book.getClient());
+        bookRepository.save(newBook);
     }
 
     @Transactional
@@ -42,8 +49,9 @@ public class BookService {
 
     @Transactional
     public void update(int id, Book bookByUpdate) {
-        bookByUpdate.setId(id);
-        bookRepository.save(getValidBook(bookByUpdate));
+        Book book = getValidBook(bookByUpdate);
+        book.setId(id);
+        bookRepository.save(book);
     }
 
     @Transactional(readOnly = true)
@@ -57,17 +65,13 @@ public class BookService {
     }
 
     @Transactional(readOnly = true)
-    //TODO реализовать
-    public List<Book> findAllByHotelId(int hotelId) {
-        //return bookRepository.findAllByHotelId(hotelId);
-        return null;
+    public List<Book> findAllByRoomId(long roomId) {
+        return bookRepository.findAllByRoomId(roomId);
     }
 
     @Transactional(readOnly = true)
-    //TODO реализовать
-    public List<Book> findAllByClientId(int clientId) {
-        return null;
-        //return reviewRepository.findAllByClientId(clientId);
+    public List<Book> findAllByClientId(String login) {
+        return bookRepository.findAllByClientLogin(login);
     }
 
     private Book getValidBook(Book book) {
@@ -76,6 +80,7 @@ public class BookService {
 
         String login = book.getClient().getLogin();
         Client client = clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException("Клиент с логином '" + login + "' не найден"));
+
         book.setClient(client);
         book.setRoom(room);
 

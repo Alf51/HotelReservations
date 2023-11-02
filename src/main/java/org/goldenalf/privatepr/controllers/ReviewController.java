@@ -4,12 +4,15 @@ package org.goldenalf.privatepr.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.ReviewDto;
+import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.models.Review;
+import org.goldenalf.privatepr.services.ClientService;
 import org.goldenalf.privatepr.services.HotelService;
 import org.goldenalf.privatepr.services.ReviewService;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
+import org.goldenalf.privatepr.utils.erorsHandler.clientError.ClientErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.hotelError.HotelErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.reviewError.ReviewErrorException;
 import org.modelmapper.ModelMapper;
@@ -30,10 +33,11 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService reviewService;
     private final HotelService hotelService;
+    private final ClientService clientService;
     private final ModelMapper modelMapper;
 
     @GetMapping("/{id_review}")
-    public ReviewDto getReview(@PathVariable("id") int id) {
+    public ReviewDto getReview(@PathVariable("id_review") int id) {
         return convertToReviewDto(reviewService.getReview(id).orElseThrow(() -> new ReviewErrorException("Ревью не найдено")));
     }
 
@@ -53,7 +57,10 @@ public class ReviewController {
                                                  BindingResult bindingResult) {
         Review review = convertToReview(reviewDto);
         Hotel hotel = hotelService.getHotel(hotelId).orElseThrow(() -> new HotelErrorException("Отель не найден"));
+        String login = reviewDto.getClientLogin();
+        Client client = clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException("Клиент с логином '" + login + "' не найден"));
         review.setHotel(hotel);
+        review.setClient(client);
 
         if (bindingResult.hasErrors()) {
             throw new ReviewErrorException(ErrorHandler.getErrorMessage(bindingResult));
@@ -66,7 +73,14 @@ public class ReviewController {
     public ResponseEntity<HttpStatus> updateReview(@PathVariable("id_review") int id,
                                                    @RequestBody @Valid ReviewDto reviewDto,
                                                    BindingResult bindingResult) {
+        Review review = reviewService.getReview(id).orElseThrow(() -> new ReviewErrorException("Ревью по id=" + id + " не найдено"));
+        Hotel hotel = review.getHotel();
+        String login = reviewDto.getClientLogin();
+        Client client = clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException("Клиент с логином '" + login + "' не найден"));
+
         Review updatedReview = convertToReview(reviewDto);
+        updatedReview.setClient(client);
+        updatedReview.setHotel(hotel);
 
         if (bindingResult.hasErrors()) {
             throw new ReviewErrorException(ErrorHandler.getErrorMessage(bindingResult));
@@ -77,7 +91,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{id_review}")
-    public ResponseEntity<HttpStatus> deleteRoom(@PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> deleteRoom(@PathVariable("id_review") int id) {
         reviewService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -98,6 +112,12 @@ public class ReviewController {
     private ResponseEntity<ErrorResponse> handleException(DateTimeParseException e) {
         String errorMessage = "Некорректный формат даты. Введена '" + e.getParsedString() + "'. Введите дату в формате dd-MM-yyyy";
         ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(ClientErrorException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
