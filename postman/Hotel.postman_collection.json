@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bcad8779-63d4-4218-a307-619d63a649e7",
+		"_postman_id": "eedb3779-d0e7-45f1-ab46-0c642563422c",
 		"name": "Hotel",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "28499092"
@@ -10,31 +10,97 @@
 			"name": "Get hotel by id",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/hotel/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hotel",
+						"2"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "create new hotel",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"Antaras\",\r\n        \"address\": \"Moscow\",\r\n        \"rating\": 4,\r\n        \"description\": \"Do you want survivor ?\",\r\n        \"roomList\": [\r\n            {\r\n                \"roomNumber\": 10,\r\n                \"roomSize\": 10,\r\n                \"available\": true\r\n            },\r\n            {\r\n                \"roomNumber\": 11,\r\n                \"roomSize\": 10,\r\n                \"available\": true\r\n            },\r\n            {\r\n                \"roomNumber\": 12,\r\n                \"roomSize\": 10,\r\n                \"available\": false\r\n            }\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/hotel/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hotel",
+						"new"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Delete hotel by id",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/hotel/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hotel",
+						"4"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "update by hotel id",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n    \"name\" : \"xXx\",\r\n    \"address\" : \"Moscow\",\r\n    \"rating\" : 5,\r\n    \"description\" : \"Favorite placey\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/hotel/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hotel",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -42,7 +108,19 @@
 			"name": "получить все отели",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/hotel/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hotel",
+						"all"
+					]
+				}
 			},
 			"response": []
 		}

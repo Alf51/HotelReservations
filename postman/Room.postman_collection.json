@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d29c2bf2-893f-4a2a-bf93-6cd3c94c5d1c",
+		"_postman_id": "f916cf05-dcd6-4a75-a0c5-bb3898e7b071",
 		"name": "Room",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "28499092"
@@ -9,18 +9,32 @@
 		{
 			"name": "getRoom",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "dorn51",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/digitalLibrary/book/2b8b8e82-d5f7-4c31-815e-3c579cb3d9b9",
+					"raw": "localhost:8080/rooms/2",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"digitalLibrary",
-						"book",
-						"2b8b8e82-d5f7-4c31-815e-3c579cb3d9b9"
+						"rooms",
+						"2"
 					]
 				}
 			},
@@ -29,32 +43,160 @@
 		{
 			"name": "create new room",
 			"request": {
-				"method": "GET",
-				"header": []
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "dorn51",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"roomNumber\": \"303\",\r\n    \"roomSize\": 73.82,\r\n    \"available\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rooms/1/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rooms",
+						"1",
+						"new"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Обновить комнату",
 			"request": {
-				"method": "GET",
-				"header": []
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "dorn51",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"roomNumber\": \"503\",\r\n    \"roomSize\": 73.82,\r\n    \"available\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rooms/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rooms",
+						"2"
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "GET All Rooms in Hotel",
+			"name": "Получить все комнаты по id отеля",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "dorn51",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rooms/2/allRooms",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rooms",
+						"2",
+						"allRooms"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Удалить комнату",
 			"request": {
-				"method": "GET",
-				"header": []
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "dorn51",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rooms/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rooms",
+						"3"
+					]
+				}
 			},
 			"response": []
 		}
