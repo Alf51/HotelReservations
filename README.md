@@ -31,7 +31,7 @@ application.properties.origin раположен по пути
 \src\main\resources\application.properties.origin
 ```
 
-**4. В application.propertiesn установите праметры свой PosgreSQL БД**
+**4. В application.propertiesn установите праметры своей PosgreSQL БД**
 
 **5. Запустите приложение через консоль**
 
