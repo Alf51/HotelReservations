@@ -25,12 +25,13 @@ git clone https://github.com/Alf51/PrivateTemplate_HotelReservations.git
 ```
 
 **3. Переименуйте application.properties.origin в application.properties**
+
 application.properties.origin раположен по пути
 ```bash
 \src\main\resources\application.properties.origin
 ```
 
-**4. В application.propertiesn установите праметры свой PosgreSQL БД**
+**4. В application.propertiesn установите праметры своей PosgreSQL БД**
 
 **5. Запустите приложение через консоль**
 
@@ -53,7 +54,10 @@ application.properties.origin раположен по пути
 
 Приложение запуститься по умолчанию на хосте ```<http://localhost:8080>```
 
+
+
 ## Изучите REST API
+Коллекция запросов для postma расположена по пути ``` .\postman\```
 
 ### Hotel
 | Method | Url | Description | Sample Valid Request Body |
@@ -70,7 +74,7 @@ application.properties.origin раположен по пути
 | GET    | /rooms/{id_room}| Получить комнату по id | |
 | POST   | /rooms/{id_hotel}/new | Создать комнату в отели по id отеля |[JSON](#roomnew) |
 | PATCH  | /rooms/{id_room} | Обновить комнату по id |[JSON](#roomupdate) |
-| GET    | /{id_hotel}/allRooms | Получить все комнаты по id отеля ||
+| GET    | /rooms/{id_hotel}/allRooms | Получить все комнаты по id отеля ||
 | DELETE | /rooms/{id_room} | удалить комнату по id | |
 
 ### Client
@@ -171,10 +175,10 @@ application.properties.origin раположен по пути
 }
 ```
 
-##### <a id="clientupdate"> Обновить клиента по id -> /client/new </a>
+##### <a id="clientupdate"> Обновить клиента по id -> /client/4 </a>
 ```json
 {
-        "name": "Penelopa",
+        "name": "Clepa",
         "login": "Crus",        
         "birthdate": "11-11-1991",
         "password" : "123456"
@@ -190,7 +194,7 @@ application.properties.origin раположен по пути
 }
 ```
 
-##### <a id="reviewupdate"> Обновить ревью по id отеля -> /review/3 </a>
+##### <a id="reviewupdate"> Обновить ревью по id -> /review/3 </a>
 ```json
 {
     "rating": 4,
@@ -209,7 +213,7 @@ application.properties.origin раположен по пути
 }
 ```
 
-##### <a id="bookupdate"> Обновить бронь по id отеля -> /books/6 </a>
+##### <a id="bookupdate"> Обновить бронь по id -> /books/6 </a>
 ```json
 {
     "checkIn": "03-12-2023",
