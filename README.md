@@ -175,7 +175,7 @@ application.properties.origin раположен по пути
 }
 ```
 
-##### <a id="clientupdate"> Обновить клиента по id -> /client/2 </a>
+##### <a id="clientupdate"> Обновить клиента по id -> /client/4 </a>
 ```json
 {
         "name": "Clepa",
