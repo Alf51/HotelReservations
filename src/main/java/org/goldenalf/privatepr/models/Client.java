@@ -12,7 +12,9 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -53,6 +55,11 @@ public class Client {
 
     @OneToMany(mappedBy = "client", cascade = jakarta.persistence.CascadeType.PERSIST)
     private List<Book> bookList = new ArrayList<>();
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "users_role", joinColumns = @JoinColumn(name = "id_client"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles = new HashSet<>();
 
     public Client(String name, String login, String password, LocalDate  birthdate) {
         this.name = name;

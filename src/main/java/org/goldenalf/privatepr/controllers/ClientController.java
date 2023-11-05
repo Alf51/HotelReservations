@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.ClientDto;
 import org.goldenalf.privatepr.models.Client;
+import org.goldenalf.privatepr.models.Role;
 import org.goldenalf.privatepr.services.ClientService;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
 import java.time.format.DateTimeParseException;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -50,6 +52,7 @@ public class ClientController {
             throw new ClientErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }
 
+        client.setRoles(Collections.singleton(Role.USER));
         clientService.save(client);
         return ResponseEntity.ok(HttpStatus.OK);
     }
