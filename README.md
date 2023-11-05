@@ -74,7 +74,7 @@ application.properties.origin раположен по пути
 | GET    | /rooms/{id_room}| Получить комнату по id | |
 | POST   | /rooms/{id_hotel}/new | Создать комнату в отели по id отеля |[JSON](#roomnew) |
 | PATCH  | /rooms/{id_room} | Обновить комнату по id |[JSON](#roomupdate) |
-| GET    | /{id_hotel}/allRooms | Получить все комнаты по id отеля ||
+| GET    | /rooms/{id_hotel}/allRooms | Получить все комнаты по id отеля ||
 | DELETE | /rooms/{id_room} | удалить комнату по id | |
 
 ### Client
