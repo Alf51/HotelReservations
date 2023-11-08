@@ -38,10 +38,11 @@ public class Hotel {
     @NotNull(message = "введите адрес отеля")
     private String address;
 
+    //TODO рассчитать на основе отзывов Asert или как в Бук или гдето там было ! Можно ещё пометить, что ссущьность не для бд
     @Column(name = "rating")
     @Min(value = 0, message = "оценка не может быть ниже 0")
     @Max(value = 5, message = "Отель ценит вашу оценку, но максимальный бал не может превышать 5")
-    private int rating; //TODO рассчитать на основе отзывов
+    private int rating;
 
     @Column(name = "description")
     private String description;
