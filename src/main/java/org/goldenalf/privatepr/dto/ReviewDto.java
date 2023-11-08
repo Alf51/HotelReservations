@@ -1,5 +1,4 @@
 package org.goldenalf.privatepr.dto;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -14,6 +13,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewDto {
+    @NotNull(message = "id отеля не может быть пустым")
+    private int hotelId;
+
     @Min(value = 0, message = "минимальная оценка 0")
     @Max(value = 5, message = "максимальная оценка 5")
     @NotNull(message = "нужно поставить рейтинг от 0 до 5 включительно")
