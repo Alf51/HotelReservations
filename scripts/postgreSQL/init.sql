@@ -81,7 +81,7 @@ VALUES (1, 'ADMIN');
 insert into users_role(id_client, roles)
 VALUES (2, 'USER');
 insert into users_role(id_client, roles)
-VALUES (3, 'GUEST');
+VALUES (3, 'USER');
 
 
 CREATE table Reviews
