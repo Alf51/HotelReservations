@@ -10,25 +10,13 @@
 			"name": "создать ревью",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"rating\": 2,\r\n    \"clientLogin\": \"dorn51\",\r\n    \"review\": \"Есть баня, остальное так себе\"\r\n}",
+					"raw": "{\r\n    \"hotelId\" : 1,\r\n    \"rating\": 4,\r\n    \"clientLogin\": \"dorn51\",\r\n    \"review\": \"Есть баня, остальное так себе\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -36,7 +24,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/review/3/new",
+					"raw": "http://localhost:8080/review/new",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -44,7 +32,6 @@
 					"port": "8080",
 					"path": [
 						"review",
-						"3",
 						"new"
 					]
 				}
@@ -55,19 +42,7 @@
 			"name": "получить ревью по id",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
@@ -87,28 +62,16 @@
 			"response": []
 		},
 		{
-			"name": "обновить ревью",
+			"name": "обновить ревью по id",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "PATCH",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"rating\": 4,\r\n    \"clientLogin\": \"utlra\",\r\n    \"review\": \"Есть баня и это хорошо\"\r\n}",
+					"raw": "{\r\n    \"hotelId\" : 2,\r\n    \"rating\": 5,\r\n    \"clientLogin\": \"utlra\",\r\n    \"review\": \"Есть баня и это хорошо!\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -116,7 +79,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/review/3 ",
+					"raw": "http://localhost:8080/review/5",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -124,29 +87,17 @@
 					"port": "8080",
 					"path": [
 						"review",
-						"3 "
+						"5"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Удалить ревью",
+			"name": "Удалить ревью по id",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "DELETE",
 				"header": [],
@@ -169,19 +120,7 @@
 			"name": "получить все ревью по ID отеля",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
@@ -205,19 +144,7 @@
 			"name": "получить все ревью по ID клиента",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
