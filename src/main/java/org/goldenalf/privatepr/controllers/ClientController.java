@@ -3,14 +3,15 @@ package org.goldenalf.privatepr.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.ClientDto;
+import org.goldenalf.privatepr.dto.ClientExtendedDto;
 import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.models.Role;
 import org.goldenalf.privatepr.services.ClientService;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
-import org.goldenalf.privatepr.utils.erorsHandler.clientError.ClientErrorException;
+import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.ClientValidator;
-import org.hibernate.exception.ConstraintViolationException;
+import org.goldenalf.privatepr.utils.exeptions.InsufficientAccessException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
@@ -44,8 +45,10 @@ public class ClientController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<HttpStatus> saveClient(@RequestBody @Valid Client client,
+    public ResponseEntity<HttpStatus> saveClient(@RequestBody @Valid ClientExtendedDto clientDto,
                                                  BindingResult bindingResult) {
+
+        Client client = convertToClient(clientDto);
         clientValidator.validate(client, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -59,9 +62,10 @@ public class ClientController {
 
     @PatchMapping("/{id_client}")
     public ResponseEntity<HttpStatus> updateClient(@PathVariable("id_client") int id,
-                                                   @RequestBody @Valid Client client,
+                                                   @RequestBody @Valid ClientExtendedDto clientDto,
                                                    BindingResult bindingResult) {
 
+        Client client = convertToClient(clientDto);
         client.setId(id);
         clientValidator.validate(client, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -84,8 +88,22 @@ public class ClientController {
     }
 
     @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(InsufficientAccessException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(DateTimeParseException e) {
         String errorMessage = "Некорректный формат даты. Введена '" + e.getParsedString() + "'. Введите дату в формате dd-MM-yyyy";
+        ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException e) {
+        String errorMessage = ErrorHandler.getErrorMessage(e.getBindingResult());
         ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -94,7 +112,7 @@ public class ClientController {
         return modelMapper.map(client, ClientDto.class);
     }
 
-    private Client convertToClient(ClientDto clientDto) {
+    private Client convertToClient(ClientExtendedDto clientDto) {
         return modelMapper.map(clientDto, Client.class);
     }
 

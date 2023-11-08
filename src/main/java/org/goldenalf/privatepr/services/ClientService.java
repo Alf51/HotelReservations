@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.models.Role;
 import org.goldenalf.privatepr.repositories.ClientRepository;
-import org.goldenalf.privatepr.utils.erorsHandler.clientError.ClientErrorException;
+import org.goldenalf.privatepr.utils.VerifyingAccess;
+import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +28,7 @@ public class ClientService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userLogin) throws UsernameNotFoundException {
         Client client = clientRepository.findByLogin(userLogin).orElseThrow(() -> new UsernameNotFoundException("Логин клиента не найден"));
-        return new org.springframework.security.core.userdetails.User(client.getLogin(), client.getPassword(), mapRolesToAthorities(client.getRoles()));
+        return new User(client.getLogin(), client.getPassword(), mapRolesToAuthorities(client.getRoles()));
     }
 
 
@@ -37,16 +39,20 @@ public class ClientService implements UserDetailsService {
 
     @Transactional
     public void delete(int id) {
-        if (getClient(id).isPresent()) {
-            clientRepository.deleteById(id);
-        } else {
-            throw new ClientErrorException("Клиент не найден");
-        }
+        Client clientByDeleted = getClient(id).orElseThrow(() -> new ClientErrorException("Клиент не найден"));
+        String login = clientByDeleted.getLogin();
+        VerifyingAccess.checkPossibilityAction(login);
+
+        clientRepository.deleteById(id);
+
     }
 
     @Transactional
     public void update(int id, Client client) {
-        client.setId(id);
+        Client clientInDB = getClient(id).orElseThrow(() -> new ClientErrorException("Клиент не найдена"));
+        System.out.println();
+        VerifyingAccess.checkPossibilityAction(client.getLogin(), clientInDB.getLogin());
+
         clientRepository.save(client);
     }
 
@@ -67,8 +73,9 @@ public class ClientService implements UserDetailsService {
         return clientRepository.findByLogin(login);
     }
 
-    private List<? extends GrantedAuthority> mapRolesToAthorities(Set<Role> roles) {
+    private List<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
         return roles.stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.name())).collect(Collectors.toList());
     }
+
 
 }
