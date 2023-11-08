@@ -12,9 +12,10 @@ import org.goldenalf.privatepr.services.HotelService;
 import org.goldenalf.privatepr.services.ReviewService;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
-import org.goldenalf.privatepr.utils.erorsHandler.clientError.ClientErrorException;
-import org.goldenalf.privatepr.utils.erorsHandler.hotelError.HotelErrorException;
-import org.goldenalf.privatepr.utils.erorsHandler.reviewError.ReviewErrorException;
+import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
+import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
+import org.goldenalf.privatepr.utils.exeptions.InsufficientAccessException;
+import org.goldenalf.privatepr.utils.exeptions.ReviewErrorException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
@@ -32,8 +33,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
-    private final HotelService hotelService;
-    private final ClientService clientService;
     private final ModelMapper modelMapper;
 
     @GetMapping("/{id_review}")
@@ -51,21 +50,16 @@ public class ReviewController {
         return convertToReviewDtoList(reviewService.findAllByClientId(clientId));
     }
 
-    @PostMapping("/{id_hotel}/new")
+    @PostMapping("/new")
     public ResponseEntity<HttpStatus> saveReview(@RequestBody @Valid ReviewDto reviewDto,
-                                                 @PathVariable("id_hotel") int hotelId,
                                                  BindingResult bindingResult) {
-        Review review = convertToReview(reviewDto);
-        Hotel hotel = hotelService.getHotel(hotelId).orElseThrow(() -> new HotelErrorException("Отель не найден"));
-        String login = reviewDto.getClientLogin();
-        Client client = clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException("Клиент с логином '" + login + "' не найден"));
-        review.setHotel(hotel);
-        review.setClient(client);
-
         if (bindingResult.hasErrors()) {
             throw new ReviewErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }
+
+        Review review = reviewService.getValidReview(reviewDto);
         reviewService.save(review);
+
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -73,25 +67,17 @@ public class ReviewController {
     public ResponseEntity<HttpStatus> updateReview(@PathVariable("id_review") int id,
                                                    @RequestBody @Valid ReviewDto reviewDto,
                                                    BindingResult bindingResult) {
-        Review review = reviewService.getReview(id).orElseThrow(() -> new ReviewErrorException("Ревью по id=" + id + " не найдено"));
-        Hotel hotel = review.getHotel();
-        String login = reviewDto.getClientLogin();
-        Client client = clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException("Клиент с логином '" + login + "' не найден"));
-
-        Review updatedReview = convertToReview(reviewDto);
-        updatedReview.setClient(client);
-        updatedReview.setHotel(hotel);
-
         if (bindingResult.hasErrors()) {
             throw new ReviewErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }
 
+        Review updatedReview = reviewService.getValidReview(reviewDto);
         reviewService.update(id, updatedReview);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id_review}")
-    public ResponseEntity<HttpStatus> deleteRoom(@PathVariable("id_review") int id) {
+    public ResponseEntity<HttpStatus> deleteReview(@PathVariable("id_review") int id) {
         reviewService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -121,6 +107,12 @@ public class ReviewController {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(InsufficientAccessException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     private ReviewDto convertToReviewDto(Review review) {
         return modelMapper.map(review, ReviewDto.class);
     }
@@ -130,9 +122,4 @@ public class ReviewController {
         }.getType();
         return modelMapper.map(reviews, listType);
     }
-
-    private Review convertToReview(ReviewDto reviewDto) {
-        return modelMapper.map(reviewDto, Review.class);
-    }
-
 }
