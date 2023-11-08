@@ -1,9 +1,6 @@
 package org.goldenalf.privatepr.dto;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +18,7 @@ public class HotelDto {
 
     @NotEmpty(message = "имя отеля не может быть пустым")
     @NotNull(message = "введите имя отеля")
+    @Size(min = 3, max = 50, message = "Имя должно быть от 3х до 50 символов")
     private String name;
 
     @NotEmpty(message = "адрес отеля не может быть пустым")

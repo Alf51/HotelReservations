@@ -3,7 +3,7 @@ package org.goldenalf.privatepr.services;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.repositories.HotelRepository;
-import org.goldenalf.privatepr.utils.erorsHandler.hotelError.HotelErrorException;
+import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

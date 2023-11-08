@@ -3,7 +3,7 @@ package org.goldenalf.privatepr.services;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.repositories.RoomRepository;
-import org.goldenalf.privatepr.utils.erorsHandler.roomError.RoomErrorException;
+import org.goldenalf.privatepr.utils.exeptions.RoomErrorException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

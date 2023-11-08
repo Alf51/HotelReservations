@@ -5,10 +5,11 @@ import org.goldenalf.privatepr.models.Book;
 import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.repositories.BookRepository;
+import org.goldenalf.privatepr.utils.VerifyingAccess;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
-import org.goldenalf.privatepr.utils.erorsHandler.bookError.BookErrorException;
-import org.goldenalf.privatepr.utils.erorsHandler.clientError.ClientErrorException;
-import org.goldenalf.privatepr.utils.erorsHandler.roomError.RoomErrorException;
+import org.goldenalf.privatepr.utils.exeptions.BookErrorException;
+import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
+import org.goldenalf.privatepr.utils.exeptions.RoomErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.BookValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,30 +29,27 @@ public class BookService {
     @Transactional
     public void save(Book book) {
         getValidBook(book);
+        VerifyingAccess.checkPossibilityAction(book.getClient().getLogin());
 
-        //Временное решение - создаю новую бронь, чтобы Hibernate выполнил insert вместо Update
-        Book newBook = new Book();
-        newBook.setCheckOut(book.getCheckOut());
-        newBook.setCheckIn(book.getCheckIn());
-        newBook.setRoom(book.getRoom());
-        newBook.setClient(book.getClient());
-        bookRepository.save(newBook);
+        bookRepository.save(book);
     }
 
     @Transactional
     public void delete(int id) {
-        if (getBook(id).isPresent()) {
-            bookRepository.deleteById(id);
-        } else {
-            throw new BookErrorException("Бронь не найдена");
-        }
+        Book bookByDeleted = getBook(id).orElseThrow(() -> new BookErrorException("Бронь не найдена"));
+        String login = bookByDeleted.getClient().getLogin();
+        VerifyingAccess.checkPossibilityAction(login);
+
+        bookRepository.deleteById(id);
     }
 
     @Transactional
     public void update(int id, Book bookByUpdate) {
-        Book book = getValidBook(bookByUpdate);
-        book.setId(id);
-        bookRepository.save(book);
+        Book bookInDB = getBook(id).orElseThrow(() -> new BookErrorException("Бронь не найдена"));
+        getValidBook(bookByUpdate);
+        VerifyingAccess.checkPossibilityAction(bookByUpdate.getClient().getLogin(), bookInDB.getClient().getLogin());
+        bookByUpdate.setId(id);
+        bookRepository.save(bookByUpdate);
     }
 
     @Transactional(readOnly = true)
@@ -71,6 +69,7 @@ public class BookService {
 
     @Transactional(readOnly = true)
     public List<Book> findAllByClientId(String login) {
+        VerifyingAccess.checkPossibilityAction(login);
         return bookRepository.findAllByClientLogin(login);
     }
 

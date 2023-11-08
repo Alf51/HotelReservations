@@ -1,4 +1,4 @@
-package org.goldenalf.privatepr.utils.erorsHandler.bookError;
+package org.goldenalf.privatepr.utils.exeptions;
 
 public class BookErrorException extends RuntimeException {
     public BookErrorException(String message) {

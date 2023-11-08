@@ -7,10 +7,7 @@ import org.goldenalf.privatepr.models.Book;
 import org.goldenalf.privatepr.services.BookService;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
-import org.goldenalf.privatepr.utils.erorsHandler.bookError.BookErrorException;
-import org.goldenalf.privatepr.utils.erorsHandler.clientError.ClientErrorException;
-import org.goldenalf.privatepr.utils.erorsHandler.hotelError.HotelErrorException;
-import org.goldenalf.privatepr.utils.erorsHandler.roomError.RoomErrorException;
+import org.goldenalf.privatepr.utils.exeptions.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
@@ -66,7 +63,6 @@ public class BookController {
     public ResponseEntity<HttpStatus> updateBook(@PathVariable("id_book") int id,
                                                  @RequestBody @Valid BookDto bookDto,
                                                  BindingResult bindingResult) {
-
         Book updatedBook = convertToBook(bookDto);
         if (bindingResult.hasErrors()) {
             throw new BookErrorException(ErrorHandler.getErrorMessage(bindingResult));
@@ -119,6 +115,12 @@ public class BookController {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(InsufficientAccessException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     private BookDto convertToBookDto(Book book) {
         return modelMapper.map(book, BookDto.class);
     }
@@ -132,4 +134,5 @@ public class BookController {
     private Book convertToBook(BookDto bookDto) {
         return modelMapper.map(bookDto, Book.class);
     }
+
 }
