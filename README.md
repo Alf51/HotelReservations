@@ -59,6 +59,13 @@ application.properties.origin раположен по пути
 ## Изучите REST API
 Коллекция запросов для postma расположена по пути ``` .\postman\```
 
+### Auth
+| Method | Url | Description | Sample Valid Request Body |
+| ------ | --- | ----------- | ------------------------- |
+| POST   | /login | Sing in |[JSON](#SingIn) |
+| POST   | /logout | logout | |
+
+
 ### Hotel
 | Method | Url | Description | Sample Valid Request Body |
 | ------ | --- | ----------- | ------------------------- |
@@ -89,7 +96,7 @@ application.properties.origin раположен по пути
 ### Review
 | Method | Url | Description | Sample Valid Request Body |
 | ------ | --- | ----------- | ------------------------- |
-| POST   | /review/{id_hotel}/new| Создать ревью по id отеля |[JSON](#reviewnew) |
+| POST   | /review/new| Создать ревью по id отеля |[JSON](#reviewnew) |
 | GET    | /review/{id_review} | Получить ревью по id          | |
 | PATCH  | /review/{id_review} | Обновить ревью по id |[JSON](#reviewupdate) |
 | GET    | /review/{id_hotel}/allHotelReviews | Получить все ревью по ID отеля ||
@@ -109,6 +116,15 @@ application.properties.origin раположен по пути
 
 
 ## Пример
+
+##### <a id="SingIn"> Sing in -> /login </a>
+```json
+{
+    "login": "dorn51",
+    "password": "123456"
+}
+```
+
 
 ##### <a id="hoteldate">Cоздать отель -> /hotel/new </a>
 ```json
@@ -185,21 +201,23 @@ application.properties.origin раположен по пути
 }
 ```
 
-##### <a id="reviewnew"> Создать ревью по id отеля -> /review/3/new </a>
+##### <a id="reviewnew"> Создать ревью по id отеля -> /review/new </a>
 ```json
 {
-    "rating": 2,
+    "hotelId" : 1,
+    "rating": 4,
     "clientLogin": "dorn51",
     "review": "Есть баня, остальное так себе"
 }
 ```
 
-##### <a id="reviewupdate"> Обновить ревью по id -> /review/3 </a>
+##### <a id="reviewupdate"> Обновить ревью по id -> /review/5 </a>
 ```json
 {
-    "rating": 4,
+    "hotelId" : 2,
+    "rating": 5,
     "clientLogin": "utlra",
-    "review": "Есть баня и это хорошо"
+    "review": "Есть баня и это хорошо!"
 }
 ```
 
