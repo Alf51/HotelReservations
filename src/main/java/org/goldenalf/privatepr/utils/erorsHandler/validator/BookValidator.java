@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -27,11 +28,15 @@ public class BookValidator implements Validator {
         List<Book> bookList = room.getBookList();
         System.out.println();
         for (Book oldBook : bookList) {
-            boolean isCheckInAfterOldCheckOut = book.getCheckIn().isAfter(oldBook.getCheckOut()); //Значит дата въезда позже уже существующей даты выезда.
-            boolean isCheckOutBeforeOldCheckIn = book.getCheckOut().isBefore(oldBook.getCheckIn()); //Значит дата выезда раньше уже существующей даты въезда.
+            boolean isCheckInAfterOldCheckOut = book.getCheckIn().isAfter(oldBook.getCheckOut()); //Дата въезда позже уже существующей даты выезда.
+            boolean isCheckOutBeforeOldCheckIn = book.getCheckOut().isBefore(oldBook.getCheckIn()); //Дата выезда раньше уже существующей даты въезда.
             if (isCheckOutBeforeOldCheckIn || isCheckInAfterOldCheckOut) {
             } else {
-                errors.rejectValue("checkIn", "409", "данная дата уже занят");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                String checkIn = formatter.format(oldBook.getCheckIn());
+                String checkOut = formatter.format(oldBook.getCheckOut());
+                String dateRangeMessage = "Дата с " + checkIn + " по " + checkOut + " занята";
+                errors.rejectValue("checkIn", "409", dateRangeMessage);
                 return;
             }
         }
