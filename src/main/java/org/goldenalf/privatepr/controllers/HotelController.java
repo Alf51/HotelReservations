@@ -7,7 +7,7 @@ import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.services.HotelService;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.HotelValidator;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
-import org.goldenalf.privatepr.utils.erorsHandler.hotelError.HotelErrorException;
+import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
