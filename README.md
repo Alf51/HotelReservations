@@ -81,7 +81,7 @@ application.properties.origin раположен по пути
 | POST   | /rooms/{id_hotel}/new | Создать комнату в отели по id отеля |[JSON](#roomnew) |
 | PATCH  | /rooms/{id_room} | Обновить комнату по id |[JSON](#roomupdate) |
 | GET    | /rooms/{id_hotel}/allRooms | Получить все комнаты по id отеля ||
-| DELETE | /rooms/{id_room} | удалить комнату по id | |
+| DELETE | /rooms/{id_room} | Удалить комнату по id | |
 
 ### Client
 | Method | Url | Description | Sample Valid Request Body |
@@ -91,9 +91,9 @@ application.properties.origin раположен по пути
 | PATCH  | /client/{id_client} | Обновить клиента по id |[JSON](#clientupdate) |
 | GET    | /client/all | Получить всех клиентов ||
 | DELETE | /client/{id_client} | удалить клиента по id | |
-| PATCH  | client/addRole/| Добавить роль клиенту      |[JSON](#clientrole) |
-| PATCH  | client/removeRole/ | Забрать роль у клиента по логину |[JSON](#clientremoverole) |
-| GET    | /client/allRoles/{id_client} | получить все роли клиента по id клиента ||
+| PATCH  | /client/addRole/| Добавить роль клиенту      |[JSON](#clientrole) |
+| PATCH  | /client/removeRole/ | Забрать роль у клиента по логину |[JSON](#clientremoverole) |
+| GET    | /client/allRoles/{id_client} | Получить все роли клиента по id клиента ||
 
 ### Review
 | Method | Url | Description | Sample Valid Request Body |
@@ -112,9 +112,9 @@ application.properties.origin раположен по пути
 | POST   | /books/new | Создать бронь          | [JSON](#booknew)|
 | PATCH  | /books/{id_book}| Обновить бронь по id |[JSON](#bookupdate) |
 | DELETE | /books/{id_book} | Удалить бронь по id | |
-| GET    | /books/{client_login}/allClientBooks | получить все брони клиента по логину клиента ||
-| GET    | /books/{id_room}/allRoomBooks| получить все брони по id комнаты ||
-| GET    | /books/all| получить все брони ||
+| GET    | /books/{client_login}/allClientBooks | Получить все брони клиента по логину клиента ||
+| GET    | /books/{id_room}/allRoomBooks| Получить все брони по id комнаты ||
+| GET    | /books/all| Получить все брони ||
 
 
 ## Пример
@@ -203,19 +203,19 @@ application.properties.origin раположен по пути
 }
 ```
 
-##### <a id="clientrole"> Забрать роль у клиента по логину -> /client/addRole/ </a>
-```json
-{   
-    "login" : "kalibanforever",
-    "roleName" : "USER"
-}
-```
-
-##### <a id="clientremoverole"> Добавить роль клиенту -> /client/addRole/ </a>
+##### <a id="clientrole"> Добавить роль клиенту -> /client/addRole/ </a>
 ```json
 {   
     "login" : "kalibanforever",
     "roleName" : "ADMIN"
+}
+```
+
+##### <a id="clientremoverole"> Забрать роль у клиента по логину -> /client/addRole/ </a>
+```json
+{   
+    "login" : "kalibanforever",
+    "roleName" : "USER"
 }
 ```
 
