@@ -61,11 +61,11 @@ CREATE table clients
 
 
 insert into clients(name, login, password, birthdate)
-VALUES ('Dorn', 'dorn51', '123456', '2000-01-01');
+VALUES ('Dorn', 'dorn51', '$2a$10$.ulgt.FpWssjM0R6S1BCPOt8vsPt5icsIjNeUQ1FXK47Po25/oqjG', '2000-01-01');
 insert into clients(name, login, password, birthdate)
-VALUES ('Leon', 'kalibanforever', '123456', '1993-04-05');
+VALUES ('Leon', 'kalibanforever', '$2a$10$.ulgt.FpWssjM0R6S1BCPOt8vsPt5icsIjNeUQ1FXK47Po25/oqjG', '1993-04-05');
 insert into clients(name, login, password, birthdate)
-VALUES ('Jiliman', 'utlra', '123456', '1953-11-11');
+VALUES ('Jiliman', 'utlra', '$2a$10$.ulgt.FpWssjM0R6S1BCPOt8vsPt5icsIjNeUQ1FXK47Po25/oqjG', '1953-11-11');
 
 
 CREATE table users_role
