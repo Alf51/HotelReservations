@@ -9,6 +9,9 @@
 		{
 			"name": "Получить клиента по id",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -27,22 +30,10 @@
 			"response": []
 		},
 		{
-			"name": "Создать нового клиента",
+			"name": "(Регистрация) Создать нового клиента",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "POST",
 				"header": [],
@@ -73,6 +64,9 @@
 		{
 			"name": "Обновить клиента по id",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "PATCH",
 				"header": [],
 				"body": {
@@ -103,19 +97,7 @@
 			"name": "Получить всех клиентов",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
@@ -137,6 +119,9 @@
 		{
 			"name": "удалить клиента по id",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "DELETE",
 				"header": [],
 				"url": {
@@ -151,6 +136,74 @@
 						"4"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "добавить роль клиенту по логину",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"login\" : \"kalibanforever\",\r\n    \"roleName\" : \"USER\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/client/addRole/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"client",
+						"addRole",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "забрать роль у клиента по логину",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"login\" : \"kalibanforever\",\r\n    \"roleName\" : \"USER\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/client/removeRole/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"client",
+						"removeRole",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "получить все роли клиента по id клиента",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}
