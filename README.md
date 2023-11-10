@@ -91,6 +91,9 @@ application.properties.origin раположен по пути
 | PATCH  | /client/{id_client} | Обновить клиента по id |[JSON](#clientupdate) |
 | GET    | /client/all | Получить всех клиентов ||
 | DELETE | /client/{id_client} | удалить клиента по id | |
+| PATCH  | client/addRole/| Добавить роль клиенту      |[JSON](#clientrole) |
+| PATCH  | client/removeRole/ | Забрать роль у клиента по логину |[JSON](#clientremoverole) |
+| GET    | /client/allRoles/{id_client} | получить все роли клиента по id клиента ||
 
 ### Review
 | Method | Url | Description | Sample Valid Request Body |
@@ -197,6 +200,22 @@ application.properties.origin раположен по пути
         "login": "Crus",        
         "birthdate": "11-11-1991",
         "password" : "123456"
+}
+```
+
+##### <a id="clientrole"> Забрать роль у клиента по логину -> /client/addRole/ </a>
+```json
+{   
+    "login" : "kalibanforever",
+    "roleName" : "USER"
+}
+```
+
+##### <a id="clientremoverole"> Добавить роль клиенту -> /client/addRole/ </a>
+```json
+{   
+    "login" : "kalibanforever",
+    "roleName" : "ADMIN"
 }
 ```
 
