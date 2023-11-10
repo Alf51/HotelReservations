@@ -1,9 +1,12 @@
 package org.goldenalf.privatepr.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.ClientDto;
 import org.goldenalf.privatepr.dto.ClientExtendedDto;
+import org.goldenalf.privatepr.dto.ClientRoleDto;
 import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.models.Role;
 import org.goldenalf.privatepr.services.ClientService;
@@ -16,14 +19,17 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -56,6 +62,30 @@ public class ClientController {
         }
 
         client.setRoles(Collections.singleton(Role.USER));
+        clientService.save(client);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PatchMapping("/addRole/")
+    public ResponseEntity<HttpStatus> setRoleForClient(@RequestBody @Valid ClientRoleDto clientRoleDto) {
+
+        Role role = getValidRole(clientRoleDto.roleName());
+        Client client = clientService.findByLogin(clientRoleDto.login())
+                .orElseThrow(() -> new ClientErrorException("Клиент c логином '" + clientRoleDto.login() + "' не найден"));
+
+        client.getRoles().add(role);
+        clientService.save(client);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PatchMapping("/removeRole/")
+    public ResponseEntity<HttpStatus> removeRoleForClient(@RequestBody @Valid ClientRoleDto clientRoleDto) {
+
+        Role role = getValidRole(clientRoleDto.roleName());
+        Client client = clientService.findByLogin(clientRoleDto.login())
+                .orElseThrow(() -> new ClientErrorException("Клиент c логином '" + clientRoleDto.login() + "' не найден"));
+
+        client.getRoles().remove(role);
         clientService.save(client);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -120,5 +150,14 @@ public class ClientController {
         Type listType = new TypeToken<List<ClientDto>>() {
         }.getType();
         return modelMapper.map(clientList, listType);
+    }
+
+    private Role getValidRole(String roleName) {
+        try {
+            return Role.valueOf(roleName);
+        } catch (IllegalArgumentException e) {
+            String errorMessage = "Роль " + roleName + " не найдена. Роль должна содержать одно из следующих значений: " + Arrays.toString(Role.values());
+            throw new ClientErrorException(errorMessage);
+        }
     }
 }

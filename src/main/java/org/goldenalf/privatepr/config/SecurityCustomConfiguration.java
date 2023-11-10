@@ -17,6 +17,8 @@ public class SecurityCustomConfiguration {
         http.authorizeHttpRequests(request -> request
                 .requestMatchers("/books/all").hasRole("ADMIN")
                 .requestMatchers("/books/**").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/client/addRole/**").hasRole("ADMIN")
+                .requestMatchers("/client/removeRole/**").hasRole("ADMIN")
                 .requestMatchers("/client/all").hasRole("ADMIN")
                 .requestMatchers("/client/new").permitAll()
                 .requestMatchers("/client/**").hasAnyRole("ADMIN", "USER")
