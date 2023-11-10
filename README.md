@@ -211,7 +211,7 @@ application.properties.origin раположен по пути
 }
 ```
 
-##### <a id="clientremoverole"> Забрать роль у клиента по логину -> /client/addRole/ </a>
+##### <a id="clientremoverole"> Забрать роль у клиента по логину -> /client/removeRole/ </a>
 ```json
 {   
     "login" : "kalibanforever",
