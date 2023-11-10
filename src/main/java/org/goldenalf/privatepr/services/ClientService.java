@@ -44,24 +44,20 @@ public class ClientService implements UserDetailsService {
         VerifyingAccess.checkPossibilityAction(login);
 
         clientRepository.deleteById(id);
-
     }
 
     @Transactional
     public void update(int id, Client client) {
         Client clientInDB = getClient(id).orElseThrow(() -> new ClientErrorException("Клиент не найдена"));
-        System.out.println();
         VerifyingAccess.checkPossibilityAction(client.getLogin(), clientInDB.getLogin());
 
         clientRepository.save(client);
     }
 
-
     @Transactional(readOnly = true)
     public Optional<Client> getClient(int id) {
         return clientRepository.findById(id);
     }
-
 
     @Transactional(readOnly = true)
     public List<Client> getAllClient() {

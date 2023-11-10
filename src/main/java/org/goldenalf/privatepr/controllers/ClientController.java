@@ -1,9 +1,8 @@
 package org.goldenalf.privatepr.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.goldenalf.privatepr.dto.ClientAllRoleDto;
 import org.goldenalf.privatepr.dto.ClientDto;
 import org.goldenalf.privatepr.dto.ClientExtendedDto;
 import org.goldenalf.privatepr.dto.ClientRoleDto;
@@ -19,7 +18,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +27,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 
 @RestController
@@ -48,6 +45,12 @@ public class ClientController {
     @GetMapping("/all")
     public List<ClientDto> getAllClient() {
         return convertToClientDtoList(clientService.getAllClient());
+    }
+
+    @GetMapping("/allRoles/{id_client}")
+    public ClientAllRoleDto getAllRolesClient(@PathVariable("id_client") int id) {
+        Client client = clientService.getClient(id).orElseThrow(() -> new ClientErrorException("Клиент не найден"));
+        return convertToClientAllRoleDto(client);
     }
 
     @PostMapping("/new")
@@ -140,6 +143,10 @@ public class ClientController {
 
     private ClientDto convertToClientDto(Client client) {
         return modelMapper.map(client, ClientDto.class);
+    }
+
+    private ClientAllRoleDto convertToClientAllRoleDto(Client client) {
+        return modelMapper.map(client, ClientAllRoleDto.class);
     }
 
     private Client convertToClient(ClientExtendedDto clientDto) {

@@ -19,6 +19,7 @@ public class SecurityCustomConfiguration {
                 .requestMatchers("/books/**").hasAnyRole("ADMIN", "USER")
                 .requestMatchers("/client/addRole/**").hasRole("ADMIN")
                 .requestMatchers("/client/removeRole/**").hasRole("ADMIN")
+                .requestMatchers("/client/allRoles/**").hasRole("ADMIN")
                 .requestMatchers("/client/all").hasRole("ADMIN")
                 .requestMatchers("/client/new").permitAll()
                 .requestMatchers("/client/**").hasAnyRole("ADMIN", "USER")
