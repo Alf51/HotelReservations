@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Type;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -56,7 +55,6 @@ public class ClientController {
     @PostMapping("/new")
     public ResponseEntity<HttpStatus> saveClient(@RequestBody @Valid ClientExtendedDto clientDto,
                                                  BindingResult bindingResult) {
-
         Client client = convertToClient(clientDto);
         clientValidator.validate(client, bindingResult);
 
@@ -64,32 +62,19 @@ public class ClientController {
             throw new ClientErrorException(ErrorHandler.getErrorMessage(bindingResult));
         }
 
-        client.setRoles(Collections.singleton(Role.USER));
         clientService.save(client);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/addRole/")
-    public ResponseEntity<HttpStatus> setRoleForClient(@RequestBody @Valid ClientRoleDto clientRoleDto) {
-
-        Role role = getValidRole(clientRoleDto.roleName());
-        Client client = clientService.findByLogin(clientRoleDto.login())
-                .orElseThrow(() -> new ClientErrorException("Клиент c логином '" + clientRoleDto.login() + "' не найден"));
-
-        client.getRoles().add(role);
-        clientService.save(client);
+    public ResponseEntity<HttpStatus> addRoleForClient(@RequestBody @Valid ClientRoleDto clientRoleDto) {
+        clientService.addRoleForClient(clientRoleDto);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/removeRole/")
     public ResponseEntity<HttpStatus> removeRoleForClient(@RequestBody @Valid ClientRoleDto clientRoleDto) {
-
-        Role role = getValidRole(clientRoleDto.roleName());
-        Client client = clientService.findByLogin(clientRoleDto.login())
-                .orElseThrow(() -> new ClientErrorException("Клиент c логином '" + clientRoleDto.login() + "' не найден"));
-
-        client.getRoles().remove(role);
-        clientService.save(client);
+        clientService.removeRoleForClient(clientRoleDto);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -97,7 +82,6 @@ public class ClientController {
     public ResponseEntity<HttpStatus> updateClient(@PathVariable("id_client") int id,
                                                    @RequestBody @Valid ClientExtendedDto clientDto,
                                                    BindingResult bindingResult) {
-
         Client client = convertToClient(clientDto);
         client.setId(id);
         clientValidator.validate(client, bindingResult);
@@ -157,14 +141,5 @@ public class ClientController {
         Type listType = new TypeToken<List<ClientDto>>() {
         }.getType();
         return modelMapper.map(clientList, listType);
-    }
-
-    private Role getValidRole(String roleName) {
-        try {
-            return Role.valueOf(roleName);
-        } catch (IllegalArgumentException e) {
-            String errorMessage = "Роль " + roleName + " не найдена. Роль должна содержать одно из следующих значений: " + Arrays.toString(Role.values());
-            throw new ClientErrorException(errorMessage);
-        }
     }
 }
