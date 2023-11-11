@@ -115,6 +115,7 @@ application.properties.origin раположен по пути
 | GET    | /books/{client_login}/allClientBooks | Получить все брони клиента по логину клиента ||
 | GET    | /books/{id_room}/allRoomBooks| Получить все брони по id комнаты ||
 | GET    | /books/all| Получить все брони ||
+| GET    | /books/{hotel_id}/allBooksInHotel| Получить все брони отеля по id отеля ||
 
 
 ## Пример
