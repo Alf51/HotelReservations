@@ -7,7 +7,6 @@ import org.goldenalf.privatepr.dto.ClientDto;
 import org.goldenalf.privatepr.dto.ClientExtendedDto;
 import org.goldenalf.privatepr.dto.ClientRoleDto;
 import org.goldenalf.privatepr.models.Client;
-import org.goldenalf.privatepr.models.Role;
 import org.goldenalf.privatepr.services.ClientService;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
 import java.util.List;
 
 
