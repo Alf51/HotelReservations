@@ -2,13 +2,11 @@ package org.goldenalf.privatepr.utils.erorsHandler.validator;
 
 import lombok.AllArgsConstructor;
 import org.goldenalf.privatepr.models.Client;
-import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.services.ClientService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import java.util.List;
 import java.util.Optional;
 
 
