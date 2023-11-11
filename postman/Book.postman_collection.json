@@ -10,19 +10,7 @@
 			"name": "Получить бронь по id",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
@@ -44,11 +32,14 @@
 		{
 			"name": "создать бронь",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"checkIn\": \"05-12-3030\",\r\n    \"checkOut\": \"10-12-3030\",\r\n    \"clientLogin\": \"kalibanforever\",\r\n    \"roomId\": 2\r\n}",
+					"raw": "{\r\n    \"checkIn\": \"09-11-2024\",\r\n    \"checkOut\": \"18-11-2024\",\r\n    \"clientLogin\": \"dorn51\",\r\n    \"roomId\": 4\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -74,25 +65,13 @@
 			"name": "обновить бронь",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "PATCH",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"checkIn\": \"15-12-2023\",\r\n    \"checkOut\": \"18-12-2023\",\r\n    \"clientLogin\": \"dorn51\",\r\n    \"roomId\": 3\r\n}",
+					"raw": "{\r\n    \"checkIn\": \"20-12-2031\",\r\n    \"checkOut\": \"29-12-2031\",\r\n    \"clientLogin\": \"dorn51\",\r\n    \"roomId\": 1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -100,7 +79,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/books/2",
+					"raw": "http://localhost:8080/books/12",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -108,7 +87,7 @@
 					"port": "8080",
 					"path": [
 						"books",
-						"2"
+						"12"
 					]
 				}
 			},
@@ -118,19 +97,7 @@
 			"name": "Удалить бронь",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "DELETE",
 				"header": [],
@@ -189,19 +156,7 @@
 			"name": "получить все брони по id комнаты",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
@@ -225,19 +180,7 @@
 			"name": "получить все брони",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
@@ -251,6 +194,27 @@
 					"path": [
 						"books",
 						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить все брони отеля по id отеля",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/books/4/allBooksInHotel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"4",
+						"allBooksInHotel"
 					]
 				}
 			},
