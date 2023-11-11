@@ -37,6 +37,11 @@ public class BookController {
         return convertToBookDtoList(bookService.findAllByRoomId(roomId));
     }
 
+    @GetMapping("/{hotel_id}/allBooksInHotel")
+    public List<BookDto> getAllBookInHotel(@PathVariable("hotel_id") int hotelId) {
+        return convertToBookDtoList(bookService.findAllBookInHotel(hotelId));
+    }
+
     @GetMapping("/all")
     public List<BookDto> getAllBooks() {
         return convertToBookDtoList(bookService.getAllBook());

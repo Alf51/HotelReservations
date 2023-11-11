@@ -52,6 +52,13 @@ public class BookService {
         bookRepository.save(bookByUpdate);
     }
 
+    @Transactional
+    public List<Book> findAllBookInHotel(int hotelId) {
+        return roomService.findAllRoomsByHotelId(hotelId)
+                .stream().flatMap(room -> room.getBookList().stream())
+                .toList();
+    }
+
     @Transactional(readOnly = true)
     public Optional<Book> getBook(int id) {
         return bookRepository.findById(id);

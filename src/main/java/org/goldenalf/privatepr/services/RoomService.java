@@ -1,9 +1,13 @@
 package org.goldenalf.privatepr.services;
 
 import lombok.RequiredArgsConstructor;
+import org.goldenalf.privatepr.dto.BookDateDto;
+import org.goldenalf.privatepr.dto.RoomDto;
+import org.goldenalf.privatepr.models.Book;
 import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.repositories.RoomRepository;
 import org.goldenalf.privatepr.utils.exeptions.RoomErrorException;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RoomService {
     private final RoomRepository roomRepository;
+    private final ModelMapper modelMapper;
 
     @Transactional
     public void save(Room room) {
@@ -50,10 +55,5 @@ public class RoomService {
     @Transactional(readOnly = true)
     public List<Room> findAllRoomsByHotelId(int hotelId) {
         return roomRepository.findAllByHotelId(hotelId);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Room> getAllRooms() {
-        return roomRepository.findAll();
     }
 }
