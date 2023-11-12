@@ -7,22 +7,10 @@
 	},
 	"item": [
 		{
-			"name": "getRoom",
+			"name": "получить комнату по id",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
@@ -41,22 +29,10 @@
 			"response": []
 		},
 		{
-			"name": "create new room",
+			"name": "создать новую комнату по id отеля",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "POST",
 				"header": [],
@@ -86,22 +62,10 @@
 			"response": []
 		},
 		{
-			"name": "Обновить комнату",
+			"name": "Обновить комнату по id",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "PATCH",
 				"header": [],
@@ -133,19 +97,7 @@
 			"name": "Получить все комнаты по id отеля",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
 				"header": [],
@@ -166,22 +118,10 @@
 			"response": []
 		},
 		{
-			"name": "Удалить комнату",
+			"name": "Удалить комнату по id",
 			"request": {
 				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "dorn51",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "DELETE",
 				"header": [],
@@ -195,6 +135,64 @@
 					"path": [
 						"rooms",
 						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Вернуть все свободные комнаты на заданный диапазон дат",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"checkIn\": \"25-11-2023\",\r\n    \"checkOut\": \"25-12-2023\",\r\n    \"hotelId\" : 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rooms/allAvailableRoomsForGivenDate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rooms",
+						"allAvailableRoomsForGivenDate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Вернуть все забронированные комнаты на заданный диапазон дат Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"checkIn\": \"10-11-2023\",\r\n    \"checkOut\": \"25-12-2023\",\r\n    \"hotelId\" : 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rooms/allBookedRoomsForGivenDate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rooms",
+						"allBookedRoomsForGivenDate"
 					]
 				}
 			},
