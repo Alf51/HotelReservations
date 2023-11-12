@@ -17,6 +17,7 @@ import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +29,6 @@ public class RoomService {
     public void save(Room room) {
         roomRepository.save(room);
     }
-
 
     @Transactional
     public void delete(int id) {
@@ -63,17 +63,20 @@ public class RoomService {
 
 
     @Transactional(readOnly = true)
-    public List<RoomDto> findAllFreeRoomsInHotelForGivenDate(BookDateDto bookDateDto) {
+    public List<RoomDto> findAllRoomsInHotelForGivenDate(BookDateDto bookDateDto, boolean isAvailableRoom) {
+        Predicate<Room> predicate;
+
+        if (isAvailableRoom) {
+            predicate = room -> isRoomAvailableForGivenDates(room, bookDateDto.getCheckIn(), bookDateDto.getCheckOut());
+        } else {
+            predicate = room -> !isRoomAvailableForGivenDates(room, bookDateDto.getCheckIn(), bookDateDto.getCheckOut());
+        }
+
         List<Room> roomList = roomRepository.findAllByHotelId(bookDateDto.getHotelId())
                 .stream()
-                .filter(room -> isRoomAvailableForGivenDates(room, bookDateDto.getCheckIn(), bookDateDto.getCheckOut()))
+                .filter(predicate)
                 .toList();
         return convertToRoomDtoList(roomList);
-    }
-
-    //TODO такой код есть в RoomController - сделать сделать стат метод с дженерика в util (ConvetrerDTO или тип того)
-    private RoomDto convertToRoomDto(Room room) {
-        return modelMapper.map(room, RoomDto.class);
     }
 
     private List<RoomDto> convertToRoomDtoList(List<Room> room) {

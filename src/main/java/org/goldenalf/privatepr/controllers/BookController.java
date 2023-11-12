@@ -139,5 +139,4 @@ public class BookController {
     private Book convertToBook(BookDto bookDto) {
         return modelMapper.map(bookDto, Book.class);
     }
-
 }

@@ -48,10 +48,12 @@ public class RoomController {
         return convertToRoomDtoList(roomService.findAllRoomsByHotelId(hotelId));
     }
 
-    @PutMapping("/freeRoomsForGivenDate")
-    public List<RoomDto> getAllFreeRoomsInHotelForGivenDate(@RequestBody @Valid BookDateDto bookDateDto) {
-        return roomService.findAllFreeRoomsInHotelForGivenDate(bookDateDto);
+    @PutMapping("/allAvailableRoomsForGivenDate")
+    public List<RoomDto> getAllAvailableRoomsInHotelForGivenDate(@RequestBody @Valid BookDateDto bookDateDto) {
+        return roomService.findAllRoomsInHotelForGivenDate(bookDateDto, true);
     }
+
+
 
     @PostMapping("/{id_hotel}/new")
     public ResponseEntity<HttpStatus> saveRoom(@RequestBody @Valid RoomDto roomDto,
@@ -121,7 +123,6 @@ public class RoomController {
         return modelMapper.map(room, RoomDto.class);
     }
 
-    //TODO можно в util сделать статический конверт с дженериками
     private List<RoomDto> convertToRoomDtoList(List<Room> room) {
         Type listType = new TypeToken<List<RoomDto>>() {
         }.getType();
