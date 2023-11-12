@@ -74,6 +74,7 @@ application.properties.origin раположен по пути
 | PATCH  | /hotel/{id_hotel} | Обновить отель по id |[JSON](#hotelupdate)|
 | GET    | /hotel/all | Получить все отели | |
 
+
 ### Room
 | Method | Url | Description | Sample Valid Request Body |
 | ------ | --- | ----------- | ------------------------- |
@@ -82,6 +83,8 @@ application.properties.origin раположен по пути
 | PATCH  | /rooms/{id_room} | Обновить комнату по id |[JSON](#roomupdate) |
 | GET    | /rooms/{id_hotel}/allRooms | Получить все комнаты по id отеля ||
 | DELETE | /rooms/{id_room} | Удалить комнату по id | |
+| PUT  | /rooms/allAvailableRoomsForGivenDate | Получить все свободные комнаты на заданный диапазон дат |[JSON](#roomallfree)|
+| PUT  | /rooms/allBookedRoomsForGivenDate | Получить все забронированные комнаты на заданный диапазон дат |[JSON](#roomallbooked)|
 
 ### Client
 | Method | Url | Description | Sample Valid Request Body |
@@ -181,6 +184,23 @@ application.properties.origin раположен по пути
     "roomNumber": "303",
     "roomSize": 73.82,
     "available": true
+}
+```
+##### <a id="roomallfree"> Получить все свободные комнаты на заданный диапазон дат -> /rooms/allAvailableRoomsForGivenDate </a>
+```json
+{
+    "checkIn": "10-11-2023",
+    "checkOut": "26-12-2023",
+    "hotelId" : 2
+}
+```
+
+##### <a id="roomallbooked"> Получить все забронированные комнаты на заданный диапазон дат  -> /rooms/allBookedRoomsForGivenDate </a>
+```json
+{
+    "checkIn": "10-11-2023",
+    "checkOut": "26-12-2023",
+    "hotelId" : 2
 }
 ```
 
