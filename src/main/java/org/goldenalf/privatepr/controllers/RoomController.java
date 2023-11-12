@@ -53,7 +53,10 @@ public class RoomController {
         return roomService.findAllRoomsInHotelForGivenDate(bookDateDto, true);
     }
 
-
+    @PutMapping("/allBookedRoomsForGivenDate")
+    public List<RoomDto> getAllBookedRoomsInHotelForGivenDate(@RequestBody @Valid BookDateDto bookDateDto) {
+        return roomService.findAllRoomsInHotelForGivenDate(bookDateDto, false);
+    }
 
     @PostMapping("/{id_hotel}/new")
     public ResponseEntity<HttpStatus> saveRoom(@RequestBody @Valid RoomDto roomDto,
