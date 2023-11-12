@@ -2,7 +2,6 @@ package org.goldenalf.privatepr.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +14,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookDto {
+public class BookDateDto {
     @NotNull(message = "введите дату въезда (check_in)")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate checkIn;
@@ -24,25 +23,13 @@ public class BookDto {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate checkOut;
 
-    @NotNull(message = "Введите логин клиента")
-    @NotEmpty(message = "Логин клиента не может быть пустым")
-    private String clientLogin;
-
-    @NotNull(message = "введите id комнаты")
-    private long roomId;
+    @NotNull(message = "введите id отеля")
+    private int hotelId;
 
     @AssertTrue(message = "Дата въезда(check_in) должна быть раньше даты выезда(check_out)")
     boolean isValidCheckIn() {
         if (checkIn != null && checkOut != null) {
             return checkIn.isBefore(checkOut);
-        }
-        return false;
-    }
-
-    @AssertTrue(message = "Новая дата въезда(check_in) должна быть сегодня или позже")
-    boolean isValidDate() {
-        if (checkIn != null) {
-            return checkIn.isAfter(LocalDate.now()) || checkIn.isEqual(LocalDate.now());
         }
         return false;
     }

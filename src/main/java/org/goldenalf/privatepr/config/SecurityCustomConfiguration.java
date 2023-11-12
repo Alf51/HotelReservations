@@ -32,6 +32,7 @@ public class SecurityCustomConfiguration {
                 .requestMatchers(HttpMethod.DELETE, "/review/**").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.GET, "/review/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/rooms/**").permitAll()
+                .requestMatchers( "/rooms/freeRoomsForGivenDate").permitAll()
                 .requestMatchers(HttpMethod.PATCH, "/rooms/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/rooms/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/rooms/**").hasRole("ADMIN")

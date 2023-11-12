@@ -3,6 +3,7 @@ package org.goldenalf.privatepr.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.goldenalf.privatepr.dto.BookDateDto;
 import org.goldenalf.privatepr.dto.RoomDto;
 
 import org.goldenalf.privatepr.models.Hotel;
@@ -45,6 +46,11 @@ public class RoomController {
     @GetMapping("/{id_hotel}/allRooms")
     public List<RoomDto> getAllRoomsInHotel(@PathVariable("id_hotel") int hotelId) {
         return convertToRoomDtoList(roomService.findAllRoomsByHotelId(hotelId));
+    }
+
+    @PutMapping("/freeRoomsForGivenDate")
+    public List<RoomDto> getAllFreeRoomsInHotelForGivenDate(@RequestBody @Valid BookDateDto bookDateDto) {
+        return roomService.findAllFreeRoomsInHotelForGivenDate(bookDateDto);
     }
 
     @PostMapping("/{id_hotel}/new")
@@ -115,6 +121,7 @@ public class RoomController {
         return modelMapper.map(room, RoomDto.class);
     }
 
+    //TODO можно в util сделать статический конверт с дженериками
     private List<RoomDto> convertToRoomDtoList(List<Room> room) {
         Type listType = new TypeToken<List<RoomDto>>() {
         }.getType();

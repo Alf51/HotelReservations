@@ -2,8 +2,6 @@ package org.goldenalf.privatepr.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -38,7 +36,6 @@ public class ClientExtendedDto {
     @Size(min = 6, message = "Пароль должен содержать минимум 6 символов")
     private String password;
 
-    @Temporal(TemporalType.DATE)
     @NotNull(message = "введите дату рождения")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthdate;

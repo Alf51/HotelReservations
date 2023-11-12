@@ -1,7 +1,6 @@
 package org.goldenalf.privatepr.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -29,7 +28,6 @@ public class ClientDto {
     private String login;
 
 
-    @Temporal(TemporalType.DATE)
     @NotNull(message = "введите дату рождения")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthdate;
