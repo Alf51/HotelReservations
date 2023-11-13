@@ -1,7 +1,9 @@
 package org.goldenalf.privatepr.services;
 
 import lombok.RequiredArgsConstructor;
+import org.goldenalf.privatepr.dto.BookDto;
 import org.goldenalf.privatepr.dto.ReviewDto;
+import org.goldenalf.privatepr.models.Book;
 import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.models.Review;

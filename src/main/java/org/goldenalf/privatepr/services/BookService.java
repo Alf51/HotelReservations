@@ -12,6 +12,8 @@ import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
 import org.goldenalf.privatepr.utils.exeptions.RoomErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.BookValidator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
 
