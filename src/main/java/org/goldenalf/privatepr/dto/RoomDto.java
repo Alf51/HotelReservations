@@ -15,12 +15,12 @@ import lombok.Setter;
 public class RoomDto {
     private Long id;
 
-    @NotNull(message = "Укажите номер комнаты")
-    @Min(value = 0, message = "номер комнаты должен быть положительным целым числом")
+    @NotNull(message = "{validation.hotelBook.room.room-number.not-null}")
+    @Min(value = 0, message = "{validation.hotelBook.room.room-number.min}")
     private Integer roomNumber;
 
-    @NotNull(message = "Укажите размер комнаты")
-    @Min(value = 0, message = "размер комнаты должен быть больше 0")
+    @NotNull(message = "{validation.hotelBook.room.size.not-null}")
+    @Min(value = 0, message = "{validation.hotelBook.room.size.min}")
     private Double roomSize;
 
     private boolean isAvailable;

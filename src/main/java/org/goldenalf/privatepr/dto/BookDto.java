@@ -16,22 +16,22 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookDto {
-    @NotNull(message = "введите дату въезда (check_in)")
+    @NotNull(message = "{validation.hotelBook.book.check-in.not-null}")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate checkIn;
 
-    @NotNull(message = "введите дату въезда (check_out)")
+    @NotNull(message = "{validation.hotelBook.book.check-out.not-null}")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate checkOut;
 
-    @NotNull(message = "Введите логин клиента")
-    @NotEmpty(message = "Логин клиента не может быть пустым")
+    @NotNull(message = "{validation.hotelBook.client.login.not-null}")
+    @NotEmpty(message = "{validation.hotelBook.client.login.not-empty}")
     private String clientLogin;
 
-    @NotNull(message = "введите id комнаты")
+    @NotNull(message = "{validation.hotelBook.room.id.not-null}")
     private long roomId;
 
-    @AssertTrue(message = "Дата въезда(check_in) должна быть раньше даты выезда(check_out)")
+    @AssertTrue(message = "{validation.hotelBook.book.check-out.is-valid-check-in}")
     boolean isValidCheckIn() {
         if (checkIn != null && checkOut != null) {
             return checkIn.isBefore(checkOut);
@@ -39,7 +39,7 @@ public class BookDto {
         return false;
     }
 
-    @AssertTrue(message = "Новая дата въезда(check_in) должна быть сегодня или позже")
+    @AssertTrue(message = "{validation.hotelBook.book.check-out.is-date-now}")
     boolean isValidDate() {
         if (checkIn != null) {
             return checkIn.isAfter(LocalDate.now()) || checkIn.isEqual(LocalDate.now());

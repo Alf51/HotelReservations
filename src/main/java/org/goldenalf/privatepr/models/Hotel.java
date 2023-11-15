@@ -27,19 +27,19 @@ public class Hotel {
     private int id;
 
     @Column(name = "name")
-    @NotEmpty(message = "имя отеля не может быть пустым")
-    @NotNull(message = "введите имя отеля")
+    @NotEmpty(message = "{validation.hotelBook.hotel.hotel-name.not-empty}")
+    @NotNull(message = "{validation.hotelBook.hotel.hotel-name.not-null}")
     private String name;
 
     @Column(name = "address")
-    @NotEmpty(message = "адрес отеля не может быть пустым")
-    @NotNull(message = "введите адрес отеля")
+    @NotEmpty(message = "{validation.hotelBook.hotel.hotel-address.not-empty}")
+    @NotNull(message = "{validation.hotelBook.hotel.hotel-address.not-null}")
     private String address;
 
-    //TODO рассчитать на основе отзывов Asert или как в Бук или гдето там было ! Можно ещё пометить, что ссущьность не для бд
+    //TODO рассчитать на основе отзывов Asert или как в Бук или где-то там было ! Можно ещё пометить, что сущность не для бд
     @Column(name = "rating")
-    @Min(value = 0, message = "оценка не может быть ниже 0")
-    @Max(value = 5, message = "Отель ценит вашу оценку, но максимальный бал не может превышать 5")
+    @Min(value = 0, message = "{validation.hotelBook.hotel.hotel-rating.min}")
+    @Max(value = 5, message = "{validation.hotelBook.hotel.hotel-rating.max}")
     private int rating;
 
     @Column(name = "description")

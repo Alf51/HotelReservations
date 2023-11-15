@@ -4,17 +4,20 @@ import lombok.AllArgsConstructor;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.services.RoomService;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 @Component
 @AllArgsConstructor
 public class RoomValidator implements Validator {
     private final RoomService roomService;
+    private final MessageSource messageSource;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -33,7 +36,8 @@ public class RoomValidator implements Validator {
                 //Значит комната уже существует и мы производим обновление
                 return;
             } else if (Objects.equals(curentRoom.getRoomNumber(), room.getRoomNumber())) {
-                errors.rejectValue("roomNumber", "410", "комната с данным номером уже существует");
+                errors.rejectValue("roomNumber", "410",  messageSource
+                        .getMessage("validation.hotelBook.room.exception.room-exist", null, Locale.getDefault()));
             }
         }
     }

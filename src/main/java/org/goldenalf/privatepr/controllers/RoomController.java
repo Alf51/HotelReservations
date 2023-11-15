@@ -16,6 +16,7 @@ import org.goldenalf.privatepr.utils.exeptions.RoomErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.RoomValidator;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Locale;
 
 
 @RestController
@@ -34,11 +36,12 @@ public class RoomController {
     private final HotelService hotelService;
     private final ModelMapper modelMapper;
     private final RoomValidator roomValidator;
-
+    private final MessageSource messageSource;
 
     @GetMapping("/{id_room}")
     public RoomDto getRoom(@PathVariable("id_room") int id) {
-        Room room = roomService.getRoom(id).orElseThrow(() -> new RoomErrorException("Комната не найдена"));
+        Room room = roomService.getRoom(id).orElseThrow(() -> new RoomErrorException(messageSource
+                .getMessage("validation.hotelBook.room.exception.room-not-found", null, Locale.getDefault())));
         return convertToRoomDto(room);
     }
 
@@ -62,7 +65,8 @@ public class RoomController {
                                                @PathVariable("id_hotel") int hotelId,
                                                BindingResult bindingResult) {
 
-        Hotel hotel = hotelService.getHotel(hotelId).orElseThrow(() -> new HotelErrorException("Отель не найден"));
+        Hotel hotel = hotelService.getHotel(hotelId).orElseThrow(() -> new HotelErrorException(messageSource.
+                getMessage("validation.hotelBook.hotel.exception.hotel-not-found", null, Locale.getDefault())));
         Room room = convertToRoom(roomDto);
         room.setHotel(hotel);
 
@@ -81,7 +85,8 @@ public class RoomController {
                                                  @RequestBody @Valid RoomDto roomDto,
                                                  BindingResult bindingResult) {
         Room updatedRoom = convertToRoom(roomDto);
-        Room room = roomService.getRoom(id).orElseThrow(() -> new RoomErrorException("Комната не найдена"));
+        Room room = roomService.getRoom(id).orElseThrow(() -> new RoomErrorException(messageSource
+                .getMessage("validation.hotelBook.room.exception.room-not-found", null, Locale.getDefault())));
 
         //Задаю отель и id для обновлённой комнаты, нужно для валидатора
         updatedRoom.setHotel(room.getHotel());

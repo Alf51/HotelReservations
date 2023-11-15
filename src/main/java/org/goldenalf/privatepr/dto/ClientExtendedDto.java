@@ -20,23 +20,23 @@ import java.time.LocalDate;
 public class ClientExtendedDto {
     private int id;
 
-    @NotEmpty(message = "имя не может быть пустым")
-    @NotNull(message = "введите имя")
-    @Size(min = 3, max = 50, message = "Имя должно быть от 3х до 50 символов")
+    @NotEmpty(message = "{validation.hotelBook.client.name.not-empty}")
+    @NotNull(message = "{validation.hotelBook.client.name.not-null}")
+    @Size(min = 3, max = 50, message = "{validation.hotelBook.client.name.size}")
     private String name;
 
-    @NotEmpty(message = "login не может быть пустым")
-    @NotNull(message = "введите login")
-    @Size(min = 3, max = 50, message = "Логин должен содержать 3х до 50 символов")
+    @NotEmpty(message = "{validation.hotelBook.client.login.not-empty}")
+    @NotNull(message = "{validation.hotelBook.client.login.not-null}")
+    @Size(min = 3, max = 50, message = "{validation.hotelBook.client.login.size}")
     private String login;
 
     @Column(name = "password")
-    @NotEmpty(message = "пароль не может быть пустым")
-    @NotNull(message = "введите пароль")
-    @Size(min = 6, message = "Пароль должен содержать минимум 6 символов")
+    @NotEmpty(message = "{validation.hotelBook.client.password.not-empty}")
+    @NotNull(message = "{validation.hotelBook.client.password.not-null}")
+    @Size(min = 6, message = "{validation.hotelBook.client.password.size}")
     private String password;
 
-    @NotNull(message = "введите дату рождения")
+    @NotNull(message = "{validation.hotelBook.client.birthdate.not-null}")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthdate;
 }

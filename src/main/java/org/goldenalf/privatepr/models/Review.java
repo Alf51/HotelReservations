@@ -21,14 +21,14 @@ public class Review {
     private int id;
 
     @Column(name = "rating")
-    @Min(value = 0, message = "минимальная оценка 0")
-    @Max(value = 5, message = "максимальная оценка 5")
-    @NotNull(message = "нужно поставить рейтинг от 0 до 5 включительно")
+    @Min(value = 0, message = "{validation.hotelBook.review.rating.min}")
+    @Max(value = 5, message = "{validation.hotelBook.review.rating.max}")
+    @NotNull(message = "{validation.hotelBook.review.rating.not-null}")
     private Integer rating;
 
     @Column(name = "review")
-    @NotNull(message = "Укажите имя постояльца")
-    @NotEmpty(message = "имя постояльца не может быть пустым")
+    @NotNull(message = "{validation.hotelBook.review.review.not-null}")
+    @NotEmpty(message = "{validation.hotelBook.review.review.not-empty}")
     private String review;
 
     @Column(name = "date")

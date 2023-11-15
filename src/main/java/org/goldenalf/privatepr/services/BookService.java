@@ -11,13 +11,13 @@ import org.goldenalf.privatepr.utils.exeptions.BookErrorException;
 import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
 import org.goldenalf.privatepr.utils.exeptions.RoomErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.BookValidator;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionManager;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -27,29 +27,33 @@ public class BookService {
     private final RoomService roomService;
     private final ClientService clientService;
     private final BookValidator bookValidator;
+    private final VerifyingAccess verifyingAccess;
+    private final MessageSource messageSource;
 
     @Transactional
     public void save(Book book) {
         getValidBook(book);
-        VerifyingAccess.checkPossibilityAction(book.getClient().getLogin());
+        verifyingAccess.checkPossibilityAction(book.getClient().getLogin());
 
         bookRepository.save(book);
     }
 
     @Transactional
     public void delete(int id) {
-        Book bookByDeleted = getBook(id).orElseThrow(() -> new BookErrorException("Бронь не найдена"));
+        Book bookByDeleted = getBook(id).orElseThrow(() -> new BookErrorException(messageSource
+                .getMessage("validation.hotelBook.book.exception.book-not-found", null, Locale.getDefault())));
         String login = bookByDeleted.getClient().getLogin();
-        VerifyingAccess.checkPossibilityAction(login);
+        verifyingAccess.checkPossibilityAction(login);
 
         bookRepository.deleteById(id);
     }
 
     @Transactional
     public void update(int id, Book bookByUpdate) {
-        Book bookInDB = getBook(id).orElseThrow(() -> new BookErrorException("Бронь не найдена"));
+        Book bookInDB = getBook(id).orElseThrow(() -> new BookErrorException(messageSource
+                .getMessage("validation.hotelBook.book.exception.book-not-found", null, Locale.getDefault())));
         getValidBook(bookByUpdate);
-        VerifyingAccess.checkPossibilityAction(bookByUpdate.getClient().getLogin(), bookInDB.getClient().getLogin());
+        verifyingAccess.checkPossibilityAction(bookByUpdate.getClient().getLogin(), bookInDB.getClient().getLogin());
         bookByUpdate.setId(id);
         bookRepository.save(bookByUpdate);
     }
@@ -78,16 +82,20 @@ public class BookService {
 
     @Transactional(readOnly = true)
     public List<Book> findAllByClientId(String login) {
-        VerifyingAccess.checkPossibilityAction(login);
+        verifyingAccess.checkPossibilityAction(login);
         return bookRepository.findAllByClientLogin(login);
     }
 
     private Book getValidBook(Book book) {
         long roomId = book.getRoom().getId();
-        Room room = roomService.getRoom(roomId).orElseThrow(() -> new RoomErrorException("Комната не найдена по id=" + roomId));
+        Room room = roomService.getRoom(roomId).orElseThrow(() -> new RoomErrorException(messageSource
+                .getMessage("validation.hotelBook.room.exception.rom-not-found-by-id", null, Locale.getDefault())
+                .formatted(roomId)));
 
         String login = book.getClient().getLogin();
-        Client client = clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException("Клиент с логином '" + login + "' не найден"));
+        Client client = clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException(messageSource
+                .getMessage("validation.hotelBook.client.exception.requested-login-not-found", null, Locale.getDefault())
+                .formatted(login)));
 
         book.setClient(client);
         book.setRoom(room);

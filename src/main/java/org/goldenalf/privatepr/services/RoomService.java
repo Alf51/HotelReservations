@@ -10,12 +10,14 @@ import org.goldenalf.privatepr.utils.erorsHandler.validator.BookValidator;
 import org.goldenalf.privatepr.utils.exeptions.RoomErrorException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -24,6 +26,7 @@ import java.util.function.Predicate;
 public class RoomService {
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
+    private final MessageSource messageSource;
 
     @Transactional
     public void save(Room room) {
@@ -35,7 +38,8 @@ public class RoomService {
         if (getRoom(id).isPresent()) {
             roomRepository.deleteById(id);
         } else {
-            throw new RoomErrorException("Комната не найдена");
+            throw new RoomErrorException(messageSource
+                    .getMessage("validation.hotelBook.room.exception.room-not-found", null, Locale.getDefault()));
         }
     }
 

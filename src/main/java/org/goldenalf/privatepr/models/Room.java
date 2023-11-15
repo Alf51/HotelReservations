@@ -23,13 +23,13 @@ public class Room {
     private long id;
 
     @Column(name = "room_number")
-    @NotNull(message = "нужно указать номер комнаты в виде целого положительно числа")
-    @Min(value = 0, message = "номер комнаты должен быть положительным целым числом")
+    @NotNull(message = "{validation.hotelBook.room.room-number.not-null}")
+    @Min(value = 0, message = "{validation.hotelBook.room.room-number.min}")
     private Integer roomNumber;
 
     @Column(name = "room_size")
-    @NotNull(message = "нужно указать размер комнаты")
-    @Min(value = 0, message = "размер комнаты должен быть больше 0")
+    @NotNull(message = "{validation.hotelBook.room.size.not-null}")
+    @Min(value = 0, message = "{validation.hotelBook.room.size.min}")
     private Double roomSize;
 
     @Column(name = "is_available")

@@ -11,6 +11,7 @@ import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Locale;
 
 
 @RestController
@@ -27,11 +29,13 @@ import java.util.List;
 public class HotelController {
     private final HotelService hotelService;
     private final ModelMapper modelMapper;
+    private final MessageSource messageSource;
     private final HotelValidator hotelValidator;
 
     @GetMapping("/{id_hotel}")
     public HotelDto getHotel(@PathVariable("id_hotel") int id) {
-        return convertToHotelDto(hotelService.getHotel(id).orElseThrow(() -> new HotelErrorException("Отель не найден")));
+        return convertToHotelDto(hotelService.getHotel(id).orElseThrow(() -> new HotelErrorException(messageSource
+                .getMessage("validation.hotelBook.hotel.exception.hotel-not-found", null, Locale.getDefault()))));
     }
 
     @GetMapping("/all")

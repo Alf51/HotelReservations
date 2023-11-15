@@ -15,6 +15,7 @@ import org.goldenalf.privatepr.utils.erorsHandler.validator.ClientValidator;
 import org.goldenalf.privatepr.utils.exeptions.InsufficientAccessException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Type;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Locale;
 
 
 @RestController
@@ -32,11 +34,13 @@ import java.util.List;
 public class ClientController {
     private final ClientService clientService;
     private final ModelMapper modelMapper;
+    private final MessageSource messageSource;
     private final ClientValidator clientValidator;
 
     @GetMapping("/{id_client}")
     public ClientDto getClient(@PathVariable("id_client") int id) {
-        return convertToClientDto(clientService.getClient(id).orElseThrow(() -> new ClientErrorException("Клиент не найден")));
+        return convertToClientDto(clientService.getClient(id).orElseThrow(() -> new ClientErrorException(messageSource
+                .getMessage("validation.hotelBook.client-controller.exception.client-not-found", null, Locale.getDefault()))));
     }
 
     @GetMapping("/all")
@@ -46,7 +50,8 @@ public class ClientController {
 
     @GetMapping("/allRoles/{id_client}")
     public ClientAllRoleDto getAllRolesClient(@PathVariable("id_client") int id) {
-        Client client = clientService.getClient(id).orElseThrow(() -> new ClientErrorException("Клиент не найден"));
+        Client client = clientService.getClient(id).orElseThrow(() -> new ClientErrorException(messageSource
+                .getMessage("validation.hotelBook.client-controller.exception.client-not-found", null, Locale.getDefault())));
         return convertToClientAllRoleDto(client);
     }
 
@@ -111,7 +116,9 @@ public class ClientController {
 
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(DateTimeParseException e) {
-        String errorMessage = "Некорректный формат даты. Введена '" + e.getParsedString() + "'. Введите дату в формате dd-MM-yyyy";
+        String errorMessage = messageSource
+                .getMessage("validation.hotelBook.date.exception.message-date", null, Locale.getDefault()) + e.getParsedString();
+
         ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }

@@ -5,6 +5,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,18 +26,20 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 
 public class CustomSecurityFilter extends OncePerRequestFilter {
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
-
   private final AuthenticationSuccessHandler successHandler = new SimpleUrlAuthenticationSuccessHandler("/auth/success");
   private final AuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler("/auth/failed");
 
   private RequestMatcher processAuthenticationRequestMatcher;
   private AuthenticationManager authenticationManager;
   private SecurityContextRepository securityContextRepository;
+  private MessageSource messageSource;
+
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -74,7 +78,8 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
       String username = map.get("login");
       String password = map.get("password");
       if (!StringUtils.hasLength(username) || !StringUtils.hasLength(password)) {
-        throw new BadCredentialsException("Логин и/или пароль не найден");
+        throw new BadCredentialsException(messageSource
+                .getMessage("validation.hotelBook.security.login-password.not-found", null, Locale.getDefault()));
       }
 
       return UsernamePasswordAuthenticationToken.unauthenticated(username, password);
@@ -97,5 +102,9 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
 
   public void setSecurityContextRepository(SecurityContextRepository securityContextRepository) {
     this.securityContextRepository = securityContextRepository;
+  }
+
+  public void setMessageSource(@Autowired MessageSource messageSource) {
+    this.messageSource = messageSource;
   }
 }

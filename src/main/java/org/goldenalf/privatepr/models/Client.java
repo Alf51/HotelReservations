@@ -30,23 +30,23 @@ public class Client {
     private int id;
 
     @Column(name = "name")
-    @NotEmpty(message = "имя не может быть пустым")
-    @NotNull(message = "введите имя")
+    @NotEmpty(message = "{validation.hotelBook.client.name.not-empty}")
+    @NotNull(message = "{validation.hotelBook.client.name.not-null}")
     private String name;
 
     @Column(name = "login")
-    @NotEmpty(message = "login не может быть пустым")
-    @NotNull(message = "введите login")
+    @NotEmpty(message = "{validation.hotelBook.client.login.not-empty}")
+    @NotNull(message = "{validation.hotelBook.client.login.not-null}")
     private String login;
 
     @Column(name = "password")
-    @NotEmpty(message = "пароль не может быть пустым")
-    @NotNull(message = "введите пароль")
+    @NotEmpty(message = "{validation.hotelBook.client.password.not-empty}")
+    @NotNull(message = "{validation.hotelBook.client.password.not-null}")
     private String password;
 
     @Column(name = "birthdate")
     @Temporal(TemporalType.DATE)
-    @NotNull(message = "введите дату рождения")
+    @NotNull(message = "{validation.hotelBook.client.birthdate.not-null}")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthdate;
 
