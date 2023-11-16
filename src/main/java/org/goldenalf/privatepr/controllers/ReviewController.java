@@ -7,10 +7,6 @@ import org.goldenalf.privatepr.dto.ReviewDto;
 import org.goldenalf.privatepr.models.Review;
 import org.goldenalf.privatepr.services.ReviewService;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
-import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
-import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
-import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
-import org.goldenalf.privatepr.utils.exeptions.InsufficientAccessException;
 import org.goldenalf.privatepr.utils.exeptions.ReviewErrorException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -21,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
 
@@ -82,37 +77,6 @@ public class ReviewController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(ReviewErrorException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(HotelErrorException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(DateTimeParseException e) {
-        String errorMessage = messageSource
-                .getMessage("validation.hotelBook.date.exception.message-date", null, Locale.getDefault()) + e.getParsedString();
-        ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(ClientErrorException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(InsufficientAccessException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
 
     private ReviewDto convertToReviewDto(Review review) {
         return modelMapper.map(review, ReviewDto.class);

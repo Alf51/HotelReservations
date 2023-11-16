@@ -9,21 +9,17 @@ import org.goldenalf.privatepr.dto.ClientRoleDto;
 import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.services.ClientService;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
-import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
 import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.ClientValidator;
-import org.goldenalf.privatepr.utils.exeptions.InsufficientAccessException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
 
@@ -99,35 +95,6 @@ public class ClientController {
     public ResponseEntity<HttpStatus> deleteClient(@PathVariable("id_client") int id) {
         clientService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(ClientErrorException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(InsufficientAccessException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(DateTimeParseException e) {
-        String errorMessage = messageSource
-                .getMessage("validation.hotelBook.date.exception.message-date", null, Locale.getDefault()) + e.getParsedString();
-
-        ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException e) {
-        String errorMessage = ErrorHandler.getErrorMessage(e.getBindingResult());
-        ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     private ClientDto convertToClientDto(Client client) {

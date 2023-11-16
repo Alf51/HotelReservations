@@ -4,13 +4,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.BookDateDto;
 import org.goldenalf.privatepr.dto.RoomDto;
-
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.services.HotelService;
 import org.goldenalf.privatepr.services.RoomService;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
-import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
 import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
 import org.goldenalf.privatepr.utils.exeptions.RoomErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.RoomValidator;
@@ -20,7 +18,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
@@ -106,25 +103,6 @@ public class RoomController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(HotelErrorException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(RoomErrorException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException e) {
-        String errorMessage = ErrorHandler.getErrorMessage(e.getBindingResult());
-        ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
 
     private RoomDto convertToRoomDto(Room room) {
         return modelMapper.map(room, RoomDto.class);
