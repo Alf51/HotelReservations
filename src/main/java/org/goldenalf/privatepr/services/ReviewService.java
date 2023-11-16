@@ -7,17 +7,16 @@ import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.models.Review;
 import org.goldenalf.privatepr.repositories.ReviewRepository;
 import org.goldenalf.privatepr.utils.VerifyingAccess;
+import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
 import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
 import org.goldenalf.privatepr.utils.exeptions.ReviewErrorException;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -28,8 +27,7 @@ public class ReviewService {
     private final ClientService clientService;
     private final ModelMapper modelMapper;
     private final VerifyingAccess verifyingAccess;
-    private final MessageSource messageSource;
-
+    private final ErrorHandler errorHandler;
 
     @Transactional
     public void save(Review review) {
@@ -40,8 +38,8 @@ public class ReviewService {
 
     @Transactional
     public void delete(int id) {
-        Review reviewInDB = getReview(id).orElseThrow(() -> new ReviewErrorException(messageSource
-                .getMessage("validation.hotelBook.review.exception.review-not-found-by-id", null, Locale.getDefault())
+        Review reviewInDB = getReview(id).orElseThrow(() -> new ReviewErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.review.exception.review-not-found-by-id")
                 .formatted(id)));
 
         verifyingAccess.checkPossibilityAction(reviewInDB.getClient().getLogin());
@@ -50,8 +48,8 @@ public class ReviewService {
 
     @Transactional
     public void update(int id, Review reviewByUpdate) {
-        Review reviewInDB = getReview(id).orElseThrow(() -> new ReviewErrorException(messageSource
-                .getMessage("validation.hotelBook.review.exception.review-not-found-by-id", null, Locale.getDefault())
+        Review reviewInDB = getReview(id).orElseThrow(() -> new ReviewErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.review.exception.review-not-found-by-id")
                 .formatted(id)));
 
         verifyingAccess.checkPossibilityAction(reviewByUpdate.getClient().getLogin(), reviewInDB.getClient().getLogin());
@@ -76,12 +74,12 @@ public class ReviewService {
     }
 
     public Review getValidReview(ReviewDto reviewDto) {
-        Hotel hotel = hotelService.getHotel(reviewDto.getHotelId()).orElseThrow(() -> new HotelErrorException(messageSource
-                .getMessage("validation.hotelBook.hotel.exception.hotel-not-found", null, Locale.getDefault())));
+        Hotel hotel = hotelService.getHotel(reviewDto.getHotelId()).orElseThrow(() -> new HotelErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.hotel.exception.hotel-not-found")));
 
         String login = reviewDto.getClientLogin();
-        Client client = clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException(messageSource
-                .getMessage("validation.hotelBook.client.exception.requested-login-not-found", null, Locale.getDefault())
+        Client client = clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.client.exception.requested-login-not-found")
                 .formatted(login)));
 
         Review review = convertToReview(reviewDto);

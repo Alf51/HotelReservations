@@ -1,6 +1,5 @@
 package org.goldenalf.privatepr.controllers;
 
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.ReviewDto;
@@ -10,7 +9,6 @@ import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.ReviewErrorException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Locale;
 
 
 @RestController
@@ -27,12 +24,12 @@ import java.util.Locale;
 public class ReviewController {
     private final ReviewService reviewService;
     private final ModelMapper modelMapper;
-    private final MessageSource messageSource;
+    private final ErrorHandler errorHandler;
 
     @GetMapping("/{id_review}")
     public ReviewDto getReview(@PathVariable("id_review") int id) {
-        return convertToReviewDto(reviewService.getReview(id).orElseThrow(() -> new ReviewErrorException(messageSource
-                .getMessage("validation.hotelBook.review.exception.review-not-found", null, Locale.getDefault()))));
+        return convertToReviewDto(reviewService.getReview(id).orElseThrow(() -> new ReviewErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.review.exception.review-not-found"))));
     }
 
     @GetMapping("/{id_hotel}/allHotelReviews")
@@ -49,7 +46,7 @@ public class ReviewController {
     public ResponseEntity<HttpStatus> saveReview(@RequestBody @Valid ReviewDto reviewDto,
                                                  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new ReviewErrorException(ErrorHandler.getErrorMessage(bindingResult));
+            throw new ReviewErrorException(errorHandler.getErrorMessage(bindingResult));
         }
 
         Review review = reviewService.getValidReview(reviewDto);
@@ -63,7 +60,7 @@ public class ReviewController {
                                                    @RequestBody @Valid ReviewDto reviewDto,
                                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new ReviewErrorException(ErrorHandler.getErrorMessage(bindingResult));
+            throw new ReviewErrorException(errorHandler.getErrorMessage(bindingResult));
         }
 
         Review updatedReview = reviewService.getValidReview(reviewDto);

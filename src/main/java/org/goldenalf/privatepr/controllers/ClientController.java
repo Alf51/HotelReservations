@@ -30,13 +30,13 @@ import java.util.Locale;
 public class ClientController {
     private final ClientService clientService;
     private final ModelMapper modelMapper;
-    private final MessageSource messageSource;
+    private final ErrorHandler errorHandler;
     private final ClientValidator clientValidator;
 
     @GetMapping("/{id_client}")
     public ClientDto getClient(@PathVariable("id_client") int id) {
-        return convertToClientDto(clientService.getClient(id).orElseThrow(() -> new ClientErrorException(messageSource
-                .getMessage("validation.hotelBook.client-controller.exception.client-not-found", null, Locale.getDefault()))));
+        return convertToClientDto(clientService.getClient(id).orElseThrow(() -> new ClientErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.client-controller.exception.client-not-found"))));
     }
 
     @GetMapping("/all")
@@ -46,8 +46,8 @@ public class ClientController {
 
     @GetMapping("/allRoles/{id_client}")
     public ClientAllRoleDto getAllRolesClient(@PathVariable("id_client") int id) {
-        Client client = clientService.getClient(id).orElseThrow(() -> new ClientErrorException(messageSource
-                .getMessage("validation.hotelBook.client-controller.exception.client-not-found", null, Locale.getDefault())));
+        Client client = clientService.getClient(id).orElseThrow(() -> new ClientErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.client-controller.exception.client-not-found")));
         return convertToClientAllRoleDto(client);
     }
 
@@ -58,7 +58,7 @@ public class ClientController {
         clientValidator.validate(client, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            throw new ClientErrorException(ErrorHandler.getErrorMessage(bindingResult));
+            throw new ClientErrorException(errorHandler.getErrorMessage(bindingResult));
         }
 
         clientService.save(client);
@@ -85,7 +85,7 @@ public class ClientController {
         client.setId(id);
         clientValidator.validate(client, bindingResult);
         if (bindingResult.hasErrors()) {
-            throw new ClientErrorException(ErrorHandler.getErrorMessage(bindingResult));
+            throw new ClientErrorException(errorHandler.getErrorMessage(bindingResult));
         }
         clientService.update(id, client);
         return ResponseEntity.ok(HttpStatus.OK);

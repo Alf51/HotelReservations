@@ -6,18 +6,17 @@ import org.goldenalf.privatepr.dto.RoomDto;
 import org.goldenalf.privatepr.models.Book;
 import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.repositories.RoomRepository;
+import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.BookValidator;
 import org.goldenalf.privatepr.utils.exeptions.RoomErrorException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -26,7 +25,7 @@ import java.util.function.Predicate;
 public class RoomService {
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
-    private final MessageSource messageSource;
+    private final ErrorHandler errorHandler;
 
     @Transactional
     public void save(Room room) {
@@ -38,13 +37,12 @@ public class RoomService {
         if (getRoom(id).isPresent()) {
             roomRepository.deleteById(id);
         } else {
-            throw new RoomErrorException(messageSource
-                    .getMessage("validation.hotelBook.room.exception.room-not-found", null, Locale.getDefault()));
+            throw new RoomErrorException(errorHandler
+                    .getErrorMessage("validation.hotelBook.room.exception.room-not-found"));
         }
     }
 
     @Transactional
-    //TODO добавить валидацию
     public void update(int id, Room roomByUpdate) {
         Optional<Room> room = roomRepository.findById(id);
 

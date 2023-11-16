@@ -3,20 +3,19 @@ package org.goldenalf.privatepr.services;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.repositories.HotelRepository;
+import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class HotelService {
     private final HotelRepository hotelRepository;
-    private final MessageSource messageSource;
+    private final ErrorHandler errorHandler;
 
     @Transactional
     public void save(Hotel hotel) {
@@ -29,8 +28,8 @@ public class HotelService {
         if (getHotel(id).isPresent()) {
             hotelRepository.deleteById(id);
         } else {
-            throw new HotelErrorException(messageSource
-                    .getMessage("validation.hotelBook.hotel.exception.hotel-not-found", null, Locale.getDefault()));
+            throw new HotelErrorException(errorHandler
+                    .getErrorMessage("validation.hotelBook.hotel.exception.hotel-not-found"));
         }
     }
 

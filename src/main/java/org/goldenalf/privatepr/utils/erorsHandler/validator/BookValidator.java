@@ -3,7 +3,7 @@ package org.goldenalf.privatepr.utils.erorsHandler.validator;
 import lombok.AllArgsConstructor;
 import org.goldenalf.privatepr.models.Book;
 import org.goldenalf.privatepr.models.Room;
-import org.springframework.context.MessageSource;
+import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -11,13 +11,12 @@ import org.springframework.validation.Validator;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 
 
 @Component
 @AllArgsConstructor
 public class BookValidator implements Validator {
-    private final MessageSource messageSource;
+    private final ErrorHandler errorHandler;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -36,8 +35,8 @@ public class BookValidator implements Validator {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                 String checkIn = formatter.format(existingBook.getCheckIn());
                 String checkOut = formatter.format(existingBook.getCheckOut());
-                String dateRangeMessage = messageSource
-                        .getMessage("validation.hotelBook.date.exception.range-is-occupied", null, Locale.getDefault())
+                String dateRangeMessage = errorHandler
+                        .getErrorMessage("validation.hotelBook.date.exception.range-is-occupied")
                         .formatted(checkIn, checkOut);
                 errors.rejectValue("checkIn", "409", dateRangeMessage);
                 return;

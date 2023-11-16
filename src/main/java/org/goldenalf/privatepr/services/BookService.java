@@ -11,13 +11,11 @@ import org.goldenalf.privatepr.utils.exeptions.BookErrorException;
 import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
 import org.goldenalf.privatepr.utils.exeptions.RoomErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.BookValidator;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -28,7 +26,7 @@ public class BookService {
     private final ClientService clientService;
     private final BookValidator bookValidator;
     private final VerifyingAccess verifyingAccess;
-    private final MessageSource messageSource;
+    private final ErrorHandler errorHandler;
 
     @Transactional
     public void save(Book book) {
@@ -40,8 +38,8 @@ public class BookService {
 
     @Transactional
     public void delete(int id) {
-        Book bookByDeleted = getBook(id).orElseThrow(() -> new BookErrorException(messageSource
-                .getMessage("validation.hotelBook.book.exception.book-not-found", null, Locale.getDefault())));
+        Book bookByDeleted = getBook(id).orElseThrow(() -> new BookErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.book.exception.book-not-found")));
         String login = bookByDeleted.getClient().getLogin();
         verifyingAccess.checkPossibilityAction(login);
 
@@ -50,8 +48,8 @@ public class BookService {
 
     @Transactional
     public void update(int id, Book bookByUpdate) {
-        Book bookInDB = getBook(id).orElseThrow(() -> new BookErrorException(messageSource
-                .getMessage("validation.hotelBook.book.exception.book-not-found", null, Locale.getDefault())));
+        Book bookInDB = getBook(id).orElseThrow(() -> new BookErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.book.exception.book-not-found")));
         getValidBook(bookByUpdate);
         verifyingAccess.checkPossibilityAction(bookByUpdate.getClient().getLogin(), bookInDB.getClient().getLogin());
         bookByUpdate.setId(id);
@@ -88,13 +86,13 @@ public class BookService {
 
     private Book getValidBook(Book book) {
         long roomId = book.getRoom().getId();
-        Room room = roomService.getRoom(roomId).orElseThrow(() -> new RoomErrorException(messageSource
-                .getMessage("validation.hotelBook.room.exception.rom-not-found-by-id", null, Locale.getDefault())
+        Room room = roomService.getRoom(roomId).orElseThrow(() -> new RoomErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.room.exception.rom-not-found-by-id")
                 .formatted(roomId)));
 
         String login = book.getClient().getLogin();
-        Client client = clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException(messageSource
-                .getMessage("validation.hotelBook.client.exception.requested-login-not-found", null, Locale.getDefault())
+        Client client = clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.client.exception.requested-login-not-found")
                 .formatted(login)));
 
         book.setClient(client);
@@ -103,7 +101,7 @@ public class BookService {
         BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(book, Book.class.getName());
         bookValidator.validate(book, bindingResult);
         if (bindingResult.hasErrors()) {
-            throw new BookErrorException(ErrorHandler.getErrorMessage(bindingResult));
+            throw new BookErrorException(errorHandler.getErrorMessage(bindingResult));
         }
         return book;
     }

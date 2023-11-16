@@ -25,12 +25,12 @@ import java.util.Locale;
 public class BookController {
     private final BookService bookService;
     private final ModelMapper modelMapper;
-    private final MessageSource messageSource;
+    private final ErrorHandler errorHandler;
 
     @GetMapping("/{id_book}")
     public BookDto getBook(@PathVariable("id_book") int id) {
-        return convertToBookDto(bookService.getBook(id).orElseThrow(() -> new BookErrorException(messageSource
-                .getMessage("validation.hotelBook.book.exception.book-not-found", null, Locale.getDefault()))));
+        return convertToBookDto(bookService.getBook(id).orElseThrow(() -> new BookErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.book.exception.book-not-found"))));
     }
 
     @GetMapping("/{id_room}/allRoomBooks")
@@ -59,7 +59,7 @@ public class BookController {
         Book book = convertToBook(bookDto);
 
         if (bindingResult.hasErrors()) {
-            throw new BookErrorException(ErrorHandler.getErrorMessage(bindingResult));
+            throw new BookErrorException(errorHandler.getErrorMessage(bindingResult));
         }
         bookService.save(book);
         return ResponseEntity.ok(HttpStatus.OK);
@@ -71,7 +71,7 @@ public class BookController {
                                                  BindingResult bindingResult) {
         Book updatedBook = convertToBook(bookDto);
         if (bindingResult.hasErrors()) {
-            throw new BookErrorException(ErrorHandler.getErrorMessage(bindingResult));
+            throw new BookErrorException(errorHandler.getErrorMessage(bindingResult));
         }
         bookService.update(id, updatedBook);
         return ResponseEntity.ok(HttpStatus.OK);

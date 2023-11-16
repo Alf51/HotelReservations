@@ -6,8 +6,8 @@ import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.models.Role;
 import org.goldenalf.privatepr.repositories.ClientRepository;
 import org.goldenalf.privatepr.utils.VerifyingAccess;
+import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -27,12 +27,12 @@ public class ClientService implements UserDetailsService {
     private final ClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
     private final VerifyingAccess verifyingAccess;
-    private final MessageSource messageSource;
+    private final ErrorHandler errorHandler;
 
     @Override
     public UserDetails loadUserByUsername(String userLogin) throws UsernameNotFoundException {
-        Client client = clientRepository.findByLogin(userLogin).orElseThrow(() -> new UsernameNotFoundException(messageSource.
-                getMessage("validation.hotelBook.client.exception.login-not-found", null, Locale.getDefault())));
+        Client client = clientRepository.findByLogin(userLogin).orElseThrow(() -> new UsernameNotFoundException(errorHandler.
+                getErrorMessage("validation.hotelBook.client.exception.login-not-found")));
         return new User(client.getLogin(), client.getPassword(), mapRolesToAuthorities(client.getRoles()));
     }
 
@@ -45,8 +45,8 @@ public class ClientService implements UserDetailsService {
 
     @Transactional
     public void delete(int id) {
-        Client clientByDeleted = getClient(id).orElseThrow(() -> new ClientErrorException(messageSource
-                .getMessage("validation.hotelBook.client.exception.client-not-found", null, Locale.getDefault())));
+        Client clientByDeleted = getClient(id).orElseThrow(() -> new ClientErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.client.exception.client-not-found")));
         String login = clientByDeleted.getLogin();
         verifyingAccess.checkPossibilityAction(login);
 
@@ -55,8 +55,8 @@ public class ClientService implements UserDetailsService {
 
     @Transactional
     public void update(int id, Client client) {
-        Client clientInDB = getClient(id).orElseThrow(() -> new ClientErrorException(messageSource
-                .getMessage("validation.hotelBook.client.exception.client-not-found", null, Locale.getDefault())));
+        Client clientInDB = getClient(id).orElseThrow(() -> new ClientErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.client.exception.client-not-found")));
 
         verifyingAccess.checkPossibilityAction(client.getLogin(), clientInDB.getLogin());
         client.setPassword(passwordEncoder.encode(client.getPassword()));
@@ -68,8 +68,8 @@ public class ClientService implements UserDetailsService {
     public void addRoleForClient(ClientRoleDto clientRoleDto) {
         Role role = getValidRole(clientRoleDto.roleName());
         Client client = findByLogin(clientRoleDto.login())
-                .orElseThrow(() -> new ClientErrorException(messageSource
-                        .getMessage("validation.hotelBook.client.exception.requested-login-not-found", null, Locale.getDefault())
+                .orElseThrow(() -> new ClientErrorException(errorHandler
+                        .getErrorMessage("validation.hotelBook.client.exception.requested-login-not-found")
                         .formatted(clientRoleDto.login())));
 
         client.getRoles().add(role);
@@ -80,8 +80,8 @@ public class ClientService implements UserDetailsService {
     public void removeRoleForClient(ClientRoleDto clientRoleDto) {
         Role role = getValidRole(clientRoleDto.roleName());
         Client client = findByLogin(clientRoleDto.login())
-                .orElseThrow(() -> new ClientErrorException(messageSource
-                        .getMessage("validation.hotelBook.client.exception.requested-login-not-found", null, Locale.getDefault())
+                .orElseThrow(() -> new ClientErrorException(errorHandler
+                        .getErrorMessage("validation.hotelBook.client.exception.requested-login-not-found")
                         .formatted(clientRoleDto.login())));
 
         client.getRoles().remove(role);
@@ -111,8 +111,8 @@ public class ClientService implements UserDetailsService {
         try {
             return Role.valueOf(roleName);
         } catch (IllegalArgumentException e) {
-            String errorMessage = messageSource
-                    .getMessage("validation.hotelBook.role.exception.role-not-found", null, Locale.getDefault())
+            String errorMessage = errorHandler
+                    .getErrorMessage("validation.hotelBook.role.exception.role-not-found")
                     .formatted(roleName) + Arrays.toString(Role.values());
 
             throw new ClientErrorException(errorMessage);
