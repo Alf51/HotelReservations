@@ -68,4 +68,11 @@ public class ErrorControllerAdvice {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(Exception.class)
+    private ResponseEntity<ErrorResponse> handleException(Exception e) {
+        String errorMessage = errorHandler.getErrorMessage("validation.hotelBook.server.error");
+        ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }
