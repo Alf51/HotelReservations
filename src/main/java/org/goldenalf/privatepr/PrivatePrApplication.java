@@ -10,5 +10,4 @@ public class PrivatePrApplication {
     public static void main(String[] args) {
         SpringApplication.run(PrivatePrApplication.class, args);
     }
-
 }

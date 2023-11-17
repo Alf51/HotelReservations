@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorResponse;
 import org.goldenalf.privatepr.utils.exeptions.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,6 +17,8 @@ import java.time.format.DateTimeParseException;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class ErrorControllerAdvice {
+    private static final Logger logger = LoggerFactory.getLogger(ErrorControllerAdvice.class);
+
     private final ErrorHandler errorHandler;
 
     @ExceptionHandler(DateTimeParseException.class)
@@ -71,6 +75,7 @@ public class ErrorControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     private ResponseEntity<ErrorResponse> handleException(Exception e) {
+        logger.error(e.getMessage());
         String errorMessage = errorHandler.getErrorMessage("validation.hotelBook.server.error");
         ErrorResponse errorResponse = new ErrorResponse(errorMessage, System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
