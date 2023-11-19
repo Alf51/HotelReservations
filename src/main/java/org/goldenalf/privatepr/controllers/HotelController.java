@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.HotelDto;
 import org.goldenalf.privatepr.models.Hotel;
-import org.goldenalf.privatepr.services.HotelService;
+import org.goldenalf.privatepr.services.impl.HotelServiceImpl;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.HotelValidator;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/hotel")
 @RequiredArgsConstructor
 public class HotelController {
-    private final HotelService hotelService;
+    private final HotelServiceImpl hotelService;
     private final ModelMapper modelMapper;
     private final ErrorHandler errorHandler;
     private final HotelValidator hotelValidator;

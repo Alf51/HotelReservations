@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.ReviewDto;
 import org.goldenalf.privatepr.models.Review;
-import org.goldenalf.privatepr.services.ReviewService;
+import org.goldenalf.privatepr.services.impl.ReviewServiceImpl;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.ReviewErrorException;
 import org.modelmapper.ModelMapper;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/review")
 @RequiredArgsConstructor
 public class ReviewController {
-    private final ReviewService reviewService;
+    private final ReviewServiceImpl reviewService;
     private final ModelMapper modelMapper;
     private final ErrorHandler errorHandler;
 

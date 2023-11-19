@@ -2,7 +2,7 @@ package org.goldenalf.privatepr.utils.erorsHandler.validator;
 
 import lombok.AllArgsConstructor;
 import org.goldenalf.privatepr.models.Hotel;
-import org.goldenalf.privatepr.services.HotelService;
+import org.goldenalf.privatepr.services.impl.HotelServiceImpl;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -14,7 +14,7 @@ import java.util.Locale;
 @Component
 @AllArgsConstructor
 public class HotelValidator implements Validator {
-    private final HotelService hotelService;
+    private final HotelServiceImpl hotelService;
     private final MessageSource messageSource;
 
     @Override

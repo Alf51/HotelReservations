@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.BookDto;
 import org.goldenalf.privatepr.models.Book;
-import org.goldenalf.privatepr.services.BookService;
+import org.goldenalf.privatepr.services.impl.BookServiceImpl;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.*;
 import org.modelmapper.ModelMapper;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/books")
 @RequiredArgsConstructor
 public class BookController {
-    private final BookService bookService;
+    private final BookServiceImpl bookService;
     private final ModelMapper modelMapper;
     private final ErrorHandler errorHandler;
 

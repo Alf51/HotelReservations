@@ -3,7 +3,7 @@ package org.goldenalf.privatepr.utils.erorsHandler.validator;
 import lombok.AllArgsConstructor;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.models.Room;
-import org.goldenalf.privatepr.services.RoomService;
+import org.goldenalf.privatepr.services.impl.RoomServiceImpl;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -16,7 +16,7 @@ import java.util.Objects;
 @Component
 @AllArgsConstructor
 public class RoomValidator implements Validator {
-    private final RoomService roomService;
+    private final RoomServiceImpl roomService;
     private final MessageSource messageSource;
 
     @Override

@@ -2,7 +2,7 @@ package org.goldenalf.privatepr.utils.erorsHandler.validator;
 
 import lombok.AllArgsConstructor;
 import org.goldenalf.privatepr.models.Client;
-import org.goldenalf.privatepr.services.ClientService;
+import org.goldenalf.privatepr.services.impl.ClientServiceImpl;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 public class ClientValidator implements Validator {
-    private final ClientService clientService;
+    private final ClientServiceImpl clientService;
     private final MessageSource messageSource;
 
     @Override

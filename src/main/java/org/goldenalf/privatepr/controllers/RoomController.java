@@ -6,8 +6,8 @@ import org.goldenalf.privatepr.dto.BookDateDto;
 import org.goldenalf.privatepr.dto.RoomDto;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.models.Room;
-import org.goldenalf.privatepr.services.HotelService;
-import org.goldenalf.privatepr.services.RoomService;
+import org.goldenalf.privatepr.services.impl.HotelServiceImpl;
+import org.goldenalf.privatepr.services.impl.RoomServiceImpl;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
 import org.goldenalf.privatepr.utils.exeptions.RoomErrorException;
@@ -27,8 +27,8 @@ import java.util.List;
 @RequestMapping("/rooms")
 @RequiredArgsConstructor
 public class RoomController {
-    private final RoomService roomService;
-    private final HotelService hotelService;
+    private final RoomServiceImpl roomService;
+    private final HotelServiceImpl hotelService;
     private final RoomValidator roomValidator;
     private final ErrorHandler errorHandler;
     private final ModelMapper modelMapper;

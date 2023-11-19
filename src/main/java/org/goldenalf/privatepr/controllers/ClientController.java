@@ -7,7 +7,7 @@ import org.goldenalf.privatepr.dto.ClientDto;
 import org.goldenalf.privatepr.dto.ClientExtendedDto;
 import org.goldenalf.privatepr.dto.ClientRoleDto;
 import org.goldenalf.privatepr.models.Client;
-import org.goldenalf.privatepr.services.ClientService;
+import org.goldenalf.privatepr.services.impl.ClientServiceImpl;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.ClientValidator;
@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping("/client")
 @RequiredArgsConstructor
 public class ClientController {
-    private final ClientService clientService;
+    private final ClientServiceImpl clientService;
     private final ModelMapper modelMapper;
     private final ErrorHandler errorHandler;
     private final ClientValidator clientValidator;
