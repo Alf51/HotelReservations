@@ -19,7 +19,7 @@ git clone https://github.com/Alf51/PrivateTemplate_HotelReservations.git
 
 **2. Создайте базу данных PosgreSQL**
 
-Скрип для создание БД раположен по пути: 
+Скрип для создание записей в БД раположен по пути: 
 ```bash
 \scripts\postgreSQL\init.sql
 ```
