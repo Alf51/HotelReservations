@@ -5,8 +5,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,7 +24,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Map;
 
 public class CustomSecurityFilter extends OncePerRequestFilter {
@@ -38,7 +35,6 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
   private RequestMatcher processAuthenticationRequestMatcher;
   private AuthenticationManager authenticationManager;
   private SecurityContextRepository securityContextRepository;
-  private MessageSource messageSource;
 
 
   @Override
@@ -78,8 +74,7 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
       String username = map.get("login");
       String password = map.get("password");
       if (!StringUtils.hasLength(username) || !StringUtils.hasLength(password)) {
-        throw new BadCredentialsException(messageSource
-                .getMessage("validation.hotelBook.security.login-password.not-found", null, Locale.getDefault()));
+        throw new BadCredentialsException("Exception - bad credentials");
       }
 
       return UsernamePasswordAuthenticationToken.unauthenticated(username, password);
@@ -104,7 +99,4 @@ public class CustomSecurityFilter extends OncePerRequestFilter {
     this.securityContextRepository = securityContextRepository;
   }
 
-  public void setMessageSource(@Autowired MessageSource messageSource) {
-    this.messageSource = messageSource;
-  }
 }

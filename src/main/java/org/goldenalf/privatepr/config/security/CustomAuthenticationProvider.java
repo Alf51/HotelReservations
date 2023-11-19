@@ -22,11 +22,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     try {
       userDetails = this.userDetailsService.loadUserByUsername(username);
     } catch (UsernameNotFoundException exception) {
-      throw new BadCredentialsException("{validation.hotelBook.security.bad-credential}");
+      throw new BadCredentialsException("Exception - bad credentials");
     }
 
     if (!this.passwordEncoder.matches(authentication.getCredentials().toString(), userDetails.getPassword())) {
-      throw new BadCredentialsException("{validation.hotelBook.security.bad-credential}");
+      throw new BadCredentialsException("Exception - bad credentials");
     }
 
     UsernamePasswordAuthenticationToken result = UsernamePasswordAuthenticationToken.authenticated(userDetails, authentication.getCredentials(), userDetails.getAuthorities());
