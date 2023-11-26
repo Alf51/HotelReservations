@@ -26,7 +26,7 @@ git clone https://github.com/Alf51/PrivateTemplate_HotelReservations.git
 
 **3. Переименуйте application.properties.origin в application.properties**
 
-application.properties.origin раположен по пути
+application.properties.origin расположен по пути
 ```bash
 \src\main\resources\application.properties.origin
 ```
