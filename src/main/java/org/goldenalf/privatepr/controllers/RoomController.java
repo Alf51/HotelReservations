@@ -37,6 +37,7 @@ public class RoomController {
     public RoomDto getRoom(@PathVariable("id_room") int id) {
         Room room = roomService.getRoom(id).orElseThrow(() -> new RoomErrorException(errorHandler
                 .getErrorMessage("validation.hotelBook.room.exception.room-not-found")));
+        System.out.println("fsdf");
         return convertToRoomDto(room);
     }
 

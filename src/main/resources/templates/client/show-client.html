@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${client.getName()}">Клиент</title>
+</head>
+<body>
+<p th:text="${'Логин: ' + client.getLogin()}"></p>
+<p th:text="${'Имя: ' + client.getName()}"></p>
+<p th:text="${'Дата рождения: ' + client.getBirthdate()}"></p>
+<br>
+<a href="/hotel/all">Все отели</a>
+
+</body>
+</html>

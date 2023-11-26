@@ -5,11 +5,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityCustomConfiguration {
 
     @Bean
@@ -20,10 +22,9 @@ public class SecurityCustomConfiguration {
                 .requestMatchers("/client/addRole/**").hasRole("ADMIN")
                 .requestMatchers("/client/removeRole/**").hasRole("ADMIN")
                 .requestMatchers("/client/allRoles/**").hasRole("ADMIN")
-                .requestMatchers("/client/all").hasRole("ADMIN")
+                .requestMatchers("/client/all").hasAnyRole("ADMIN", "USER")
                 .requestMatchers("/client/new").permitAll()
                 .requestMatchers("/client/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers( "/rooms/allBookedRoomsForGivenDate").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PATCH, "/hotel/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/hotel/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/hotel/**").hasRole("ADMIN")
@@ -32,12 +33,21 @@ public class SecurityCustomConfiguration {
                 .requestMatchers(HttpMethod.PATCH, "/review/**").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.DELETE, "/review/**").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.GET, "/review/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/rooms/**").permitAll()
-                .requestMatchers( "/rooms/allAvailableRoomsForGivenDate").permitAll()
+                .requestMatchers("/rooms/allBookedRoomsForGivenDate").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PATCH, "/rooms/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/rooms/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/rooms/**").hasRole("ADMIN")
+                .requestMatchers("/rooms/allAvailableRoomsForGivenDate").permitAll()
+                .requestMatchers(HttpMethod.GET, "/rooms/**").permitAll()
                 .requestMatchers("/auth/**").permitAll()
+        ).formLogin(fromLogin -> fromLogin
+                .loginPage("/auth/login")
+                .loginProcessingUrl("/process_login")
+                .failureUrl("/auth/failed")
+                .defaultSuccessUrl("/hotel/all", true)
+        ).logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/auth/login")
         );
         http.cors(configurer -> configurer.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));
         http.csrf(AbstractHttpConfigurer::disable);

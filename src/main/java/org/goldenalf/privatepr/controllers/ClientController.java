@@ -15,6 +15,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +24,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 
-@RestController
+@Controller
 @RequestMapping("/client")
 @RequiredArgsConstructor
 public class ClientController {
@@ -32,9 +34,21 @@ public class ClientController {
     private final ClientValidator clientValidator;
 
     @GetMapping("/{id_client}")
-    public ClientDto getClient(@PathVariable("id_client") int id) {
-        return convertToClientDto(clientService.getClient(id).orElseThrow(() -> new ClientErrorException(errorHandler
+    public String getClientById(@PathVariable("id_client") int id, Model model) {
+        ClientDto clientDto = convertToClientDto(clientService.getClient(id).orElseThrow(() -> new ClientErrorException(errorHandler
                 .getErrorMessage("validation.hotelBook.client-controller.exception.client-not-found"))));
+        model.addAttribute("client", clientDto);
+
+        return "client/show-client";
+    }
+
+    @GetMapping("login/{login}")
+    public String getClientByLogin(@PathVariable("login") String login, Model model) {
+        ClientDto clientDto = convertToClientDto(clientService.findByLogin(login).orElseThrow(() -> new ClientErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.client-controller.exception.client-not-found"))));
+        model.addAttribute("client", clientDto);
+
+        return "client/show-client";
     }
 
     @GetMapping("/all")
@@ -76,9 +90,9 @@ public class ClientController {
     }
 
     @PatchMapping("/{id_client}")
-    public ResponseEntity<HttpStatus> updateClient(@PathVariable("id_client") int id,
-                                                   @RequestBody @Valid ClientExtendedDto clientDto,
-                                                   BindingResult bindingResult) {
+    public String updateClient(@PathVariable("id_client") int id,
+                               @RequestBody @Valid ClientExtendedDto clientDto,
+                               BindingResult bindingResult) {
         Client client = convertToClient(clientDto);
         client.setId(id);
         clientValidator.validate(client, bindingResult);
@@ -86,7 +100,7 @@ public class ClientController {
             throw new ClientErrorException(errorHandler.getErrorMessage(bindingResult));
         }
         clientService.update(id, client);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "redirect:/hotel/hotel";
     }
 
     @DeleteMapping("/{id_client}")

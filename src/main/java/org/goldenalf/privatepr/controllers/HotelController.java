@@ -12,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +21,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 
-@RestController
+@Controller
 @RequestMapping("/hotel")
 @RequiredArgsConstructor
 public class HotelController {
@@ -29,15 +31,21 @@ public class HotelController {
     private final HotelValidator hotelValidator;
 
     @GetMapping("/{id_hotel}")
-    public HotelDto getHotel(@PathVariable("id_hotel") int id) {
-        return convertToHotelDto(hotelService.getHotel(id).orElseThrow(() -> new HotelErrorException(errorHandler
+    public String getHotel(@PathVariable("id_hotel") int id, Model model) {
+        HotelDto hotelDto = convertToHotelDto(hotelService.getHotel(id).orElseThrow(() -> new HotelErrorException(errorHandler
                 .getErrorMessage("validation.hotelBook.hotel.exception.hotel-not-found"))));
+        model.addAttribute("hotel", hotelDto);
+        return "/hotel/hotel"; //TODO Создать страницу со всеми клиентами и сделать на неё Редирект
     }
 
     @GetMapping("/all")
-    public List<HotelDto> getAllHotel() {
-        return convertToHotelDtoList(hotelService.getAllHotels());
+    public String getAllHotel(Model model) {
+        List<HotelDto> hotelDtoList = convertToHotelDtoList(hotelService.getAllHotels());
+        model.addAttribute("hotelList", hotelDtoList);
+
+        return "/hotel/hotel-all";
     }
+
 
     @PostMapping("/new")
     public ResponseEntity<HttpStatus> saveHotel(@RequestBody @Valid HotelDto hotelDto,
