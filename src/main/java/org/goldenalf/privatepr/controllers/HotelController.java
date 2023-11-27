@@ -35,7 +35,7 @@ public class HotelController {
         HotelDto hotelDto = convertToHotelDto(hotelService.getHotel(id).orElseThrow(() -> new HotelErrorException(errorHandler
                 .getErrorMessage("validation.hotelBook.hotel.exception.hotel-not-found"))));
         model.addAttribute("hotel", hotelDto);
-        return "/hotel/hotel"; //TODO Создать страницу со всеми клиентами и сделать на неё Редирект
+        return "/hotel/hotel";
     }
 
     @GetMapping("/all")

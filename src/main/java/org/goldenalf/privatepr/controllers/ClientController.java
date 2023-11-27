@@ -52,8 +52,10 @@ public class ClientController {
     }
 
     @GetMapping("/all")
-    public List<ClientDto> getAllClient() {
-        return convertToClientDtoList(clientService.getAllClient());
+    public String getAllClient(Model model) {
+        List<ClientDto> clientList = convertToClientDtoList(clientService.getAllClient());
+        model.addAttribute("clientList", clientList);
+        return "client/client-all";
     }
 
     @GetMapping("/allRoles/{id_client}")
