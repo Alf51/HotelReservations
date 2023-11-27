@@ -1,9 +1,12 @@
 #Data source
 spring.datasource.driver-class-name=org.postgresql.Driver
-spring.datasource.url=s
+spring.datasource.url=
 spring.datasource.username=
 spring.datasource.password=
 
 #Hibernate
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.properties.hibernate.show_sql=true
+
+#for enable HTTP methods: PUT, PATCH, DELETE
+spring.mvc.hiddenmethod.filter.enabled=true

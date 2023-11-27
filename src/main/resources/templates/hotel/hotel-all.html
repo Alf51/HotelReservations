@@ -9,8 +9,8 @@
 <div th:each="hotel : ${hotelList}">
   <a th:text="${hotel.getName()}" th:href="@{/hotel/{id}(id=${hotel.getId()})}"></a>
 </div>
-
-
+<br>
+<a href="/client/all">Все клиенты</a>
 
 </body>
 </html>

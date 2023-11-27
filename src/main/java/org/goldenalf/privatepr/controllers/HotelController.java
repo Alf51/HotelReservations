@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,20 +61,29 @@ public class HotelController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable("id") int id, Model model) {
+        HotelDto hotelDto = convertToHotelDto(hotelService.getHotel(id).orElseThrow(() -> new HotelErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.hotel.exception.hotel-not-found"))));
+
+        model.addAttribute("hotel", hotelDto);
+        return "hotel/edit";
+    }
+
     @PatchMapping("/{id_hotel}")
-    public ResponseEntity<HttpStatus> updateHotel(@PathVariable("id_hotel") int id,
-                                                  @RequestBody @Valid HotelDto hotelDto,
-                                                  BindingResult bindingResult) {
+    public String updateHotel(@PathVariable("id_hotel") int id,
+                              @ModelAttribute("hotel") @Valid HotelDto hotelDto,
+                              BindingResult bindingResult) {
         Hotel hotel = convertToHotel(hotelDto);
         hotel.setId(id);
         hotelValidator.validate(hotel, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            throw new HotelErrorException(errorHandler.getErrorMessage(bindingResult));
+            return "hotel/edit";
         }
 
         hotelService.update(id, hotel);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "redirect:/hotel/all";
     }
 
     @DeleteMapping("/{id_hotel}")

@@ -22,6 +22,10 @@
   </div>
 </div>
 <br>
+<form th:action="@{/hotel/{id}/edit(id=${hotel.getId()})}">
+  <input type="submit" value="редактировать">
+</form>
+<br>
 <a href="/hotel/all">Все отели</a>
 
 </body>
