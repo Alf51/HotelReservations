@@ -17,6 +17,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class ClientDto {
+    private int id;
+
     @NotEmpty(message = "{validation.hotelBook.client.name.not-empty}")
     @NotNull(message = "{validation.hotelBook.client.name.not-null}")
     @Size(min = 3, max = 50, message = "{validation.hotelBook.client.name.size}")
