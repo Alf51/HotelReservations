@@ -34,7 +34,7 @@ public class HotelValidator implements Validator {
                     return;
                 } else if (hotelWithSameName.getAddress().equals(hotel.getAddress())) {
                     errors.rejectValue("address", "409", messageSource
-                            .getMessage("validation.hotelBook.hotel.exception.hotel-not-found", null, Locale.getDefault()));
+                            .getMessage("validation.hotelBook.hotel.hotel-name.hotel-exist", null, Locale.getDefault()));
                     return;
                 }
             }
