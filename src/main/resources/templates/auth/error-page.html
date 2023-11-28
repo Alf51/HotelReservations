@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Ошибка доступа</title>
+</head>
+<body>
+  <a th:text="${errorMessage}" th:style="'color: red'" ></a>
+  <br>
+  <br>
+  <a href="/hotel/all">Все отели</a>
+  <br>
+  <a href="/auth/login">Авторизоваться в системе</a>
+</body>
+</html>

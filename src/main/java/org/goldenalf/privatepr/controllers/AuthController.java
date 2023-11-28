@@ -20,8 +20,15 @@ public class AuthController {
 
     @GetMapping("failed")
     public String failed(Model model) {
-        String errorMessage = (errorHandler.getErrorMessage("validation.hotelBook.security.bad-credential"));
+        String errorMessage = errorHandler.getErrorMessage("validation.hotelBook.security.bad-credential");
         model.addAttribute("errorMessage", errorMessage);
         return "auth/login";
+    }
+
+    @GetMapping("accessDenied")
+    public String accessDenied(Model model) {
+        String errorMessage = errorHandler.getErrorMessage("validation.hotelBook.security.permissions.access-denied");
+        model.addAttribute("errorMessage", errorMessage);
+        return "auth/error-page";
     }
 }
