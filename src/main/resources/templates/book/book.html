@@ -9,7 +9,7 @@
 <p th:text="${'дата въезда: ' + book.getCheckIn()}"></p>
 <p th:text="${'дата выезда: ' + book.getCheckOut()}"></p>
 <p th:text="${'Логин клиента: ' + book.getClientLogin()}"></p>
-<a th:href="@{/room/{id}(id=${book.getRoomId()})}">комната</a>
+<a th:href="@{/rooms/{id}(id=${book.getRoomId()})}">комната</a>
 <br>
 <br>
 <a href="/hotel/all">Все отели</a>

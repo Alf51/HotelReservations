@@ -16,6 +16,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +25,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 
-@RestController
+@Controller
 @RequestMapping("/rooms")
 @RequiredArgsConstructor
 public class RoomController {
@@ -34,11 +36,12 @@ public class RoomController {
     private final ModelMapper modelMapper;
 
     @GetMapping("/{id_room}")
-    public RoomDto getRoom(@PathVariable("id_room") int id) {
+    public String getRoom(@PathVariable("id_room") int id, Model model) {
         Room room = roomService.getRoom(id).orElseThrow(() -> new RoomErrorException(errorHandler
                 .getErrorMessage("validation.hotelBook.room.exception.room-not-found")));
-        System.out.println("fsdf");
-        return convertToRoomDto(room);
+        RoomDto roomDto = convertToRoomDto(room);
+        model.addAttribute("room", roomDto);
+        return "room/room";
     }
 
     @GetMapping("/{id_hotel}/allRooms")
@@ -97,9 +100,9 @@ public class RoomController {
     }
 
     @DeleteMapping("/{id_room}")
-    public ResponseEntity<HttpStatus> deleteRoom(@PathVariable("id_room") int id) {
+    public String deleteRoom(@PathVariable("id_room") int id) {
         roomService.delete(id);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "hotel/hotel-all";
     }
 
 

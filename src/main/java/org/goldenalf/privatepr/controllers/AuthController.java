@@ -31,4 +31,9 @@ public class AuthController {
         model.addAttribute("errorMessage", errorMessage);
         return "auth/error-page";
     }
+
+    @GetMapping("admin")
+    public String adminPage() {
+        return "auth/adminPage";
+    }
 }

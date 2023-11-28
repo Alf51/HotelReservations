@@ -40,6 +40,7 @@ public class SecurityCustomConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/rooms/**").hasRole("ADMIN")
                         .requestMatchers("/rooms/allAvailableRoomsForGivenDate").permitAll()
                         .requestMatchers(HttpMethod.GET, "/rooms/**").permitAll()
+                        .requestMatchers("/auth/admin").hasRole("ADMIN")
                         .requestMatchers("/auth/**").permitAll()
                 ).exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
                         .accessDeniedPage("/auth/accessDenied"))

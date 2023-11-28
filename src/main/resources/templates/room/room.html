@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Комната</title>
+</head>
+<body>
+
+<p th:text="${'Номер комнаты: ' + room.getRoomNumber()}"></p>
+<p th:text="${'размер комнаты: ' + room.getRoomSize()}"></p>
+<p th:text="${'id комнаты: ' + room.getId()}"></p>
+<br>
+<br>
+<a href="/hotel/all">Все отели</a>
+<br>
+<br>
+<form th:method="DELETE" th:action="@{/rooms/{id}(id=${room.getId()})}">
+  <input type="submit" value="удалить">
+</form>
+
+</body>
+</html>
