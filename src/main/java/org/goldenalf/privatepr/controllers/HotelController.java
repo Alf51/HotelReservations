@@ -46,19 +46,6 @@ public class HotelController {
         return "/hotel/hotel-all";
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<HttpStatus> saveHotel(@RequestBody @Valid HotelDto hotelDto,
-                                                BindingResult bindingResult) {
-        Hotel hotel = convertToHotel(hotelDto);
-        hotelValidator.validate(hotel, bindingResult);
-
-        if (bindingResult.hasErrors()) {
-            throw new HotelErrorException(errorHandler.getErrorMessage(bindingResult));
-        }
-        hotelService.save(hotel);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id, Model model) {
         HotelDto hotelDto = convertToHotelDto(hotelService.getHotel(id).orElseThrow(() -> new HotelErrorException(errorHandler
@@ -66,6 +53,25 @@ public class HotelController {
 
         model.addAttribute("hotel", hotelDto);
         return "hotel/edit";
+    }
+
+    @GetMapping("/new")
+    public String newPersonCreate(@ModelAttribute("hotel") HotelDto hotelDto) {
+        return "hotel/new";
+    }
+
+
+    @PostMapping("/new")
+    public String saveHotel(@ModelAttribute("hotel") @Valid HotelDto hotelDto,
+                                                BindingResult bindingResult) {
+        Hotel hotel = convertToHotel(hotelDto);
+        hotelValidator.validate(hotel, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "hotel/new";
+        }
+        hotelService.save(hotel);
+        return "redirect:/hotel/all";
     }
 
     @PatchMapping("/{id_hotel}")

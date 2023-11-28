@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Зарегистрировать новый отель</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/hotel/new}" th:object="${hotel}">
+  <label for="name">Введите название Отеля</label>
+  <input type="text" th:field="*{name}" id="name"/>
+  <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+  <br/>
+  <label for="address">Введите адрес Отеля</label>
+  <input type="text" th:field="*{address}" id="address"/>
+  <div style="color:red" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">address error</div>
+  <br/>
+  <label for="rating">Введите рейтинг</label>
+  <input type="number" th:field="*{rating}" id="rating"/>
+  <div style="color:red" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}">rating error</div>
+  <br/>
+  <label for="description">Введите описание</label>
+  <input type="text" th:field="*{description}" id="description"/>
+  <div style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">description error</div>
+  <br/>
+  <hr/>
+  <input type="submit" value="Добавить"/>
+  <br>
+</form>
+<a href="/hotel/all">Все отели</a>
+</body>
+</html>
