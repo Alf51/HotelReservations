@@ -28,9 +28,11 @@ public class BookController {
     private final ErrorHandler errorHandler;
 
     @GetMapping("/{id_book}")
-    public BookDto getBook(@PathVariable("id_book") int id) {
-        return convertToBookDto(bookService.getBook(id).orElseThrow(() -> new BookErrorException(errorHandler
+    public String getBook(@PathVariable("id_book") int id, Model model) {
+        BookDto bookDto = convertToBookDto(bookService.getBook(id).orElseThrow(() -> new BookErrorException(errorHandler
                 .getErrorMessage("validation.hotelBook.book.exception.book-not-found"))));
+        model.addAttribute("book", bookDto);
+        return "book/book";
     }
 
     @GetMapping("/{id_room}/allRoomBooks")
