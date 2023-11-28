@@ -93,9 +93,9 @@ public class HotelController {
     }
 
     @DeleteMapping("/{id_hotel}")
-    public ResponseEntity<HttpStatus> deleteHotel(@PathVariable("id_hotel") int id) {
+    public String deleteHotel(@PathVariable("id_hotel") int id) {
         hotelService.delete(id);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "redirect:/hotel/all";
     }
 
     private HotelDto convertToHotelDto(Hotel hotel) {
