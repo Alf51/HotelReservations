@@ -10,8 +10,6 @@ import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,7 +57,6 @@ public class HotelController {
     public String newPersonCreate(@ModelAttribute("hotel") HotelDto hotelDto) {
         return "hotel/new";
     }
-
 
     @PostMapping("/new")
     public String saveHotel(@ModelAttribute("hotel") @Valid HotelDto hotelDto,

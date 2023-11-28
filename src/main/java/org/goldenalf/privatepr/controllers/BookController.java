@@ -11,13 +11,15 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/books")
 @RequiredArgsConstructor
 public class BookController {
@@ -42,8 +44,10 @@ public class BookController {
     }
 
     @GetMapping("/all")
-    public List<BookDto> getAllBooks() {
-        return convertToBookDtoList(bookService.getAllBook());
+    public String getAllBooks(Model model) {
+        List<BookDto> bookDtoList = convertToBookDtoList(bookService.getAllBook());
+        model.addAttribute("bookList", bookDtoList);
+        return "book/book-all";
     }
 
     @GetMapping("/{client_login}/allClientBooks")
