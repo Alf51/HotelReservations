@@ -45,8 +45,10 @@ public class RoomController {
     }
 
     @GetMapping("/{id_hotel}/allRooms")
-    public List<RoomDto> getAllRoomsInHotel(@PathVariable("id_hotel") int hotelId) {
-        return convertToRoomDtoList(roomService.findAllRoomsByHotelId(hotelId));
+    public String getAllRoomsInHotel(@PathVariable("id_hotel") int hotelId, Model model) {
+        List<RoomDto> roomDtoList = convertToRoomDtoList(roomService.findAllRoomsByHotelId(hotelId));
+        model.addAttribute("roomList", roomDtoList);
+        return "room/room-all";
     }
 
     @PutMapping("/allAvailableRoomsForGivenDate")

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.BookDto;
 import org.goldenalf.privatepr.models.Book;
+import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.services.impl.BookServiceImpl;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.*;
@@ -36,8 +37,12 @@ public class BookController {
     }
 
     @GetMapping("/{id_room}/allRoomBooks")
-    public List<BookDto> getAllRoomBooks(@PathVariable("id_room") long roomId) {
-        return convertToBookDtoList(bookService.findAllByRoomId(roomId));
+    public String getAllRoomBooks(@PathVariable("id_room") long roomId, Model model) {
+        List<BookDto> bookDtoList = convertToBookDtoList(bookService.findAllByRoomId(roomId));
+        model.addAttribute("bookList", bookDtoList);
+        model.addAttribute("roomId", roomId);
+
+        return "book/allRoomBooks";
     }
 
     @GetMapping("/{hotel_id}/allBooksInHotel")

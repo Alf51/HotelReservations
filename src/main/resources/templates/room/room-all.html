@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Отели</title>
+  <title>Комнаты</title>
 </head>
 <body>
 
-<div th:each="hotel : ${hotelList}">
-  <a th:text="${hotel.getName()}" th:href="@{/hotel/{id}(id=${hotel.getId()})}"></a>
+<div th:each="room : ${roomList}">
+  <a th:text="${room.getRoomNumber()}" th:href="@{/rooms/{id}(id=${room.getId()})}"></a>
 </div>
 <br>
 <a href="/logout">Выйти из сессии</a>

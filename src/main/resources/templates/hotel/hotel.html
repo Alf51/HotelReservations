@@ -22,6 +22,9 @@
   </div>
 </div>
 <br>
+<a th:href="@{/rooms/{idHotel}/allRooms(idHotel=${hotel.getId()})}" >Комнаты отеля</a>
+<br>
+<br>
 <form th:action="@{/hotel/{id}/edit(id=${hotel.getId()})}">
   <input type="submit" value="редактировать">
 </form>
