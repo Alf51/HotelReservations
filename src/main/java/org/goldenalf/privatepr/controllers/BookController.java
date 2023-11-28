@@ -87,9 +87,9 @@ public class BookController {
     }
 
     @DeleteMapping("/{id_book}")
-    public ResponseEntity<HttpStatus> deleteBook(@PathVariable("id_book") int id) {
+    public String deleteBook(@PathVariable("id_book") int id) {
         bookService.delete(id);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "redirect:/hotel/all";
     }
 
     private BookDto convertToBookDto(Book book) {

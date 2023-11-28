@@ -13,6 +13,9 @@
 <br>
 <br>
 <a href="/hotel/all">Все отели</a>
-
+<br>
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+  <input type="submit" value="удалить бронь">
+</form>
 </body>
 </html>

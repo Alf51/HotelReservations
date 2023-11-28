@@ -5,22 +5,10 @@
   <title th:text="${hotel.getName()}">Отель</title>
 </head>
 <body>
-
 <p th:text="${'Название отеля: ' + hotel.getName()}"></p>
 <p th:text="${'Адрес: ' + hotel.getAddress()}"></p>
 <p th:text="${'Рейтин: ' + hotel.getRating()}"></p>
 <p th:text="${'Описание: ' +  hotel.getDescription()}"></p>
-<br>
-
-<div th:unless="${hotel.getReviewList().isEmpty()}">
-  <b>Отзывы:</b>
-  <div th:each="review : ${hotel.getReviewList()}">
-    <a th:text="${'Логин: ' + review.getClientLogin()}" th:href="@{/client/login/{login}(login=${review.getClientLogin()})}" ></a>
-    <p th:text="${'Оценка: ' + review.getRating()}"></p>
-    <p th:text="${'Отзыв: ' + review.getReview()}"></p>
-    <br>
-  </div>
-</div>
 <br>
 <a th:href="@{/rooms/{idHotel}/allRooms(idHotel=${hotel.getId()})}" >Комнаты отеля</a>
 <br>
@@ -34,5 +22,17 @@
 </form>
 <br>
 <a href="/hotel/all">Все отели</a>
+<br>
+<br>
+<div th:unless="${hotel.getReviewList().isEmpty()}">
+  <b>Отзывы:</b>
+  <div th:each="review : ${hotel.getReviewList()}">
+    <a th:text="${'Логин: ' + review.getClientLogin()}" th:href="@{/client/login/{login}(login=${review.getClientLogin()})}" ></a>
+    <p th:text="${'Оценка: ' + review.getRating()}"></p>
+    <p th:text="${'Отзыв: ' + review.getReview()}"></p>
+    <br>
+  </div>
+</div>
+<br>
 </body>
 </html>

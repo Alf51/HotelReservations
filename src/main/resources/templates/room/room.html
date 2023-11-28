@@ -10,6 +10,7 @@
 <p th:text="${'размер комнаты: ' + room.getRoomSize()}"></p>
 <p th:text="${'id комнаты: ' + room.getId()}"></p>
 <br>
+<a th:href="@{/books/{idRoom}/allRoomBooks(idRoom=${room.getId()})}">Все брони комнаты</a>
 <br>
 <a href="/hotel/all">Все отели</a>
 <br>
