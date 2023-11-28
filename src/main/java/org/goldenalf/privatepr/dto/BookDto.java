@@ -16,6 +16,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookDto {
+    private int id;
+
     @NotNull(message = "{validation.hotelBook.book.check-in.not-null}")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate checkIn;
