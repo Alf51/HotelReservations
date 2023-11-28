@@ -10,6 +10,7 @@ import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,8 @@ public class HotelController {
     private final ModelMapper modelMapper;
     private final ErrorHandler errorHandler;
     private final HotelValidator hotelValidator;
+
+    private ApplicationContext context;
 
     @GetMapping("/{id_hotel}")
     public String getHotel(@PathVariable("id_hotel") int id, Model model) {
@@ -74,12 +77,14 @@ public class HotelController {
     public String updateHotel(@PathVariable("id_hotel") int id,
                               @ModelAttribute("hotel") @Valid HotelDto hotelDto,
                               BindingResult bindingResult) {
+
         Hotel hotel = convertToHotel(hotelDto);
         hotel.setId(id);
         hotelValidator.validate(hotel, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "hotel/edit";
+            hotelDto.setId(id);
+            return "/hotel/edit";
         }
 
         hotelService.update(id, hotel);

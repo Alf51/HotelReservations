@@ -27,7 +27,8 @@ public class HotelDto {
 
     @Min(value = 0, message = "{validation.hotelBook.hotel.hotel-rating.min}")
     @Max(value = 5, message = "{validation.hotelBook.hotel.hotel-rating.max}")
-    private int rating;
+    @NotNull(message = "{validation.hotelBook.review.rating.not-null}")
+    private Integer rating;
 
     private String description;
 

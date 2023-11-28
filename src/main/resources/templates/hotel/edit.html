@@ -21,7 +21,6 @@
   <label for="description">Введите описание</label>
   <input type="text" th:field="*{description}" id="description"/>
   <div style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">description error</div>
-
   <br/>
   <hr/>
   <input type="submit" value="Редактировать"/>
