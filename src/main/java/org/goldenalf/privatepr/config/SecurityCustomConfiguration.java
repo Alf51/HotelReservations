@@ -23,7 +23,7 @@ public class SecurityCustomConfiguration {
                 .requestMatchers("/client/all").hasRole("ADMIN")
                 .requestMatchers("/client/new").permitAll()
                 .requestMatchers("/client/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers( "/rooms/allBookedRoomsForGivenDate").hasRole("ADMIN")
+                .requestMatchers("/rooms/allBookedRoomsForGivenDate").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PATCH, "/hotel/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/hotel/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/hotel/**").hasRole("ADMIN")
@@ -33,12 +33,13 @@ public class SecurityCustomConfiguration {
                 .requestMatchers(HttpMethod.DELETE, "/review/**").hasAnyRole("ADMIN", "USER")
                 .requestMatchers(HttpMethod.GET, "/review/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/rooms/**").permitAll()
-                .requestMatchers( "/rooms/allAvailableRoomsForGivenDate").permitAll()
+                .requestMatchers("/rooms/allAvailableRoomsForGivenDate").permitAll()
                 .requestMatchers(HttpMethod.PATCH, "/rooms/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/rooms/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/rooms/**").hasRole("ADMIN")
                 .requestMatchers("/auth/**").permitAll()
-        );
+        ).exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
+                .accessDeniedPage("/auth/accessDenied"));
         http.cors(configurer -> configurer.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));
         http.csrf(AbstractHttpConfigurer::disable);
         http.apply(new CustomConfigurer<>());
