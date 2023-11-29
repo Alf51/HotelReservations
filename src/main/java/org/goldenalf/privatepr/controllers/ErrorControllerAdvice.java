@@ -19,6 +19,15 @@ public class ErrorControllerAdvice {
 
     private final ErrorHandler errorHandler;
 
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception e, Model model) {
+        logger.error(e.getMessage());
+        String errorMessage = errorHandler.getErrorMessage("validation.hotelBook.server.error");
+        model.addAttribute("time", LocalDateTime.now());
+        model.addAttribute("errorMessage", errorMessage);
+        return "error/simple-error";
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public String handleMethodArgumentNotValidExceptionException(MethodArgumentNotValidException e, Model model) {
         String errorMessage = errorHandler.getErrorMessage(e.getBindingResult());
