@@ -71,18 +71,23 @@ public class ClientController {
         return "client/edit";
     }
 
+    @GetMapping("/new")
+    public String newClientCreate(@ModelAttribute("client") ClientExtendedDto clientExtendedDto) {
+        return "client/new";
+    }
+
     @PostMapping("/new")
-    public ResponseEntity<HttpStatus> saveClient(@RequestBody @Valid ClientExtendedDto clientDto,
+    public String saveClient(@ModelAttribute("client") @Valid ClientExtendedDto clientDto,
                                                  BindingResult bindingResult) {
         Client client = convertToClient(clientDto);
         clientValidator.validate(client, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            throw new ClientErrorException(errorHandler.getErrorMessage(bindingResult));
+            return "client/new";
         }
 
         clientService.save(client);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "redirect:/auth/login";
     }
 
     @PatchMapping("/addRole/")

@@ -10,6 +10,8 @@ import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +42,9 @@ public class HotelController {
     public String getAllHotel(Model model) {
         List<HotelDto> hotelDtoList = convertToHotelDtoList(hotelService.getAllHotels());
         model.addAttribute("hotelList", hotelDtoList);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("=======================");
+        System.out.println(authentication.getName());
 
         return "/hotel/hotel-all";
     }

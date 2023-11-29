@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Регистрация клиента</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/client/new}" th:object="${client}">
+  <label for="name">Введите новое имя</label>
+  <input type="text" th:field="*{name}" id="name"/>
+  <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+  <br/>
+  <label for="login">Введите логин</label>
+  <input type="text" th:field="*{login}" id="login"/>
+  <div style="color:red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">login error</div>
+  <br/>
+  <label for="password">Введите пароль</label>
+  <input type="password" th:field="*{password}" id="password"/>
+  <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</div>
+  <br/>
+  <label for="birthdate">Введите дату рождения</label>
+  <input type="date" th:date="${#temporals.format(localDateTime, 'dd-MM-yyyy')}" th:field="*{birthdate}" id="birthdate"/>
+  <div style="color:red" th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}">description error</div>
+  <br/>
+  <hr/>
+  <input type="submit" value="Редактировать"/>
+  <br>
+</form>
+<a href="/hotel/all">Все отели</a>
+</body>
+</html>
