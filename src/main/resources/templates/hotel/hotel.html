@@ -10,12 +10,13 @@
 <p th:text="${'Рейтин: ' + hotel.getRating()}"></p>
 <p th:text="${'Описание: ' +  hotel.getDescription()}"></p>
 <br>
-<a th:href="@{/rooms/{idHotel}/allRooms(idHotel=${hotel.getId()})}" >Комнаты отеля</a>
+<a th:href="@{/rooms/{idHotel}/allRooms(idHotel=${hotel.getId()})}">Комнаты отеля</a>
 <br>
 <br>
 <form th:action="@{/hotel/{id}/edit(id=${hotel.getId()})}">
   <input type="submit" value="редактировать">
 </form>
+<br>
 <br>
 <form th:method="DELETE" th:action="@{/hotel/{id}(id=${hotel.getId()})}">
   <input type="submit" value="удалить отель">

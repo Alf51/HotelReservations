@@ -24,6 +24,7 @@ public class SecurityCustomConfiguration {
                         .requestMatchers("/client/allRoles/**").hasRole("ADMIN")
                         .requestMatchers("/client/all").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/client/new").permitAll()
+                        .requestMatchers("/client/*/edit").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/client/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.PATCH, "/hotel/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/hotel/**").hasRole("ADMIN")

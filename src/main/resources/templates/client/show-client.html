@@ -9,6 +9,9 @@
 <p th:text="${'Имя: ' + client.getName()}"></p>
 <p th:text="${'Дата рождения: ' + client.getBirthdate()}"></p>
 <br>
+<a th:href="@{/client/{id}/edit(id=${client.getId()})}">Редактировать</a>
+
+<br>
 <a href="/hotel/all">Все отели</a>
 <br>
 <a href="/client/all">Все клиенты</a>

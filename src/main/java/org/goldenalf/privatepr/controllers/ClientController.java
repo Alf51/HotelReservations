@@ -2,15 +2,13 @@ package org.goldenalf.privatepr.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.goldenalf.privatepr.dto.ClientAllRoleDto;
-import org.goldenalf.privatepr.dto.ClientDto;
-import org.goldenalf.privatepr.dto.ClientExtendedDto;
-import org.goldenalf.privatepr.dto.ClientRoleDto;
+import org.goldenalf.privatepr.dto.*;
 import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.services.impl.ClientServiceImpl;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.ClientValidator;
+import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
@@ -65,6 +63,14 @@ public class ClientController {
         return convertToClientAllRoleDto(client);
     }
 
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable("id") int id, Model model) {
+        ClientExtendedDto clientExtendedDto = convertToClientExtendedDto(clientService.getClient(id).orElseThrow(() -> new ClientErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.client-controller.exception.client-not-found"))));
+        model.addAttribute("client", clientExtendedDto);
+        return "client/edit";
+    }
+
     @PostMapping("/new")
     public ResponseEntity<HttpStatus> saveClient(@RequestBody @Valid ClientExtendedDto clientDto,
                                                  BindingResult bindingResult) {
@@ -93,16 +99,17 @@ public class ClientController {
 
     @PatchMapping("/{id_client}")
     public String updateClient(@PathVariable("id_client") int id,
-                               @RequestBody @Valid ClientExtendedDto clientDto,
+                               @ModelAttribute("client") @Valid ClientExtendedDto clientDto,
                                BindingResult bindingResult) {
         Client client = convertToClient(clientDto);
         client.setId(id);
         clientValidator.validate(client, bindingResult);
         if (bindingResult.hasErrors()) {
-            throw new ClientErrorException(errorHandler.getErrorMessage(bindingResult));
+            clientDto.setId(id);
+            return "client/edit";
         }
         clientService.update(id, client);
-        return "redirect:/hotel/hotel";
+        return "redirect:/client/all";
     }
 
     @DeleteMapping("/{id_client}")
@@ -113,6 +120,10 @@ public class ClientController {
 
     private ClientDto convertToClientDto(Client client) {
         return modelMapper.map(client, ClientDto.class);
+    }
+
+    private ClientExtendedDto convertToClientExtendedDto(Client client) {
+        return modelMapper.map(client, ClientExtendedDto.class);
     }
 
     private ClientAllRoleDto convertToClientAllRoleDto(Client client) {

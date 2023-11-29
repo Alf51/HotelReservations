@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.BookDto;
 import org.goldenalf.privatepr.models.Book;
-import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.services.impl.BookServiceImpl;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.*;
@@ -41,7 +40,6 @@ public class BookController {
         List<BookDto> bookDtoList = convertToBookDtoList(bookService.findAllByRoomId(roomId));
         model.addAttribute("bookList", bookDtoList);
         model.addAttribute("roomId", roomId);
-
         return "book/allRoomBooks";
     }
 
