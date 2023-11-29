@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Роли клиента</title>
+</head>
+<body>
+<a th:text="${'Логин клиента: ' + client.getLogin()}"></a>
+<div th:each="role : ${client.getRoles()}">
+  <a th:text="${role.name()}"></a>
+</div>
+<br>
+<br>
+<a href="/auth/admin">администрирование</a>
+<br>
+<a href="/hotel/all">Все отели</a>
+
+</body>
+</html>

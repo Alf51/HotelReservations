@@ -54,10 +54,12 @@ public class ClientController {
     }
 
     @GetMapping("/allRoles/{id_client}")
-    public ClientAllRoleDto getAllRolesClient(@PathVariable("id_client") int id) {
+    public String getAllRolesClient(@PathVariable("id_client") int id, Model model) {
         Client client = clientService.getClient(id).orElseThrow(() -> new ClientErrorException(errorHandler
                 .getErrorMessage("validation.hotelBook.client-controller.exception.client-not-found")));
-        return convertToClientAllRoleDto(client);
+        ClientAllRoleDto clientAllRoleDto = convertToClientAllRoleDto(client);
+        model.addAttribute("client", clientAllRoleDto);
+        return "client/role";
     }
 
     @GetMapping("/{id}/edit")
