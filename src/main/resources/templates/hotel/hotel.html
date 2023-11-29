@@ -10,7 +10,11 @@
 <p th:text="${'Рейтин: ' + hotel.getRating()}"></p>
 <p th:text="${'Описание: ' +  hotel.getDescription()}"></p>
 <br>
+<hr>
 <a th:href="@{/rooms/{idHotel}/allRooms(idHotel=${hotel.getId()})}">Комнаты отеля</a>
+<br>
+<br>
+<a th:href="@{/books/{idHotel}/allBooksInHotel(idHotel=${hotel.getId()})}">Все брони отеля</a>
 <br>
 <br>
 <form th:action="@{/hotel/{id}/edit(id=${hotel.getId()})}">
@@ -22,9 +26,11 @@
   <input type="submit" value="удалить отель">
 </form>
 <br>
+<br>
 <a href="/hotel/all">Все отели</a>
 <br>
 <br>
+<hr>
 <div th:unless="${hotel.getReviewList().isEmpty()}">
   <b>Отзывы:</b>
   <div th:each="review : ${hotel.getReviewList()}">

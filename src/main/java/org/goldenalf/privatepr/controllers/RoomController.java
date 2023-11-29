@@ -89,7 +89,6 @@ public class RoomController {
         Room room = roomService.getRoom(id).orElseThrow(() -> new RoomErrorException(errorHandler
                 .getErrorMessage("validation.hotelBook.room.exception.room-not-found")));
 
-        //Задаю отель и id для обновлённой комнаты, нужно для валидатора
         updatedRoom.setHotel(room.getHotel());
         updatedRoom.setId(room.getId());
         roomValidator.validate(updatedRoom, bindingResult);
