@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование клиента</title>
+</head>
+<body>
+<form th:method="PATCH"  th:action="@{/client/role/}" th:object="${client}">
+    <label for="login">Введите логин</label>
+    <input type="text" th:field="*{login}" id="login"/>
+    <div style="color:red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">login error</div>
+    <br/>
+    <label for="roleName">Введите роль</label>
+    <input type="text" th:field="*{roleName}" id="roleName"/>
+    <div style="color:red" th:if="${#fields.hasErrors('roleName')}" th:errors="*{roleName}">roleName error</div>
+    <br/>
+    <hr/>
+    <br>
+    <button type="submit" name="action" value="addRole">Добавить роль</button>
+    <button type="submit" name="action" value="deleteRole">забрать роль</button>
+</form>
+<br>
+<a href="/hotel/all">Все отели</a>
+</body>
+</html>

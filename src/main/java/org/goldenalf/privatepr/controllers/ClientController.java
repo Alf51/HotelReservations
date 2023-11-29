@@ -10,8 +10,6 @@ import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.ClientValidator;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -75,9 +73,14 @@ public class ClientController {
         return "client/new";
     }
 
+    @GetMapping("/addRole/")
+    public String getRolePage(@ModelAttribute("client") ClientRoleDto clientRoleDto) {
+        return "auth/role-page";
+    }
+
     @PostMapping("/new")
     public String saveClient(@ModelAttribute("client") @Valid ClientExtendedDto clientDto,
-                                                 BindingResult bindingResult) {
+                             BindingResult bindingResult) {
         Client client = convertToClient(clientDto);
         clientValidator.validate(client, bindingResult);
 
@@ -89,16 +92,23 @@ public class ClientController {
         return "redirect:/auth/login";
     }
 
-    @PatchMapping("/addRole/")
-    public ResponseEntity<HttpStatus> addRoleForClient(@RequestBody @Valid ClientRoleDto clientRoleDto) {
+    @PatchMapping(value = "/role/", params = "action=addRole")
+    public String addRoleForClient(@ModelAttribute("client") @Valid ClientRoleDto clientRoleDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "/auth/role-page";
+        }
         clientService.addRoleForClient(clientRoleDto);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "redirect:/auth/admin";
     }
 
-    @PatchMapping("/removeRole/")
-    public ResponseEntity<HttpStatus> removeRoleForClient(@RequestBody @Valid ClientRoleDto clientRoleDto) {
+    @PatchMapping(value = "/role/", params = "action=deleteRole")
+    public String removeRoleForClient(@ModelAttribute("client") @Valid ClientRoleDto clientRoleDto,
+                                      BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "/auth/role-page";
+        }
         clientService.removeRoleForClient(clientRoleDto);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "redirect:/auth/admin";
     }
 
     @PatchMapping("/{id_client}")

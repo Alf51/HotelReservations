@@ -5,7 +5,7 @@
     <title>Редактирование клиента</title>
 </head>
 <body>
-<form th:method="PATCH" th:action="@{/client/{id}(id=${client.getId()})}" th:object="${client}">
+<form th:method="PATCH" th:object="${client}">
     <label for="name">Введите новое имя</label>
     <input type="text" th:field="*{name}" id="name"/>
     <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
@@ -23,7 +23,7 @@
     <div style="color:red" th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}">description error</div>
     <br/>
     <hr/>
-    <input type="submit" value="Редактировать"/>
+    <input th:action="@{/client/{id}(id=${client.getId()})}" type="submit" value="Редактировать"/>
     <br>
 </form>
 <a href="/hotel/all">Все отели</a>
