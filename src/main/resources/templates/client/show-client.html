@@ -15,6 +15,11 @@
 <a href="/hotel/all">Все отели</a>
 <br>
 <a href="/client/all">Все клиенты</a>
+<br>
+<br>
+<form th:method="DELETE" th:action="@{/client/{id}(id=${client.getId()})}">
+    <input type="submit" value="удалить клиента">
+</form>
 
 
 </body>

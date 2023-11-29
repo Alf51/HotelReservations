@@ -8,7 +8,6 @@ import org.goldenalf.privatepr.services.impl.ClientServiceImpl;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
 import org.goldenalf.privatepr.utils.erorsHandler.validator.ClientValidator;
-import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
@@ -118,9 +117,9 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id_client}")
-    public ResponseEntity<HttpStatus> deleteClient(@PathVariable("id_client") int id) {
+    public String deleteClient(@PathVariable("id_client") int id) {
         clientService.delete(id);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "redirect:/hotel/all";
     }
 
     private ClientDto convertToClientDto(Client client) {
