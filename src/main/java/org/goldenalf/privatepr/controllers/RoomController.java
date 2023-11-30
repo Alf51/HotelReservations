@@ -69,6 +69,16 @@ public class RoomController {
         return "room/add-room-page";
     }
 
+    @GetMapping("/{id_room}/edit")
+    public String getEditRoom(@PathVariable("id_room") long id, Model model) {
+        Room room = roomService.getRoom(id).orElseThrow(() -> new RoomErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.room.exception.room-not-found")));
+        RoomDto roomDto = convertToRoomDto(room);
+        roomDto.setId(id);
+        model.addAttribute("room", roomDto);
+        return "room/edit-room-page";
+    }
+
     @PutMapping(value = "/roomsForGivenDate", params = "action=freeRoom")
     public String getAllAvailableRoomsInHotelForGivenDate(@ModelAttribute("bookDate") @Valid BookDateDto bookDateDto, Model model) {
         List<RoomDto> roomDtoList = roomService.findAllRoomsInHotelForGivenDate(bookDateDto, true);
@@ -105,8 +115,8 @@ public class RoomController {
     }
 
     @PatchMapping("/{id_room}")
-    public ResponseEntity<HttpStatus> updateRoom(@PathVariable("id_room") int id,
-                                                 @RequestBody @Valid RoomDto roomDto,
+    public String updateRoom(@PathVariable("id_room") int id,
+                                                 @ModelAttribute("room") @Valid RoomDto roomDto,
                                                  BindingResult bindingResult) {
         Room updatedRoom = convertToRoom(roomDto);
         Room room = roomService.getRoom(id).orElseThrow(() -> new RoomErrorException(errorHandler
@@ -120,7 +130,7 @@ public class RoomController {
         }
 
         roomService.update(id, updatedRoom);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "redirect:/hotel/all";
     }
 
     @DeleteMapping("/{id_room}")

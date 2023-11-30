@@ -16,6 +16,9 @@
 <a href="/hotel/all">Все отели</a>
 <br>
 <br>
+<a th:href="@{/rooms/{idRoom}/edit(idRoom=${room.getId()})}">редактировать комнату</a>
+<br>
+<br>
 <form th:method="DELETE" th:action="@{/rooms/{id}(id=${room.getId()})}">
   <input type="submit" value="удалить">
 </form>

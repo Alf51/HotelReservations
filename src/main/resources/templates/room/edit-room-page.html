@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование комнаты в отель</title>
+</head>
+<body>
+<form th:method="PATCH" th:action="@{/rooms/{idRoom}(idRoom=${room.getId()})}" th:object="${room}">
+  <label for="roomNumber">Введите новый номер комнаты</label>
+  <input type="number" th:field="*{roomNumber}" id="roomNumber"/>
+  <div style="color:red" th:if="${#fields.hasErrors('roomNumber')}" th:errors="*{roomNumber}">roomNumber error</div>
+  <br/>
+  <label for="roomSize">Введите новый размер комнаты</label>
+  <input type="number" th:field="*{roomSize}" id="roomSize"/>
+  <div style="color:red" th:if="${#fields.hasErrors('roomSize')}" th:errors="*{roomSize}">roomSize error</div>
+  <br/>
+  <hr/>
+  <input type="submit" value="Обновить комнату"/>
+  <br>
+</form>
+<br>
+<br>
+</body>
+</html>
