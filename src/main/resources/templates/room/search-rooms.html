@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск комнат по датам</title>
+</head>
+<body>
+<form th:method="PUT"  th:action="@{/rooms/roomsForGivenDate}" th:object="${bookDate}">
+    <label for="hotelId">ID отеля</label>
+    <input type="number" th:field="*{hotelId}" id="hotelId"/>
+    <div style="color:red" th:if="${#fields.hasErrors('hotelId')}" th:errors="*{hotelId}">hotelId error</div>
+    <br/>
+    <label for="checkIn">Введите дату въезда</label>
+    <input type="date" th:date="${#temporals.format(localDateTime, 'dd-MM-yyyy')}" th:field="*{checkIn}" id="checkIn"/>
+    <div style="color:red" th:if="${#fields.hasErrors('checkIn')}" th:errors="*{checkIn}">checkIn error</div>
+    <br/>
+    <label for="checkOut">Введите дату выезда</label>
+    <input type="date" th:date="${#temporals.format(localDateTime, 'dd-MM-yyyy')}" th:field="*{checkOut}" id="checkOut"/>
+    <div style="color:red" th:if="${#fields.hasErrors('checkOut')}" th:errors="*{checkOut}">checkOut error</div>
+    <hr/>
+    <br>
+    <button type="submit" name="action" value="freeRoom">Найти свободные комнаты</button>
+    <button type="submit" name="action" value="bookRoom">Найти забронированные комнаты</button>
+</form>
+<br>
+<a href="/hotel/all">Все отели</a>
+</body>
+</html>
