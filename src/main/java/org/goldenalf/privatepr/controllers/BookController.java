@@ -3,6 +3,7 @@ package org.goldenalf.privatepr.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.BookDto;
+import org.goldenalf.privatepr.dto.RoomDto;
 import org.goldenalf.privatepr.models.Book;
 import org.goldenalf.privatepr.services.impl.BookServiceImpl;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
@@ -11,12 +12,14 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
+import java.security.Security;
 import java.util.List;
 
 @Controller
@@ -64,16 +67,26 @@ public class BookController {
         return "book/allClientsBooks";
     }
 
+    @GetMapping("/{id_room}/new")
+    public String getNewBookPage(@PathVariable("id_room") int roomId, Model model) {
+        BookDto bookDto = new BookDto();
+        bookDto.setId(roomId);
+        model.addAttribute("book", bookDto);
+        return "book/new";
+    }
+
     @PostMapping("/new")
-    public ResponseEntity<HttpStatus> saveBook(@RequestBody @Valid BookDto bookDto,
+    public String saveBook(@ModelAttribute("book") @Valid BookDto bookDto,
                                                BindingResult bindingResult) {
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        bookDto.setClientLogin(login);
         Book book = convertToBook(bookDto);
 
         if (bindingResult.hasErrors()) {
-            throw new BookErrorException(errorHandler.getErrorMessage(bindingResult));
+            return "book/new";
         }
         bookService.save(book);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "redirect:/hotel/all";
     }
 
     @PatchMapping("/{id_book}")

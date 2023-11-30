@@ -3,6 +3,7 @@ package org.goldenalf.privatepr.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.BookDateDto;
+import org.goldenalf.privatepr.dto.BookDto;
 import org.goldenalf.privatepr.dto.RoomDto;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.models.Room;
@@ -41,6 +42,7 @@ public class RoomController {
                 .getErrorMessage("validation.hotelBook.room.exception.room-not-found")));
         RoomDto roomDto = convertToRoomDto(room);
         model.addAttribute("room", roomDto);
+        model.addAttribute("book", new BookDto());
         return "room/room";
     }
 

@@ -26,8 +26,6 @@ public class BookDto {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate checkOut;
 
-    @NotNull(message = "{validation.hotelBook.client.login.not-null}")
-    @NotEmpty(message = "{validation.hotelBook.client.login.not-empty}")
     private String clientLogin;
 
     @NotNull(message = "{validation.hotelBook.room.id.not-null}")
