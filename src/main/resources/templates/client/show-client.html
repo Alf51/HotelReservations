@@ -14,6 +14,8 @@
 <hr>
 <a th:href="@{/client/allRoles/{id}(id=${client.getId()})}">Роли клиента</a>
 <br>
+<a th:href="@{/books/{client_login}/allClientBooks(client_login=${client.getLogin()})}">Все брони</a>
+<br>
 <a href="/hotel/all">Все отели</a>
 <br>
 <a href="/client/all">Все клиенты</a>

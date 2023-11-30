@@ -58,8 +58,10 @@ public class BookController {
     }
 
     @GetMapping("/{client_login}/allClientBooks")
-    public List<BookDto> getAllBookByClient(@PathVariable("client_login") String login) {
-        return convertToBookDtoList(bookService.findAllByClientId(login));
+    public String getAllBookByClient(@PathVariable("client_login") String login, Model model) {
+        List<BookDto> bookDtoList = convertToBookDtoList(bookService.findAllByClientId(login));
+        model.addAttribute("bookList", bookDtoList);
+        return "book/allClientsBooks";
     }
 
     @PostMapping("/new")

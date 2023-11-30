@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Все брони клиента </title>
+</head>
+<body>
+<a th:text="${'Логин клиента: ' + client_login}"></a>
+<div th:each="book : ${bookList}">
+  <a th:text="${book.getCheckIn() + ' по ' + book.getCheckOut() + ': ' + book.getClientLogin()}" th:href="@{/books/{id}(id=${book.getId()})}"></a>
+</div>
+<br>
+<a href="/hotel/all">Все отели</a>
+<br>
+<br>
+<a href="/logout">Выйти из сессии</a>
+
+</body>
+</html>
