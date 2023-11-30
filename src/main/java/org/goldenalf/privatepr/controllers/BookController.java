@@ -70,7 +70,7 @@ public class BookController {
     @GetMapping("/{id_room}/new")
     public String getNewBookPage(@PathVariable("id_room") int roomId, Model model) {
         BookDto bookDto = new BookDto();
-        bookDto.setId(roomId);
+        bookDto.setRoomId(roomId);
         model.addAttribute("book", bookDto);
         return "book/new";
     }

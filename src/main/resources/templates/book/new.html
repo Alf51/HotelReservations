@@ -6,7 +6,7 @@
 </head>
 <body>
 <form th:method="POST" th:action="@{/books/new}" th:object="${book}">
-  <p th:text="${'Id комнаты: ' + book.getId()}"></p>
+  <p th:text="${'Id комнаты: ' + book.getRoomId()}"></p>
   <label for="roomId">ID комнаты</label>
   <input type="number" th:field="*{roomId}" id="roomId"/>
   <div style="color:red" th:if="${#fields.hasErrors('roomId')}" th:errors="*{roomId}">roomId error</div>
