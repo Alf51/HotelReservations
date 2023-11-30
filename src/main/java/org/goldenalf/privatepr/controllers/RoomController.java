@@ -53,14 +53,26 @@ public class RoomController {
         return "room/room-all";
     }
 
-    @PutMapping("/allAvailableRoomsForGivenDate")
-    public List<RoomDto> getAllAvailableRoomsInHotelForGivenDate(@RequestBody @Valid BookDateDto bookDateDto) {
-        return roomService.findAllRoomsInHotelForGivenDate(bookDateDto, true);
+    @GetMapping("/{id_hotel}/search-rooms")
+    public String getSearchRoomPage(@PathVariable("id_hotel") int hotelId, Model model) {
+        BookDateDto bookDateDto = new BookDateDto();
+        bookDateDto.setHotelId(hotelId);
+        model.addAttribute("bookDate", bookDateDto);
+        return "room/search-rooms";
     }
 
-    @PutMapping("/allBookedRoomsForGivenDate")
-    public List<RoomDto> getAllBookedRoomsInHotelForGivenDate(@RequestBody @Valid BookDateDto bookDateDto) {
-        return roomService.findAllRoomsInHotelForGivenDate(bookDateDto, false);
+    @PutMapping(value = "/roomsForGivenDate", params = "action=freeRoom")
+    public String getAllAvailableRoomsInHotelForGivenDate(@ModelAttribute("bookDate") @Valid BookDateDto bookDateDto, Model model) {
+        List<RoomDto> roomDtoList = roomService.findAllRoomsInHotelForGivenDate(bookDateDto, true);
+        model.addAttribute("roomList", roomDtoList);
+        return "room/room-by-date";
+    }
+
+    @PutMapping(value = "/roomsForGivenDate", params = "action=bookRoom")
+    public String getAllBookedRoomsInHotelForGivenDate(@ModelAttribute("bookDate") @Valid BookDateDto bookDateDto, Model model) {
+        List<RoomDto> roomDtoList = roomService.findAllRoomsInHotelForGivenDate(bookDateDto, false);
+        model.addAttribute("roomList", roomDtoList);
+        return "room/room-by-date";
     }
 
     @PostMapping("/{id_hotel}/new")

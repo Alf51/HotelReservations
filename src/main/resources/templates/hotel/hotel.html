@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title th:text="${hotel.getName()}">Отель</title>
+    <meta charset="UTF-8">
+    <title th:text="${hotel.getName()}">Отель</title>
 </head>
 <body>
 <p th:text="${'Название отеля: ' + hotel.getName()}"></p>
@@ -13,17 +13,19 @@
 <hr>
 <a th:href="@{/rooms/{idHotel}/allRooms(idHotel=${hotel.getId()})}">Комнаты отеля</a>
 <br>
+<a th:href="@{/rooms/{idHotel}/search-rooms(idHotel=${hotel.getId()})}">Поиск комнат по датам</a>
 <br>
 <a th:href="@{/books/{idHotel}/allBooksInHotel(idHotel=${hotel.getId()})}">Все брони отеля</a>
 <br>
 <br>
 <form th:action="@{/hotel/{id}/edit(id=${hotel.getId()})}">
-  <input type="submit" value="редактировать">
+    <input type="submit" value="редактировать отель">
 </form>
 <br>
 <br>
+<br>
 <form th:method="DELETE" th:action="@{/hotel/{id}(id=${hotel.getId()})}">
-  <input type="submit" value="удалить отель">
+    <input type="submit" value="удалить отель">
 </form>
 <br>
 <br>
@@ -32,13 +34,14 @@
 <br>
 <hr>
 <div th:unless="${hotel.getReviewList().isEmpty()}">
-  <b>Отзывы:</b>
-  <div th:each="review : ${hotel.getReviewList()}">
-    <a th:text="${'Логин: ' + review.getClientLogin()}" th:href="@{/client/login/{login}(login=${review.getClientLogin()})}" ></a>
-    <p th:text="${'Оценка: ' + review.getRating()}"></p>
-    <p th:text="${'Отзыв: ' + review.getReview()}"></p>
-    <br>
-  </div>
+    <b>Отзывы:</b>
+    <div th:each="review : ${hotel.getReviewList()}">
+        <a th:text="${'Логин: ' + review.getClientLogin()}"
+           th:href="@{/client/login/{login}(login=${review.getClientLogin()})}"></a>
+        <p th:text="${'Оценка: ' + review.getRating()}"></p>
+        <p th:text="${'Отзыв: ' + review.getReview()}"></p>
+        <br>
+    </div>
 </div>
 <br>
 </body>
