@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Создать бронь</title>
+    <meta charset="UTF-8">
+    <title>Редактирование брони</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/books/new}" th:object="${book}">
+<form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">
   <p th:text="${'Id комнаты: ' + book.getRoomId()}"></p>
   <label for="roomId">ID комнаты</label>
   <input type="number" th:field="*{roomId}" id="roomId"/>
@@ -19,8 +19,12 @@
   <input type="date" th:date="${#temporals.format(localDateTime, 'dd-MM-yyyy')}" th:field="*{checkOut}" id="checkOut"/>
   <div style="color:red" th:if="${#fields.hasErrors('checkOut')}" th:errors="*{checkOut}">checkOut error</div>
   <br/>
+  <label for="clientLogin">Введите логин клиента</label>
+  <input type="text" th:field="*{clientLogin}" id="clientLogin"/>
+  <div style="color:red" th:if="${#fields.hasErrors('clientLogin')}" th:errors="*{clientLogin}">clientLogin error</div>
+  <br/>
   <hr/>
-  <input type="submit" value="Создать"/>
+  <input type="submit" value="Редактировать"/>
   <br>
 </form>
 <a href="/hotel/all">Все отели</a>

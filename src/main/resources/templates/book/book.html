@@ -14,6 +14,7 @@
 <br>
 <a href="/hotel/all">Все отели</a>
 <br>
+<a th:href="@{/books/{id}/edit(id=${book.getId()})}">Редактировать бронь</a>
 <br>
 <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
   <input type="submit" value="удалить бронь">

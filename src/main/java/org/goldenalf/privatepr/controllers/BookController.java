@@ -3,7 +3,7 @@ package org.goldenalf.privatepr.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.goldenalf.privatepr.dto.BookDto;
-import org.goldenalf.privatepr.dto.RoomDto;
+import org.goldenalf.privatepr.dto.HotelDto;
 import org.goldenalf.privatepr.models.Book;
 import org.goldenalf.privatepr.services.impl.BookServiceImpl;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
@@ -19,7 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
-import java.security.Security;
 import java.util.List;
 
 @Controller
@@ -75,6 +74,14 @@ public class BookController {
         return "book/new";
     }
 
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable("id") int id, Model model) {
+        BookDto bookDto = convertToBookDto(bookService.getBook(id).orElseThrow(() -> new BookErrorException(errorHandler
+                .getErrorMessage("validation.hotelBook.book.exception.book-not-found"))));
+        model.addAttribute("book", bookDto);
+        return "book/edit";
+    }
+
     @PostMapping("/new")
     public String saveBook(@ModelAttribute("book") @Valid BookDto bookDto,
                                                BindingResult bindingResult) {
@@ -90,15 +97,16 @@ public class BookController {
     }
 
     @PatchMapping("/{id_book}")
-    public ResponseEntity<HttpStatus> updateBook(@PathVariable("id_book") int id,
-                                                 @RequestBody @Valid BookDto bookDto,
+    public String updateBook(@PathVariable("id_book") int id,
+                                                 @ModelAttribute("book") @Valid BookDto bookDto,
                                                  BindingResult bindingResult) {
         Book updatedBook = convertToBook(bookDto);
         if (bindingResult.hasErrors()) {
-            throw new BookErrorException(errorHandler.getErrorMessage(bindingResult));
+            bookDto.setId(id);
+            return "book/edit";
         }
         bookService.update(id, updatedBook);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "redirect:/hotel/all";
     }
 
     @DeleteMapping("/{id_book}")

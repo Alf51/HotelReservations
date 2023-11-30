@@ -51,9 +51,9 @@ public class BookServiceImpl implements BookService {
     public void update(int id, Book bookByUpdate) {
         Book bookInDB = getBook(id).orElseThrow(() -> new BookErrorException(errorHandler
                 .getErrorMessage("validation.hotelBook.book.exception.book-not-found")));
+        bookByUpdate.setId(id);
         getValidBook(bookByUpdate);
         verifyingAccess.checkPossibilityAction(bookByUpdate.getClient().getLogin(), bookInDB.getClient().getLogin());
-        bookByUpdate.setId(id);
         bookRepository.save(bookByUpdate);
     }
 

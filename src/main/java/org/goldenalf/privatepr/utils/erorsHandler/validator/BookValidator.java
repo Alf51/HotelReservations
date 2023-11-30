@@ -30,7 +30,10 @@ public class BookValidator implements Validator {
 
         List<Book> bookList = room.getBookList();
         for (Book existingBook : bookList) {
-            if (!isFreePeriodBetweenExistingDates(existingBook.getCheckIn(), existingBook.getCheckOut(), book.getCheckIn(), book.getCheckOut())) {
+            if (existingBook.getId() == book.getId()) {
+                //Значит брони существует и мы производим обновление
+                continue;
+            } else if (!isFreePeriodBetweenExistingDates(existingBook.getCheckIn(), existingBook.getCheckOut(), book.getCheckIn(), book.getCheckOut())) {
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                 String checkIn = formatter.format(existingBook.getCheckIn());
