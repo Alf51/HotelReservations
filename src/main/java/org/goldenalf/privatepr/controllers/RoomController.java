@@ -61,6 +61,14 @@ public class RoomController {
         return "room/search-rooms";
     }
 
+    @GetMapping("/{id_hotel}/new")
+    public String getAddRoomPage(@PathVariable("id_hotel") int hotelId, Model model) {
+        RoomDto roomDto = new RoomDto();
+        roomDto.setHotelId(hotelId);
+        model.addAttribute("room", roomDto);
+        return "room/add-room-page";
+    }
+
     @PutMapping(value = "/roomsForGivenDate", params = "action=freeRoom")
     public String getAllAvailableRoomsInHotelForGivenDate(@ModelAttribute("bookDate") @Valid BookDateDto bookDateDto, Model model) {
         List<RoomDto> roomDtoList = roomService.findAllRoomsInHotelForGivenDate(bookDateDto, true);
@@ -76,9 +84,9 @@ public class RoomController {
     }
 
     @PostMapping("/{id_hotel}/new")
-    public ResponseEntity<HttpStatus> saveRoom(@RequestBody @Valid RoomDto roomDto,
-                                               @PathVariable("id_hotel") int hotelId,
-                                               BindingResult bindingResult) {
+    public String saveRoom(@ModelAttribute("room") @Valid RoomDto roomDto,
+                           @PathVariable("id_hotel") int hotelId,
+                           BindingResult bindingResult) {
 
         Hotel hotel = hotelService.getHotel(hotelId).orElseThrow(() -> new HotelErrorException(errorHandler.
                 getErrorMessage("validation.hotelBook.hotel.exception.hotel-not-found")));
@@ -88,11 +96,12 @@ public class RoomController {
         roomValidator.validate(room, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            throw new RoomErrorException(errorHandler.getErrorMessage(bindingResult));
+            roomDto.setHotelId(hotelId);
+            return "room/add-room-page";
         }
 
         roomService.save(room);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return "redirect:/hotel/all";
     }
 
     @PatchMapping("/{id_room}")
@@ -117,7 +126,7 @@ public class RoomController {
     @DeleteMapping("/{id_room}")
     public String deleteRoom(@PathVariable("id_room") int id) {
         roomService.delete(id);
-        return "hotel/hotel-all";
+        return "redirect:/hotel/all";
     }
 
 

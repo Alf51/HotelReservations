@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление комнаты в отель</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/rooms/{idHotel}/new(idHotel=${room.getHotelId()})}" th:object="${room}">
+  <label for="roomNumber">Введите номер комнаты</label>
+  <input type="number" th:field="*{roomNumber}" id="roomNumber"/>
+  <div style="color:red" th:if="${#fields.hasErrors('roomNumber')}" th:errors="*{roomNumber}">roomNumber error</div>
+  <br/>
+  <label for="roomSize">Введите размер комнаты</label>
+  <input type="number" th:field="*{roomSize}" id="roomSize"/>
+  <div style="color:red" th:if="${#fields.hasErrors('roomSize')}" th:errors="*{roomSize}">roomSize error</div>
+  <br/>
+  <hr/>
+  <input type="submit" value="Добавить"/>
+  <br>
+</form>
+<br>
+<br>
+<a th:href="@{/rooms/{idHotel}/allRooms(idHotel=${room.getHotelId()})}">Комнаты отеля</a>
+</body>
+</html>

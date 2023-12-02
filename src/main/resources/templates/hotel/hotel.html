@@ -13,9 +13,14 @@
 <hr>
 <a th:href="@{/rooms/{idHotel}/allRooms(idHotel=${hotel.getId()})}">Комнаты отеля</a>
 <br>
+<br>
 <a th:href="@{/rooms/{idHotel}/search-rooms(idHotel=${hotel.getId()})}">Поиск комнат по датам</a>
 <br>
+<br>
 <a th:href="@{/books/{idHotel}/allBooksInHotel(idHotel=${hotel.getId()})}">Все брони отеля</a>
+<br>
+<br>
+<a th:href="@{/rooms/{idHotel}/new(idHotel=${hotel.getId()})}">Добавить комнату отелю</a>
 <br>
 <br>
 <form th:action="@{/hotel/{id}/edit(id=${hotel.getId()})}">
@@ -32,20 +37,6 @@
 <a href="/hotel/all">Все отели</a>
 <br>
 <br>
-<hr>
-<form th:method="POST" th:action="@{}" th:object="${}">
-    <label for="roomNumber">Введите номер комнаты</label>
-    <input type="number" th:field="*{roomNumber}" id="roomNumber"/>
-    <div style="color:red" th:if="${#fields.hasErrors('roomNumber')}" th:errors="*{roomNumber}">roomNumber error</div>
-    <br/>
-    <label for="roomSize">Введите размер комнаты</label>
-    <input type="number" th:field="*{roomSize}" id="roomSize"/>
-    <div style="color:red" th:if="${#fields.hasErrors('roomSize')}" th:errors="*{roomSize}">roomSize error</div>
-    <br/>
-    <hr/>
-    <input type="submit" value="Добавить"/>
-    <br>
-</form>
 <hr>
 <br>
 <div th:unless="${hotel.getReviewList().isEmpty()}">

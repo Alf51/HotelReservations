@@ -81,13 +81,13 @@ public class BookController {
 
     @PostMapping("/new")
     public String saveBook(@ModelAttribute("book") @Valid BookDto bookDto,
-                                               BindingResult bindingResult) {
+                           BindingResult bindingResult) {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         bookDto.setClientLogin(login);
         Book book = convertToBook(bookDto);
 
         if (bindingResult.hasErrors()) {
-            return "book/new";
+            throw new BookErrorException(errorHandler.getErrorMessage(bindingResult));
         }
         bookService.save(book);
         return "redirect:/hotel/all";
@@ -95,8 +95,8 @@ public class BookController {
 
     @PatchMapping("/{id_book}")
     public String updateBook(@PathVariable("id_book") int id,
-                                                 @ModelAttribute("book") @Valid BookDto bookDto,
-                                                 BindingResult bindingResult) {
+                             @ModelAttribute("book") @Valid BookDto bookDto,
+                             BindingResult bindingResult) {
         Book updatedBook = convertToBook(bookDto);
         if (bindingResult.hasErrors()) {
             bookDto.setId(id);

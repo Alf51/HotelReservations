@@ -23,5 +23,7 @@ public class RoomDto {
     @Min(value = 0, message = "{validation.hotelBook.room.size.min}")
     private Double roomSize;
 
+    private int hotelId;
+
     private boolean isAvailable;
 }
