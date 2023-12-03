@@ -14,6 +14,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewDto {
+    private int id;
+
     @NotNull(message = "{validation.hotelBook.hotel.hotel-id.not-null}")
     private int hotelId;
 
@@ -22,8 +24,6 @@ public class ReviewDto {
     @NotNull(message = "{validation.hotelBook.review.rating.not-null}")
     private Integer rating;
 
-    @NotEmpty(message = "{validation.hotelBook.client.login.not-empty}")
-    @NotNull(message = "{validation.hotelBook.client.login.not-null}")
     private String clientLogin;
 
     @NotNull(message = "{validation.hotelBook.review.review.not-null}")

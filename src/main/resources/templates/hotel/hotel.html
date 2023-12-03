@@ -17,10 +17,18 @@
 <a th:href="@{/rooms/{idHotel}/search-rooms(idHotel=${hotel.getId()})}">Поиск комнат по датам</a>
 <br>
 <br>
+<a th:href="@{/review/{idHotel}/allHotelReviews(idHotel=${hotel.getId()})}">Посмотреть отзывы</a>
+<br>
+<br>
 <a th:href="@{/books/{idHotel}/allBooksInHotel(idHotel=${hotel.getId()})}">Все брони отеля</a>
 <br>
 <br>
 <a th:href="@{/rooms/{idHotel}/new(idHotel=${hotel.getId()})}">Добавить комнату отелю</a>
+<br>
+<br>
+<form th:action="@{/review/{id}/new(id=${hotel.getId()})}">
+    <input type="submit" value="Написать отзыв">
+</form>
 <br>
 <br>
 <form th:action="@{/hotel/{id}/edit(id=${hotel.getId()})}">
@@ -39,16 +47,6 @@
 <br>
 <hr>
 <br>
-<div th:unless="${hotel.getReviewList().isEmpty()}">
-    <b>Отзывы:</b>
-    <div th:each="review : ${hotel.getReviewList()}">
-        <a th:text="${'Логин: ' + review.getClientLogin()}"
-           th:href="@{/client/login/{login}(login=${review.getClientLogin()})}"></a>
-        <p th:text="${'Оценка: ' + review.getRating()}"></p>
-        <p th:text="${'Отзыв: ' + review.getReview()}"></p>
-        <br>
-    </div>
-</div>
 <br>
 </body>
 </html>

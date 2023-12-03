@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Ревью</title>
+</head>
+<body>
+<p th:text="${'Id отеля: ' + review.getHotelId()}"></p>
+<p th:text="${'Рейтинг: ' + review.getRating()}"></p>
+<p th:text="${'Логин клиента : ' + review.getClientLogin()}"></p>
+<p th:text="${'Отзыв : ' + review.getReview()}"></p>
+<br>
+<br>
+<a href="/hotel/all">Все отели</a>
+<br>
+<a href="/client/all">Все клиенты</a>
+<br>
+<br>
+<a th:href="@{/review/{id}/edit(id=${review.getId()})}">Редактировать отзыв</a>
+<br>
+<br>
+<form th:method="DELETE" th:action="@{/review/{id}(id=${review.getId()})}">
+  <input type="submit" value="удалить ревью">
+</form>
+
+
+</body>
+</html>

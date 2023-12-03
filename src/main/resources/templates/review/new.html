@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Создать ревью</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/review/new(hotelId=${review.getHotelId()})}" th:object="${review}">
+  <label for="rating">Введите рейтинг</label>
+  <input type="number" th:field="*{rating}" id="rating"/>
+  <div style="color:red" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}">rating error</div>
+  <br/>
+  <label for="review">Напишите ваш отзыв</label>
+  <input type="text" th:field="*{review}" id="review"/>
+  <div style="color:red" th:if="${#fields.hasErrors('review')}" th:errors="*{review}">review error</div>
+  <br/>
+  <hr/>
+  <input type="submit" value="Добавить"/>
+  <br>
+</form>
+<a href="/hotel/all">Все отели</a>
+</body>
+</html>

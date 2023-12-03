@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Создать ревью</title>
+</head>
+<body>
+<form th:method="PATCH" th:action="@{/review/{id}(id=${review.getId()})}" th:object="${review}">
+  <label for="hotelId">Id отеля</label>
+  <input type="number" th:field="*{hotelId}" id="hotelId"/>
+  <div style="color:red" th:if="${#fields.hasErrors('hotelId')}" th:errors="*{hotelId}">hotelId error</div>
+  <br/>
+  <label for="rating">Введите рейтинг</label>
+  <input type="number" th:field="*{rating}" id="rating"/>
+  <div style="color:red" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}">rating error</div>
+  <br/>
+  <label for="clientLogin">Логин клиента</label>
+  <input type="text" th:field="*{clientLogin}" id="clientLogin"/>
+  <div style="color:red" th:if="${#fields.hasErrors('clientLogin')}" th:errors="*{clientLogin}">clientLogin error</div>
+  <br/>
+  <label for="review">Напишите ваш отзыв</label>
+  <input type="text" th:field="*{review}" id="review"/>
+  <div style="color:red" th:if="${#fields.hasErrors('review')}" th:errors="*{review}">review error</div>
+  <br/>
+  <hr/>
+  <input type="submit" value="Добавить"/>
+  <br>
+</form>
+<a href="/hotel/all">Все отели</a>
+</body>
+</html>
