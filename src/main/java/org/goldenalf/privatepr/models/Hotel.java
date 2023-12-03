@@ -9,8 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.springframework.data.repository.cdi.Eager;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,6 @@ public class Hotel {
     @NotNull(message = "{validation.hotelBook.hotel.hotel-address.not-null}")
     private String address;
 
-    //TODO рассчитать на основе отзывов Asert или как в Бук или где-то там было ! Можно ещё пометить, что сущность не для бд
     @Column(name = "rating")
     @Min(value = 0, message = "{validation.hotelBook.hotel.hotel-rating.min}")
     @Max(value = 5, message = "{validation.hotelBook.hotel.hotel-rating.max}")
