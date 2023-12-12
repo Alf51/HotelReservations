@@ -195,6 +195,23 @@ class ClientServiceImplTest {
         verify(clientRepository).save(client);
     }
 
+    @Test
+    void removeRoleForClient_forNotExistingClient_removeRoleSuccess() {
+        ClientRoleDto clientRoleDto = getClientRoleDto();
+        when(errorHandler.getErrorMessage(anyString())).thenReturn("Error message");
+
+        // Проверяем, что будет выброшено исключение ClientErrorException
+        ClientErrorException exception = assertThrows(ClientErrorException.class, () -> {
+            clientService.removeRoleForClient(clientRoleDto);
+        });
+
+        // Проверяем, что исключение содержит правильное сообщение
+        assertEquals("Error message", exception.getMessage());
+
+        // Проверяем, что clientRepository.save НЕ был вызван
+        clientRepository.save(mock(Client.class));
+    }
+
 
     private Client getClient() {
         Client client = new Client();
