@@ -1,5 +1,6 @@
 package org.goldenalf.privatepr.services.impl;
 
+import org.goldenalf.privatepr.dto.ClientRoleDto;
 import org.goldenalf.privatepr.models.Client;
 import org.goldenalf.privatepr.models.Role;
 import org.goldenalf.privatepr.repositories.ClientRepository;
@@ -13,7 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -88,7 +91,6 @@ class ClientServiceImplTest {
 
     @Test
     void update_forExistingClient_updateSuccess() {
-        // Создаем существующего в БД клиента
         Client existingClient = getClient();
         int clientId = existingClient.getId();
 
@@ -136,6 +138,63 @@ class ClientServiceImplTest {
         clientRepository.save(mock(Client.class));
     }
 
+    @Test
+    void addRoleForClient_forExistingClient_addRoleSuccess() {
+        ClientRoleDto clientRoleDto = getClientRoleDto();
+        Role role = Role.USER;
+        Client client = getClient();
+        client.setRoles(new HashSet<>());
+
+        when(clientService.findByLogin(clientRoleDto.login())).thenReturn(Optional.of(client));
+
+        // Вызываем метод addRoleForClient
+        clientService.addRoleForClient(clientRoleDto);
+
+        // Проверяем, что роль добавлена к клиенту
+        assertTrue(client.getRoles().contains(role));
+
+        // Проверяем, что clientRepository.save был вызван с правильным клиентом
+        verify(clientRepository).save(client);
+    }
+
+    @Test
+    void addRoleForClient_forNotExistingClient_addRoleFailed() {
+        ClientRoleDto clientRoleDto = getClientRoleDto();
+        when(errorHandler.getErrorMessage(anyString())).thenReturn("Error message");
+
+        // Проверяем, что будет выброшено исключение ClientErrorException
+        ClientErrorException exception = assertThrows(ClientErrorException.class, () -> {
+            clientService.addRoleForClient(clientRoleDto);
+        });
+
+        // Проверяем, что исключение содержит правильное сообщение
+        assertEquals("Error message", exception.getMessage());
+
+        // Проверяем, что clientRepository.save НЕ был вызван
+        clientRepository.save(mock(Client.class));
+    }
+
+    @Test
+    void removeRoleForClient_forExistingClient_removeRoleSuccess() {
+        ClientRoleDto clientRoleDto = getClientRoleDto();
+        Role role = Role.USER;
+        Client client = getClient();
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        client.setRoles(roles);
+
+        when(clientService.findByLogin(clientRoleDto.login())).thenReturn(Optional.of(client));
+
+        // Вызываем метод removeRoleForClient
+        clientService.removeRoleForClient(clientRoleDto);
+
+        // Проверяем, что роль удалена у клиента
+        assertFalse(client.getRoles().contains(role));
+
+        // Проверяем, что clientRepository.save был вызван с правильным клиентом
+        verify(clientRepository).save(client);
+    }
+
 
     private Client getClient() {
         Client client = new Client();
@@ -145,5 +204,9 @@ class ClientServiceImplTest {
         client.setPassword("123456");
 
         return client;
+    }
+
+    private ClientRoleDto getClientRoleDto() {
+        return new ClientRoleDto("Bee", "USER");
     }
 }
