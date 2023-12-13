@@ -11,12 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -212,6 +211,52 @@ class ClientServiceImplTest {
         clientRepository.save(mock(Client.class));
     }
 
+    @Test
+    void getAllClient_findAllClients() {
+        List<Client> clientList = getClientList();
+        when(clientService.getAllClient()).thenReturn(clientList);
+
+        List<Client> maybeClientList = clientService.getAllClient();
+
+        assertNotNull(maybeClientList);
+        assertEquals(clientList, maybeClientList);
+        verify(clientRepository).findAll();
+    }
+
+    @Test
+    void loadUserByUsername_forExistingClient_GettingUserDetailsSuccessfully() {
+        Client client = getClient();
+        String userLogin = client.getLogin();
+        String password = client.getPassword();
+
+        when(clientRepository.findByLogin(userLogin)).thenReturn(Optional.of(client));
+
+        UserDetails userDetails = clientService.loadUserByUsername(userLogin);
+
+        // Проверяем, что UserDetails был создан с правильными данными
+        assertEquals(userLogin, userDetails.getUsername());
+        assertEquals(password, userDetails.getPassword());
+
+        // Проверяем, что clientRepository.findByLogin был вызван с правильным аргументом
+        verify(clientRepository).findByLogin(userLogin);
+    }
+
+    @Test
+    void loadUserByUsername_forNotExistingClient_UserNotFind() {
+        String userLogin = "DummyLogin";
+
+        when(errorHandler.getErrorMessage(anyString())).thenReturn("Error message");
+        UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> {
+            clientService.loadUserByUsername(userLogin);
+        });
+
+        // Проверяем, что clientRepository.findByLogin был вызван с правильным аргументом
+        verify(clientRepository).findByLogin(userLogin);
+
+        // Проверяем, что исключение содержит правильное сообщение
+        assertEquals("Error message", exception.getMessage());
+    }
+
 
     private Client getClient() {
         Client client = new Client();
@@ -225,5 +270,21 @@ class ClientServiceImplTest {
 
     private ClientRoleDto getClientRoleDto() {
         return new ClientRoleDto("Bee", "USER");
+    }
+
+    private List<Client> getClientList() {
+        Client firstClient = new Client();
+        firstClient.setId(1);
+        firstClient.setName("Monarch");
+        firstClient.setLogin("Bee");
+        firstClient.setPassword("123456");
+
+        Client secondClient = new Client();
+        secondClient.setId(2);
+        secondClient.setName("Brock");
+        secondClient.setLogin("Samson");
+        secondClient.setPassword("123456");
+
+        return List.of(firstClient, secondClient);
     }
 }
