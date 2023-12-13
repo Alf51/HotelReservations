@@ -131,10 +131,6 @@ class ClientServiceImplTest {
 
         // Проверяем, что исключение содержит правильное сообщение
         assertEquals("Error message", exception.getMessage());
-
-        // Проверяем, что verifyingAccess.checkPossibilityAction и clientRepository.save НЕ были вызваны
-        verifyingAccess.checkPossibilityAction("dummy", "dummy");
-        clientRepository.save(mock(Client.class));
     }
 
     @Test
