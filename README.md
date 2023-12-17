@@ -2,6 +2,8 @@
 
 # Реализация REST Api по проекту Бронирование отелей (Spring Boot, PostgreSQL, Spring Data JPA, Rest API)
 
+Версия c фронтендом Thymeleaf расположенна по адресу: [https://github.com/Alf51/PrivateTemplate_HotelReservations?tab=readme-ov-file](https://github.com/Alf51/PrivateTemplate_HotelReservations/tree/simple-thymelife)
+
 ### Для запуска необходимо:
 
 1.Java 17
