@@ -11,7 +11,6 @@ import org.springframework.validation.Validator;
 import java.util.Locale;
 import java.util.Optional;
 
-
 @Component
 @AllArgsConstructor
 public class ClientValidator implements Validator {

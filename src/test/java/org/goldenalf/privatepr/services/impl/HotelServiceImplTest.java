@@ -3,7 +3,6 @@ package org.goldenalf.privatepr.services.impl;
 import org.goldenalf.privatepr.models.Hotel;
 import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.repositories.HotelRepository;
-import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
 import org.goldenalf.privatepr.utils.exeptions.HotelErrorException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

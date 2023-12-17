@@ -40,7 +40,6 @@ public class HotelServiceImpl implements HotelService {
         hotelRepository.save(hotelByUpdate);
     }
 
-
     @Transactional(readOnly = true)
     public Optional<Hotel> getHotel(int id) {
         return hotelRepository.findById(id);

@@ -6,7 +6,6 @@ import org.goldenalf.privatepr.models.Room;
 import org.goldenalf.privatepr.repositories.BookRepository;
 import org.goldenalf.privatepr.utils.VerifyingAccess;
 import org.goldenalf.privatepr.utils.erorsHandler.ErrorHandler;
-import org.goldenalf.privatepr.utils.erorsHandler.validator.BookValidator;
 import org.goldenalf.privatepr.utils.exeptions.ClientErrorException;
 import org.goldenalf.privatepr.utils.exeptions.InsufficientAccessException;
 import org.junit.jupiter.api.Test;
@@ -30,8 +29,6 @@ class BookServiceImplTest {
     private RoomServiceImpl roomService;
     @Mock
     private ClientServiceImpl clientService;
-    @Mock
-    private BookValidator bookValidator;
     @Mock
     private VerifyingAccess verifyingAccess;
     @Mock

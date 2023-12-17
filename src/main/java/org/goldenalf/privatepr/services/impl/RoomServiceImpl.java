@@ -64,7 +64,6 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findAllByHotelId(hotelId);
     }
 
-
     @Transactional(readOnly = true)
     public List<RoomDto> findAllRoomsInHotelForGivenDate(BookDateDto bookDateDto, boolean isAvailableRoom) {
         Predicate<Room> predicate;

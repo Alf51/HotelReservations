@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-
 @Component
 @AllArgsConstructor
 public class BookValidator implements Validator {

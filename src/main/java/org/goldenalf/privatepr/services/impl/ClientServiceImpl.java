@@ -37,7 +37,6 @@ public class ClientServiceImpl implements UserDetailsService, ClientService {
         return new User(client.getLogin(), client.getPassword(), mapRolesToAuthorities(client.getRoles()));
     }
 
-
     @Transactional
     public void save(Client client) {
         client.setPassword(passwordEncoder.encode(client.getPassword()));
