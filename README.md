@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.com/coma123/Spring-Boot-Blog-REST-API.svg?branch=development)](https://travis-ci.com/coma123/Spring-Boot-Blog-REST-API) [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=coma123_Spring-Boot-Blog-REST-API&metric=alert_status)](https://sonarcloud.io/dashboard?id=coma123_Spring-Boot-Blog-REST-API) [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3706/badge)](https://bestpractices.coreinfrastructure.org/projects/3706)
 
-# Реализация REST Api по проекту Бронирование отелей (Spring Boot, PostgreSQL, Spring Data JPA, Rest API)
+# Реализация по проекту Бронирование отелей "Землянка" (Spring Boot, PostgreSQL, Spring Data JPA, Rest API)
+
+Версия REST-API расположенна по адресу: https://github.com/Alf51/PrivateTemplate_HotelReservations/tree/rest-api
 
 ### Для запуска необходимо:
 
