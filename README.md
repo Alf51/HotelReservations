@@ -81,5 +81,11 @@ application.properties.origin раположен по пути
 
 Приложение запуститься по умолчанию на хосте ```<http://localhost:8080>```
 
+**6. Для перехода на страницу аутентификации используй в браузере **/auth/login** **
+   
+   Пример:
+   
+   [![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&lines=http://localhost:8080/auth/login)](https://git.io/typing-svg)
+
 
 ![segment](https://api.segment.io/v1/pixel/track?data=ewogICJ3cml0ZUtleSI6ICJwcDJuOTU4VU1NT21NR090MWJXS0JQd0tFNkcydW51OCIsCiAgInVzZXJJZCI6ICIxMjNibG9nYXBpMTIzIiwKICAiZXZlbnQiOiAiQmxvZ0FwaSB2aXNpdGVkIiwKICAicHJvcGVydGllcyI6IHsKICAgICJzdWJqZWN0IjogIkJsb2dBcGkgdmlzaXRlZCIsCiAgICAiZW1haWwiOiAiY29tcy5zcHVyc0BnbWFpbC5jb20iCiAgfQp9)
