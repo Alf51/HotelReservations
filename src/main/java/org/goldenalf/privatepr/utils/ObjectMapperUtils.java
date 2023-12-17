@@ -12,6 +12,7 @@ public class ObjectMapperUtils {
     @Bean
     public ModelMapper modelMapper () {
         ModelMapper modelMapper = new ModelMapper();
+        //modelMapper.typeMap(ReviewDto.class, Review.class).addMappings(mapper -> mapper.skip(Review::setId));
         modelMapper.typeMap(BookDto.class, Book.class).addMappings(mapper -> mapper.skip(Book::setId));
         return modelMapper;
     }

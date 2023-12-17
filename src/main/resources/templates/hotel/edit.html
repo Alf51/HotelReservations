@@ -26,6 +26,11 @@
   <input type="submit" value="Редактировать"/>
   <br>
 </form>
+<br>
+<form th:method="DELETE" th:action="@{/hotel/{id}(id=${hotel.getId()})}">
+  <input type="submit" value="удалить отель">
+</form>
+<br>
 <a href="/hotel/all">Все отели</a>
 </body>
 </html>

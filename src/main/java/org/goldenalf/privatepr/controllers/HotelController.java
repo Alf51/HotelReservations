@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Type;
 import java.util.List;
 
-
 @Controller
 @RequestMapping("/hotel")
 @RequiredArgsConstructor
