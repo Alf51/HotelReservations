@@ -2,7 +2,7 @@
 
 # Реализация по проекту Бронирование отелей "Землянка" (Spring Boot, PostgreSQL, Spring Data JPA, Rest API)
 
-Версия REST-API расположенна по адресу: https://github.com/Alf51/PrivateTemplate_HotelReservations/tree/rest-api
+Версия <b>REST-API</b> расположенна по адресу: https://github.com/Alf51/PrivateTemplate_HotelReservations/tree/rest-api
 
 ### Для запуска необходимо:
 
