@@ -50,6 +50,12 @@ git clone https://github.com/Alf51/PrivateTemplate_HotelReservations.git
 ```bash
 \scripts\postgreSQL\init.sql
 ```
+> [!note]  
+> Администратор по умолчанию:
+> 
+> Login: `dorn51`
+> 
+> password: `123456`
 
 **3. Переименуйте application.properties.origin в application.properties**
 
@@ -83,18 +89,12 @@ application.properties.origin раположен по пути
 
 **6. Для перехода на страницу аутентификации используй в браузере **`/auth/login`****
 
-
-```diff
--Администратор по умолчанию:
-
-Login: `dorn51`
-
-password: `123456`
-```
-
-$${\color{red}Администратор_по умолчанию:}$$
-${\textsf{\color{red}Администратор \space по \space умолчанию:}}$
-
+> [!note]  
+> Администратор по умолчанию (если вы использовали скрипт для создания записей):
+> 
+> Login: `dorn51`
+> 
+> password: `123456`
 
    
    Пример:
