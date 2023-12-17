@@ -51,7 +51,7 @@ git clone https://github.com/Alf51/PrivateTemplate_HotelReservations.git
 \scripts\postgreSQL\init.sql
 ```
 > [!note]  
-> Администратор по умолчанию:
+> Администратор приложения по умолчанию:
 > 
 > Login: `dorn51`
 > 
