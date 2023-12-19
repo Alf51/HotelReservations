@@ -207,8 +207,5 @@ VALUES (current_date, current_date + 90, 4, 10);
 insert into Books (check_in, check_out, id_client, id_room)
 VALUES (current_date, current_date + 90, 5, 11);
 
-insert into Books (check_in, check_out, id_client, id_room)
-VALUES ('2023-12-01', '2023-12-25', 2, 4);
-
 
 
