@@ -20,7 +20,7 @@ public class ErrorControllerAdvice {
     private final ErrorHandler errorHandler;
 
     @ExceptionHandler(Exception.class)
-    public String handleException(Exception e, Model model) {
+    public String handleGeneralException(Exception e, Model model) {
         logger.error(e.getMessage());
         String errorMessage = errorHandler.getErrorMessage("validation.hotelBook.server.error");
         model.addAttribute("time", LocalDateTime.now());
@@ -29,7 +29,7 @@ public class ErrorControllerAdvice {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String handleMethodArgumentNotValidExceptionException(MethodArgumentNotValidException e, Model model) {
+    public String handleException(MethodArgumentNotValidException e, Model model) {
         String errorMessage = errorHandler.getErrorMessage(e.getBindingResult());
         model.addAttribute("time", LocalDateTime.now());
         model.addAttribute("errorMessage", errorMessage);
@@ -37,7 +37,7 @@ public class ErrorControllerAdvice {
     }
 
     @ExceptionHandler(DateTimeParseException.class)
-    public String handleDateTimeParseExceptionException(DateTimeParseException e, Model model) {
+    public String handleException(DateTimeParseException e, Model model) {
         String errorMessage = errorHandler
                 .getErrorMessage("validation.hotelBook.date.exception.message-date") + e.getParsedString();
 
@@ -52,8 +52,7 @@ public class ErrorControllerAdvice {
             BookErrorException.class,
             InsufficientAccessException.class,
             ReviewErrorException.class})
-    public String handleHotelErrorExceptionException(Exception e, Model model) {
-
+    public String handleException(Exception e, Model model) {
         model.addAttribute("errorMessage", e.getMessage());
         model.addAttribute("time", LocalDateTime.now());
         return "error/simple-error";
