@@ -95,7 +95,6 @@ application.properties.origin раположен по пути
 > Login: `dorn51`
 > 
 > password: `123456`
-
    
    Пример:
    
